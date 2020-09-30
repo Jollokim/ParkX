@@ -1,2 +1,3 @@
 print("Hello ParkX")
-Fuk yu I have the powa now
+kys
+i am god
