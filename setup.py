@@ -9,6 +9,7 @@ setup(
         "Kivy",
         "kivy-deps.angle",
         "kivy-deps.glew",
-        "kivy-deps.sdl2"
+        "kivy-deps.sdl2",
+        "pytest"
     ],
 )
