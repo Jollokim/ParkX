@@ -4,9 +4,7 @@ from kivy.uix.gridlayout import GridLayout
 import math
 
 
-
 class Gui(GridLayout):
-
     # blue
     default_color_1 = (0, 1, 255, 1)
     # grey
@@ -15,12 +13,9 @@ class Gui(GridLayout):
     def __init__(self, **kwargs):
         super(Gui, self).__init__(**kwargs)
 
-        self.sudoku_board = GridLayout()
+        self.layout = GridLayout()
 
-        spot = Button(text=str("Hello there Guys!"))
+        spot = Button(text=str("Hi change!"))
         spot.defaultColor = Gui.default_color_1
 
-        # self.sudoku_board.add_widget(spot)
-
         self.add_widget(spot)
-
