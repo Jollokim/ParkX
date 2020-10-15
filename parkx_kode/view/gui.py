@@ -6,55 +6,56 @@ from kivy.uix.boxlayout import BoxLayout
 
 
 class Gui(BoxLayout):
+    FIELDS = [
+        "Navn:",
+        "Adresse:",
+        "PostAdr:",
+        "Antall:",
+        "Pris:",
+        "Bilde:",
+        "Detaljer:"
+    ]
 
     def __init__(self, **kwargs):
         super(Gui, self).__init__(**kwargs)
+
+        self.text_fields = []
+        self.create_legg_til_PP_scene()
+
+    def create_legg_til_PP_scene(self):
         self.orientation = "vertical"
 
         self.spacing = [20, 20]
-
-        labels = [
-            "Navn:",
-            "Adresse:",
-            "PostAdr:",
-            "Antall:",
-            "Pris:",
-            "Bilde:",
-            "Detaljer:"
-        ]
 
         back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
         back_button.bind(on_press=self.back_button_handler)
         self.add_widget(back_button)
 
+        grid_scheme = GridLayout(cols=2, rows=7)
+        self.add_widget(grid_scheme)
 
-        self.grid_scheme = GridLayout(cols=2, rows=7)
-        self.add_widget(self.grid_scheme)
-
-        self.text_fields = []
-
-        for label in labels:
+        for label in Gui.FIELDS:
             label = Label(text=label)
             text_input = TextInput(text='Hello world', multiline=True)
 
             self.text_fields.append(text_input)
 
-            self.grid_scheme.add_widget(label)
-            self.grid_scheme.add_widget(text_input)
+            grid_scheme.add_widget(label)
+            grid_scheme.add_widget(text_input)
 
-        insert_PP_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
-        insert_PP_button.bind(on_press=self.insert_PP_button_handler)
-        self.add_widget(insert_PP_button)
+        insert_pp_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
+        insert_pp_button.bind(on_press=self.insert_pp_button_handler)
+        self.add_widget(insert_pp_button)
 
-    def insert_PP_button_handler(self, instance):
+    def insert_pp_button_handler(self, instance):
         self.print_input_data()
 
     def back_button_handler(self, instance):
         self._clear_scene()
 
-    def print_input_data(self, instance):
-        print(self.text_fields[0].text)
-        self.text_fields[1].text = "Clicked a button did ya?!"
+    def print_input_data(self):
+        for i in range(len(self.text_fields)):
+            print(f"{Gui.FIELDS[i]} {self.text_fields[i].text}")
 
     def _clear_scene(self):
         self.clear_widgets()
