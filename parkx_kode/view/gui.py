@@ -1,5 +1,8 @@
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.textinput import TextInput
+from kivy.uix.label import Label
+from kivy.uix.floatlayout import FloatLayout
 
 import math
 
@@ -13,9 +16,34 @@ class Gui(GridLayout):
     def __init__(self, **kwargs):
         super(Gui, self).__init__(**kwargs)
 
-        self.layout = GridLayout()
+        self.cols = 2
+        self.rows = 9
 
-        spot = Button(text=str("Hi change!"))
-        spot.defaultColor = Gui.default_color_1
+        self.spacing = [20, 20]
 
-        self.add_widget(spot)
+        labels = [
+                "Navn:",
+                "Adresse:",
+                "PostAdr:",
+                "Antall:",
+                "Pris:",
+                "Bilde:",
+                "Detaljer:"
+        ]
+
+        # back_layout = FloatLayout(size=(300, 300))
+
+
+
+        for label in labels:
+            label = Label(text=label)
+            textinput = TextInput(text='Hello world', multiline=True)
+
+
+            self.add_widget(label)
+            self.add_widget(textinput)
+
+        # spot = Button(text=str("Hi change!"))
+        # spot.defaultColor = Gui.default_color_1
+
+        # self.add_widget(spot)

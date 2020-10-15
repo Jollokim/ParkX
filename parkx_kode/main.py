@@ -4,11 +4,9 @@ from kivy.config import Config
 from view.gui import Gui
 
 
-
-
 class MyApp(App):
-    title = "Sudoku Solver"
-    icon = "sudoku.png"
+    title = "ParkX"
+    icon = ""
 
     def build(self):
         Config.set('graphics', 'width', '700')
