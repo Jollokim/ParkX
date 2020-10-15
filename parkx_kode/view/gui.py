@@ -2,10 +2,7 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.boxlayout import BoxLayout
-
-import math
 
 
 class Gui(BoxLayout):
@@ -27,7 +24,9 @@ class Gui(BoxLayout):
         ]
 
         back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
+        back_button.bind(on_press=self.back_button_handler)
         self.add_widget(back_button)
+
 
         self.grid_scheme = GridLayout(cols=2, rows=7)
         self.add_widget(self.grid_scheme)
@@ -43,13 +42,17 @@ class Gui(BoxLayout):
             self.grid_scheme.add_widget(label)
             self.grid_scheme.add_widget(text_input)
 
-        insert_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
-        insert_button.bind(on_press=self.get_input_data)
-        self.add_widget(insert_button)
+        insert_PP_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
+        insert_PP_button.bind(on_press=self.insert_PP_button_handler)
+        self.add_widget(insert_PP_button)
 
+    def insert_PP_button_handler(self, instance):
+        self.print_input_data()
 
+    def back_button_handler(self, instance):
+        self._clear_scene()
 
-    def get_input_data(self, instance):
+    def print_input_data(self, instance):
         print(self.text_fields[0].text)
         self.text_fields[1].text = "Clicked a button did ya?!"
 
