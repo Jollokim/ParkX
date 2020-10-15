@@ -3,47 +3,55 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.boxlayout import BoxLayout
 
 import math
 
 
-class Gui(GridLayout):
-    # blue
-    default_color_1 = (0, 1, 255, 1)
-    # grey
-    default_color_2 = (1, 1, 1, 1)
+class Gui(BoxLayout):
 
     def __init__(self, **kwargs):
         super(Gui, self).__init__(**kwargs)
-
-        self.cols = 2
-        self.rows = 9
+        self.orientation = "vertical"
 
         self.spacing = [20, 20]
 
         labels = [
-                "Navn:",
-                "Adresse:",
-                "PostAdr:",
-                "Antall:",
-                "Pris:",
-                "Bilde:",
-                "Detaljer:"
+            "Navn:",
+            "Adresse:",
+            "PostAdr:",
+            "Antall:",
+            "Pris:",
+            "Bilde:",
+            "Detaljer:"
         ]
 
-        # back_layout = FloatLayout(size=(300, 300))
+        back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
+        self.add_widget(back_button)
 
+        self.grid_scheme = GridLayout(cols=2, rows=7)
+        self.add_widget(self.grid_scheme)
 
+        self.text_fields = []
 
         for label in labels:
             label = Label(text=label)
-            textinput = TextInput(text='Hello world', multiline=True)
+            text_input = TextInput(text='Hello world', multiline=True)
+
+            self.text_fields.append(text_input)
+
+            self.grid_scheme.add_widget(label)
+            self.grid_scheme.add_widget(text_input)
+
+        insert_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
+        insert_button.bind(on_press=self.get_input_data)
+        self.add_widget(insert_button)
 
 
-            self.add_widget(label)
-            self.add_widget(textinput)
 
-        # spot = Button(text=str("Hi change!"))
-        # spot.defaultColor = Gui.default_color_1
+    def get_input_data(self, instance):
+        print(self.text_fields[0].text)
+        self.text_fields[1].text = "Clicked a button did ya?!"
 
-        # self.add_widget(spot)
+    def _clear_scene(self):
+        self.clear_widgets()
