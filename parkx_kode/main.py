@@ -9,8 +9,8 @@ class MyApp(App):
     icon = ""
 
     def build(self):
-        Config.set('graphics', 'width', '700')
-        Config.set('graphics', 'height', '700')
+        Config.set('graphics', 'width', '800')
+        Config.set('graphics', 'height', '800')
 
         gui = Gui()
 
