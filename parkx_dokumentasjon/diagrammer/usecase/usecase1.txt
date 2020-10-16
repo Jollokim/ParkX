@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+
+actor Leier as B
+B --> (Leie en parkeringsplass)
+B --> (Betale for en parkeringsplass)
+B --> (Se ledige plasser)
+B --> (Se historikk)
+B --> (Se eldre fakturaer)
+B --> (Printe ut sin reservasjon)
+B --> (Leie parkeringsplass fram i tid)
+B --> (Leie i et ønsket tidsrom)
+B --> (Leie plass med spesifikt miljø. Lys/Strøm/Størrelse/In/Ut etc)
+B --> (Følge en parkeringsplass)
+B --> (Få varsel når fulgt parkeringsplass blir tilgjengelig)
+B --> (Se og skrive en klage)
+B --> (Gi terningkast til Utleier/Plass)
+B --> (Søke på plasser rundt et område)
+
+actor Utleier as C
+C --> (Legge inn en/flere parkeringsplasser)
+C --> (Se sine egne parkeringsplasser)
+C --> (Få betaling)
+C --> (Deaktivere sin parkeringsplass)
+C --> (Se hvem som leier parkeringsplassen)
+C --> (Tilby langtidsleie)
+C --> (Se og skrive klager)
+C --> (Gi terningkast til Leier)
+
+:Bruker: --|> B : Kan være leier
+:Bruker: --|> C : Kan være utleier
+@enduml
