@@ -1,5 +1,5 @@
 from core.main import *
-
+#from core.parkeringsplass import *
 x = Bruker()
 
 
