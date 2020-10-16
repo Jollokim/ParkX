@@ -1,7 +1,9 @@
 from core.main import *
-#from core.parkeringsplass import *
-x = Bruker()
+from controller.ParkingController import *
 
 
-def test_welcome_message():
-    assert x.print_welcome() == "Hello world"
+class TestParkingPlace:
+
+    def testCreatesParkingControllerProperly(self):
+        pController = ParkingController("gui", "repository")
+        assert pController.toString() == "Gui: gui Repository: repository"
