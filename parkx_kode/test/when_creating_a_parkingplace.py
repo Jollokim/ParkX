@@ -1,6 +1,5 @@
 import pytest
 
-from core.main import *
 from controller.ParkingController import *
 
 
