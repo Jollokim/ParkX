@@ -17,10 +17,8 @@ class Gui(BoxLayout):
         "Detaljer:"
     ]
 
-    def __init__(self, controller, **kwargs):
+    def __init__(self, **kwargs):
         super(Gui, self).__init__(**kwargs)
-
-        self.controller = controller
 
         self.text_fields = []
         self.create_legg_til_PP_scene()
