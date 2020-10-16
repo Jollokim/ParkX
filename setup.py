@@ -10,6 +10,7 @@ setup(
         "kivy-deps.angle",
         "kivy-deps.glew",
         "kivy-deps.sdl2",
-        "pytest"
+        "pytest",
+        "pytest-mock"
     ],
 )

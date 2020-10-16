@@ -7,8 +7,8 @@ class ParkingController:
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
 
-    def getCounter(self):
-        return self.counter
-
-    def increaseCoutner(self):
+    def increaseCounter(self):
         self.counter += 1
+
+    def addNewParkingPlace(self, id, navn, adresse, postnr, antall, prisPerT, bilde, detaljer):
+        pass
