@@ -4,6 +4,11 @@ from controller.ParkingController import *
 
 class TestParkingPlace:
 
+    def __init__(self):
+        self.pController = ParkingController("gui", "repository")
+
     def testCreatesParkingControllerProperly(self):
-        pController = ParkingController("gui", "repository")
-        assert pController.toString() == "Gui: gui Repository: repository"
+        assert self.pController.toString() == "Gui: gui Repository: repository"
+
+    def testThatCounterWorks(self):
+        assert 0
