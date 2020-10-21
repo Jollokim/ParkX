@@ -63,7 +63,6 @@ class Gui(BoxLayout):
 
         self.controller.addNewParkingPlace(data_list)
 
-
     def print_input_data(self):
         for i in range(len(self.text_fields)):
             print(f"{Gui.FIELDS[i]} {self.text_fields[i].text}")
@@ -87,7 +86,8 @@ class Gui(BoxLayout):
         back_button.bind(on_press=lambda instance: None)
         button_box.add_widget(back_button)
 
-        go_leggInn_button = Button(text='Legg til parkeringsplass', size=(100, 40), size_hint=(.1, 0), pos_hint={"top": 1})
+        go_leggInn_button = Button(text='Legg til parkeringsplass', size=(100, 40), size_hint=(.1, 0),
+                                   pos_hint={"top": 1})
         go_leggInn_button.bind(on_press=lambda instance: self.switch_scene(1))
 
         button_box.add_widget(go_leggInn_button)
@@ -117,7 +117,9 @@ class Gui(BoxLayout):
 
             grid_elements.append(
                 AsyncImage(
-                source='https://lh3.googleusercontent.com/proxy/dtj71iL7M_jpY_6qMY1NcBAeCLlm4Ziu7LV1xKzbenAF6WLINuDTgqPIQAmgVo-HsIlUCN_7oErHMhR7VkV2vbfLtM8czIRY9UyWK6f5iiNBbfN82OwL6TBD3QZdr0TZdK8kdysaRyWFh7Nf8QpSHzQX_uU'
+                    source='https://lh3.googleusercontent.com/proxy'
+                           '/dtj71iL7M_jpY_6qMY1NcBAeCLlm4Ziu7LV1xKzbenAF6WLINuDTgqPIQAmgVo'
+                           '-HsIlUCN_7oErHMhR7VkV2vbfLtM8czIRY9UyWK6f5iiNBbfN82OwL6TBD3QZdr0TZdK8kdysaRyWFh7Nf8QpSHzQX_uU '
                 )
             )
 
@@ -129,13 +131,3 @@ class Gui(BoxLayout):
 
             for e in grid_elements:
                 grid.add_widget(e)
-
-
-
-
-
-
-
-
-
-
