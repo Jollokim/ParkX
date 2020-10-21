@@ -17,13 +17,21 @@ class Gui(BoxLayout):
         "Detaljer:"
     ]
 
+
+
     def __init__(self, **kwargs):
         super(Gui, self).__init__(**kwargs)
+
 
         self.controller = None
 
         self.text_fields = []
-        self.create_legg_til_PP_scene()
+        #self.create_legg_til_PP_scene()
+        self.SCENES = [
+            self.create_my_PPs_scene
+        ]
+
+        self.SCENES[0]()
 
     def create_legg_til_PP_scene(self):
         self.orientation = "vertical"
@@ -68,3 +76,27 @@ class Gui(BoxLayout):
         self.clear_widgets()
 
 
+    def create_my_PPs_scene(self):
+        self.orientation = "vertical"
+
+        self.spacing = [20, 20]
+
+        back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
+        back_button.bind(on_press=self.back_button_handler)
+        self.add_widget(back_button)
+
+        grid_scheme = GridLayout(cols=2, rows=7)
+        self.add_widget(grid_scheme)
+
+        for label in Gui.FIELDS:
+            label = Label(text=label)
+            text_input = TextInput(text='', multiline=True)
+
+            self.text_fields.append(text_input)
+
+            grid_scheme.add_widget(label)
+            grid_scheme.add_widget(text_input)
+
+        insert_pp_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
+        insert_pp_button.bind(on_press=self.insert_pp_button_handler)
+        self.add_widget(insert_pp_button)
