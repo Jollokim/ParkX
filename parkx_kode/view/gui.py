@@ -109,19 +109,15 @@ class Gui(BoxLayout):
             grid = GridLayout(cols=2, rows=2)
             grid_scheme.add_widget(grid)
 
-            grid_elements = []
-
-            grid_elements.append(Label(text=f"Navn: {pp['name']}"))
-
-            grid_elements.append(Label(text=f"Status: {pp['status']}"))
-
-            grid_elements.append(
+            grid_elements = [
+                Label(text=f"Navn: {pp['name']}"),
+                Label(text=f"Status: {pp['status']}"),
                 AsyncImage(
                     source='https://lh3.googleusercontent.com/proxy'
                            '/dtj71iL7M_jpY_6qMY1NcBAeCLlm4Ziu7LV1xKzbenAF6WLINuDTgqPIQAmgVo'
                            '-HsIlUCN_7oErHMhR7VkV2vbfLtM8czIRY9UyWK6f5iiNBbfN82OwL6TBD3QZdr0TZdK8kdysaRyWFh7Nf8QpSHzQX_uU '
                 )
-            )
+            ]
 
             see_detail_b = Button(text='Se detaljert', size=(1, 1))
             # needs bind to detailed view
