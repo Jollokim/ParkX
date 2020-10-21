@@ -1,3 +1,5 @@
+from model.parkingplace import *
+
 class ParkingController:
     def __init__(self, gui, repository):
         self.gui = gui
@@ -10,5 +12,11 @@ class ParkingController:
     def increaseCounter(self):
         self.counter += 1
 
-    def addNewParkingPlace(self, id, navn, adresse, postnr, antall, prisPerT, bilde, detaljer):
-        pass
+    def addNewParkingPlace(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details):
+       newSpace = parkingplace(id, name, address, zip_code, number_of_places, price_pr_hour, picture, details)
+       newSpace.repository.addToRepository
+
+    def getExistingParkingPlace(self, PPobject):
+        PPobject
+
+
