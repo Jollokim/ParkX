@@ -19,6 +19,8 @@ class Gui(BoxLayout):
     def __init__(self, **kwargs):
         super(Gui, self).__init__(**kwargs)
 
+
+
         self.text_fields = []
         self.create_legg_til_PP_scene()
 
@@ -36,7 +38,7 @@ class Gui(BoxLayout):
 
         for label in Gui.FIELDS:
             label = Label(text=label)
-            text_input = TextInput(text='Hello world', multiline=True)
+            text_input = TextInput(text='', multiline=True)
 
             self.text_fields.append(text_input)
 
