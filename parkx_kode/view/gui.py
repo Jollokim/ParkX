@@ -28,7 +28,8 @@ class Gui(BoxLayout):
         self.text_fields = []
         #self.create_legg_til_PP_scene()
         self.SCENES = [
-            self.create_my_PPs_scene
+            self.create_my_PPs_scene,
+            self.create_legg_til_PP_scene
         ]
 
         self.SCENES[0]()
@@ -75,6 +76,10 @@ class Gui(BoxLayout):
     def _clear_scene(self):
         self.clear_widgets()
 
+    def switch_scene(self, n_scene):
+        self._clear_scene()
+        self.SCENES[n_scene]()
+
 
     def create_my_PPs_scene(self):
         self.orientation = "vertical"
@@ -84,6 +89,10 @@ class Gui(BoxLayout):
         back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
         back_button.bind(on_press=self.back_button_handler)
         self.add_widget(back_button)
+
+        insert_pp_button = Button(text='Legg til parkeringsplass', size=(100, 40), size_hint=(None, None))
+        insert_pp_button.bind(on_press=lambda instance: self.switch_scene(1))
+        self.add_widget(insert_pp_button)
 
         grid_scheme = GridLayout(cols=2, rows=7)
         self.add_widget(grid_scheme)
@@ -97,6 +106,3 @@ class Gui(BoxLayout):
             grid_scheme.add_widget(label)
             grid_scheme.add_widget(text_input)
 
-        insert_pp_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
-        insert_pp_button.bind(on_press=self.insert_pp_button_handler)
-        self.add_widget(insert_pp_button)
