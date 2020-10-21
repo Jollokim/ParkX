@@ -3,7 +3,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.filechooser import FileChooserIconLayout
+from kivy.uix.image import Image, AsyncImage
 
 
 class Gui(BoxLayout):
@@ -80,10 +80,10 @@ class Gui(BoxLayout):
 
         self.spacing = [20, 20]
 
-        button_box = BoxLayout(orientation="horizontal", spacing=0)
+        button_box = BoxLayout(orientation="horizontal", spacing=0, size_hint=(1, 0.1))
         self.add_widget(button_box)
 
-        back_button = Button(text='Avbryt', size=(100, 40), size_hint=(.1, 0), pos_hint={"top": 1})
+        back_button = Button(text='Main Menu', size=(100, 40), size_hint=(.1, 0), pos_hint={"top": 1})
         back_button.bind(on_press=lambda instance: None)
         button_box.add_widget(back_button)
 
@@ -92,12 +92,47 @@ class Gui(BoxLayout):
 
         button_box.add_widget(go_leggInn_button)
 
-        # PPs_list = self.controller.getPPs
-
-
-
         grid_scheme = GridLayout(cols=1, rows=8)
         self.add_widget(grid_scheme)
+
+        # PPs_list = self.controller.getPPs
+
+        PPs_list = [
+            {"name": "Den store PP", "status": "I bruk", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "status": "I bruk", "bilde": "images/pp.jpg"},
+            {"name": "Den store PP", "status": "I bruk", "bilde": "images/pp.jpg"},
+            {"name": "Den store PP", "status": "I bruk", "bilde": "images/pp.jpg"},
+            {"name": "Den store PP", "status": "I bruk", "bilde": "images/pp.jpg"},
+        ]
+
+        for pp in PPs_list:
+            grid = GridLayout(cols=2, rows=2)
+            grid_scheme.add_widget(grid)
+
+            grid_elements = []
+
+            grid_elements.append(Label(text=f"Navn: {pp['name']}"))
+
+            grid_elements.append(Label(text=f"Status: {pp['status']}"))
+
+            grid_elements.append(
+                AsyncImage(
+                source='https://lh3.googleusercontent.com/proxy/dtj71iL7M_jpY_6qMY1NcBAeCLlm4Ziu7LV1xKzbenAF6WLINuDTgqPIQAmgVo-HsIlUCN_7oErHMhR7VkV2vbfLtM8czIRY9UyWK6f5iiNBbfN82OwL6TBD3QZdr0TZdK8kdysaRyWFh7Nf8QpSHzQX_uU'
+                )
+            )
+
+            see_detail_b = Button(text='Se detaljert', size=(1, 1))
+            # needs bind to detailed view
+            see_detail_b.bind(on_press=lambda instance: None)
+
+            grid_elements.append(see_detail_b)
+
+            for e in grid_elements:
+                grid.add_widget(e)
+
+
+
+
 
 
 
