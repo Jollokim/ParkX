@@ -17,30 +17,27 @@ class Gui(BoxLayout):
         "Detaljer:"
     ]
 
-
-
     def __init__(self, **kwargs):
         super(Gui, self).__init__(**kwargs)
-
 
         self.controller = None
 
         self.text_fields = []
-        #self.create_legg_til_PP_scene()
+        # self.create_legg_til_PP_scene()
         self.SCENES = [
-            self.create_my_PPs_scene,
-            self.create_legg_til_PP_scene
+            self._create_my_PPs_scene,
+            self._create_legg_til_PP_scene
         ]
 
         self.SCENES[0]()
 
-    def create_legg_til_PP_scene(self):
+    def _create_legg_til_PP_scene(self):
         self.orientation = "vertical"
 
         self.spacing = [20, 20]
 
         back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
-        back_button.bind(on_press=self.back_button_handler)
+        back_button.bind(on_press=lambda instance: self.switch_scene(0))
         self.add_widget(back_button)
 
         grid_scheme = GridLayout(cols=2, rows=7)
@@ -66,8 +63,6 @@ class Gui(BoxLayout):
 
         self.controller.addNewParkingPlace(data_list)
 
-    def back_button_handler(self, instance):
-        self._clear_scene()
 
     def print_input_data(self):
         for i in range(len(self.text_fields)):
@@ -80,29 +75,32 @@ class Gui(BoxLayout):
         self._clear_scene()
         self.SCENES[n_scene]()
 
-
-    def create_my_PPs_scene(self):
+    def _create_my_PPs_scene(self):
         self.orientation = "vertical"
 
         self.spacing = [20, 20]
 
-        back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
-        back_button.bind(on_press=self.back_button_handler)
-        self.add_widget(back_button)
+        button_box = BoxLayout(orientation="horizontal", spacing=0)
+        self.add_widget(button_box)
 
-        insert_pp_button = Button(text='Legg til parkeringsplass', size=(100, 40), size_hint=(None, None))
-        insert_pp_button.bind(on_press=lambda instance: self.switch_scene(1))
-        self.add_widget(insert_pp_button)
+        back_button = Button(text='Avbryt', size=(100, 40), size_hint=(.1, 0), pos_hint={"top": 1})
+        back_button.bind(on_press=lambda instance: None)
+        button_box.add_widget(back_button)
 
-        grid_scheme = GridLayout(cols=2, rows=7)
+        go_leggInn_button = Button(text='Legg til parkeringsplass', size=(100, 40), size_hint=(.1, 0), pos_hint={"top": 1})
+        go_leggInn_button.bind(on_press=lambda instance: self.switch_scene(1))
+
+        button_box.add_widget(go_leggInn_button)
+
+        # PPs_list = self.controller.getPPs
+
+
+
+        grid_scheme = GridLayout(cols=1, rows=8)
         self.add_widget(grid_scheme)
 
-        for label in Gui.FIELDS:
-            label = Label(text=label)
-            text_input = TextInput(text='', multiline=True)
 
-            self.text_fields.append(text_input)
 
-            grid_scheme.add_widget(label)
-            grid_scheme.add_widget(text_input)
+
+
 
