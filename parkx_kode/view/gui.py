@@ -20,6 +20,8 @@ class Gui(BoxLayout):
     def __init__(self, **kwargs):
         super(Gui, self).__init__(**kwargs)
 
+        self.controller = None
+
         self.text_fields = []
         self.create_legg_til_PP_scene()
 
@@ -37,7 +39,7 @@ class Gui(BoxLayout):
 
         for label in Gui.FIELDS:
             label = Label(text=label)
-            text_input = TextInput(text='Hello world', multiline=True)
+            text_input = TextInput(text='', multiline=True)
 
             self.text_fields.append(text_input)
 
@@ -49,7 +51,11 @@ class Gui(BoxLayout):
         self.add_widget(insert_pp_button)
 
     def insert_pp_button_handler(self, instance):
-        self.print_input_data()
+        data_list = []
+        for field in self.text_fields:
+            data_list.append(field.text)
+
+        self.controller.addNewParkingPlace(data_list)
 
     def back_button_handler(self, instance):
         self._clear_scene()

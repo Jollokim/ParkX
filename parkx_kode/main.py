@@ -16,8 +16,7 @@ class MyApp(App):
         gui = Gui()
         controller = ParkingController(gui, None)
 
-
-
+        gui.controller = controller
 
         return gui
 
