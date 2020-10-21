@@ -66,3 +66,5 @@ class Gui(BoxLayout):
 
     def _clear_scene(self):
         self.clear_widgets()
+
+
