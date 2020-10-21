@@ -40,22 +40,21 @@ class Test_parkingplace_class:
         assert actual == expected
         pytest.fail("An Error occurred: number of spaces")
 
-
-    def test_parameters_are_used_in_constructur_correct_price(self):
+    def test_parameters_are_used_in_constructor_correct_price(self):
         pplace = parkingplace("0001", "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
         expected = "50"
         actual = pplace.price_pr_hour
         assert actual == expected
         pytest.fail("An Error occurred: price")
 
-    def test_parameters_are_used_in_constructur_correct_picture(self):
+    def test_parameters_are_used_in_constructor_correct_picture(self):
         pplace = parkingplace("0001", "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
         expected = "NULL"
         actual = pplace.picture
         assert actual == expected
         pytest.fail("An Error occurred: picture")
 
-    def test_parameters_are_used_in_constructur_correct_details(self):
+    def test_parameters_are_used_in_constructor_correct_details(self):
         pplace = parkingplace("0001", "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
         expected = "Har lader"
         actual = pplace.details
