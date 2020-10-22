@@ -1,4 +1,5 @@
 from model.parkingplace import *
+from Repository.repository import *
 
 class ParkingController:
     def __init__(self, gui, repository):
@@ -13,8 +14,11 @@ class ParkingController:
         self.counter += 1
 
     def addNewParkingPlace(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details):
-       newSpace = parkingplace(id, name, address, zip_code, number_of_places, price_pr_hour, picture, details)
-       newSpace.Repository.addNewParkingPlaceToRepository
+       newPlace = parkingplace(id, name, address, zip_code, number_of_places, price_pr_hour, picture, details)
+       Repository.addNewParkingPlaceToRepository(newPlace)
+
+    def deleteParkingPlace(self, parkingPlaceName):
+        Repository.remove(parkingPlaceName)
 
     def getAExistingParkingPlace(self, parkingPlaceName):
         Repository.getAParkingPlace(parkingPlaceName)

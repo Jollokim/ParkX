@@ -24,12 +24,12 @@ class TestParkingPlace:
         pytest.fail("Error: the methode: addNewParkingPlace seems to have no implementation or is not called in "
                     "ParkingController")
 
-    def test_ParkingPlaceGetOneExistingFunctionCalledCorrectly(self, mocker):
+    def test_ParkingPlaceRemoveFunctionCalledCorrectly(self, mocker):
         pController = ParkingController("gui", "repository")
-        spy = mocker.spy(pController, 'getAExistingParkingPlace')
-        pController.getAExistingParkingPlace("test123")
+        spy = mocker.spy(pController, 'deleteParkingPlace')
+        pController.deleteParkingPlace("test123")
         assert spy.called
-        pytest.fail("Error: the methode: getAExistingParkingPlace seems to have no implementation or is not called in "
+        pytest.fail("Error: the methode: deleteParkingPlace seems to have no implementation or is not called in "
                     "ParkingController")
 
     def test_ParkingPlaceGetAllExistingFunctionCalledCorrectly(self, mocker):
@@ -38,4 +38,12 @@ class TestParkingPlace:
         pController.getAllExistingParkingPlaces()
         assert spy.called
         pytest.fail("Error: the methode: getAllExistingParkingPlaces seems to have no implementation or is not called "
+                    "in ParkingController")
+
+    def test_ParkingPlaceGetAExistingFunctionCalledCorrectly(self, mocker):
+        pController = ParkingController("gui", "repository")
+        spy = mocker.spy(pController, 'getAExistingParkingPlace')
+        pController.getAExistingParkingPlace("test123")
+        assert spy.called
+        pytest.fail("Error: the methode: getAExistingParkingPlace seems to have no implementation or is not called "
                     "in ParkingController")
