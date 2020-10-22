@@ -26,7 +26,8 @@ class Gui(BoxLayout):
         # self.create_legg_til_PP_scene()
         self.SCENES = [
             self._create_my_PPs_scene,
-            self._create_legg_til_PP_scene
+            self._create_legg_til_PP_scene,
+            self._create_detailedPP_scene
         ]
 
         self.SCENES[0]()
@@ -120,10 +121,50 @@ class Gui(BoxLayout):
             ]
 
             see_detail_b = Button(text='Se detaljert', size=(1, 1))
-            # needs bind to detailed view
-            see_detail_b.bind(on_press=lambda instance: None)
+            # needs bind to detailed view | FIXED 22/10 - Mathias
+            see_detail_b.bind(on_press=lambda instance: self.switch_scene(2))
 
             grid_elements.append(see_detail_b)
 
             for e in grid_elements:
                 grid.add_widget(e)
+
+    def _create_detailedPP_scene(self):
+        self.orientation = "vertical"
+
+        self.spacing = [20, 20]
+
+        back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
+        back_button.bind(on_press=lambda instance: self.switch_scene(0))
+        self.add_widget(back_button)
+
+        grid_scheme = GridLayout(cols=2, rows=7)
+        self.add_widget(grid_scheme)
+
+    def _create_detailedPP_scene(self):
+        self.orientation = "vertical"
+
+        back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
+        back_button.bind(on_press=lambda instance: self.switch_scene(0))
+        self.add_widget(back_button)
+
+        grid_scheme = GridLayout(cols=2, rows=7)
+        self.add_widget(grid_scheme)
+
+        for l in Gui.FIELDS:
+            label = Label(text=l)
+            grid_scheme.add_widget(label)
+            if l == 'Bilde:':
+                image = AsyncImage(
+                    source='https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_1500_2000_s_f/0000/2019/09/16/3423846276/1/original/10099832.jpg?chk=7ABCCD')
+                grid_scheme.add_widget(image)
+            else:
+                label2 = Label(text='eksempel detaljer')
+                grid_scheme.add_widget(label2)
+
+
+
+
+
+
+
