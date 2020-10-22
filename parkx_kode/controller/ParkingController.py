@@ -14,9 +14,13 @@ class ParkingController:
 
     def addNewParkingPlace(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details):
        newSpace = parkingplace(id, name, address, zip_code, number_of_places, price_pr_hour, picture, details)
-       newSpace.repository.addToRepository
+       newSpace.Repository.addNewParkingPlaceToRepository
 
-    def getExistingParkingPlace(self, PPobject):
-        PPobject
+    def getAExistingParkingPlace(self, parkingPlaceName):
+        Repository.getAParkingPlace(parkingPlaceName)
+
+    def getAllExistingParkingPlaces(self):
+        Repository.getAllParkingPlaces()
+
 
 

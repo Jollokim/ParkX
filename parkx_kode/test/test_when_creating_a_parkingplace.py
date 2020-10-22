@@ -21,4 +21,21 @@ class TestParkingPlace:
         spy = mocker.spy(pController, 'addNewParkingPlace')
         pController.addNewParkingPlace(5, "test", "test123", "1522", 5, 120, "url", "Light")
         assert spy.called
-        pytest.fail("No implementation in ParkingController yet, TBD")
+        pytest.fail("Error: the methode: addNewParkingPlace seems to have no implementation or is not called in "
+                    "ParkingController")
+
+    def test_ParkingPlaceGetOneExistingFunctionCalledCorrectly(self, mocker):
+        pController = ParkingController("gui", "repository")
+        spy = mocker.spy(pController, 'getAExistingParkingPlace')
+        pController.getAExistingParkingPlace("test123")
+        assert spy.called
+        pytest.fail("Error: the methode: getAExistingParkingPlace seems to have no implementation or is not called in "
+                    "ParkingController")
+
+    def test_ParkingPlaceGetAllExistingFunctionCalledCorrectly(self, mocker):
+        pController = ParkingController("gui", "repository")
+        spy = mocker.spy(pController, 'getAllExistingParkingPlaces')
+        pController.getAllExistingParkingPlaces()
+        assert spy.called
+        pytest.fail("Error: the methode: getAllExistingParkingPlaces seems to have no implementation or is not called "
+                    "in ParkingController")
