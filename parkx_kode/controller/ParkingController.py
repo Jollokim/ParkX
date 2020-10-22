@@ -10,5 +10,5 @@ class ParkingController:
     def increaseCounter(self):
         self.counter += 1
 
-    def addNewParkingPlace(self, id, navn, adresse, postnr, antall, prisPerT, bilde, detaljer):
-        pass
+    def addNewParkingPlace(self, p_data):
+        print(p_data)

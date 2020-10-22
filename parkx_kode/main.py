@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.config import Config
 
+from controller.ParkingController import ParkingController
 from view.gui import Gui
 
 
@@ -13,6 +14,9 @@ class MyApp(App):
         Config.set('graphics', 'height', '800')
 
         gui = Gui()
+        controller = ParkingController(gui, None)
+
+        gui.controller = controller
 
         return gui
 
