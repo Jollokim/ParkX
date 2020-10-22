@@ -132,18 +132,6 @@ class Gui(BoxLayout):
     def _create_detailedPP_scene(self):
         self.orientation = "vertical"
 
-        self.spacing = [20, 20]
-
-        back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
-        back_button.bind(on_press=lambda instance: self.switch_scene(0))
-        self.add_widget(back_button)
-
-        grid_scheme = GridLayout(cols=2, rows=7)
-        self.add_widget(grid_scheme)
-
-    def _create_detailedPP_scene(self):
-        self.orientation = "vertical"
-
         back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
         back_button.bind(on_press=lambda instance: self.switch_scene(0))
         self.add_widget(back_button)
