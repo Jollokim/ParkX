@@ -1,6 +1,6 @@
 import pytest
 
-from controller.ParkingController import *
+from parkx_kode.controller.ParkingController import ParkingController
 
 
 class TestParkingPlace:
@@ -19,6 +19,6 @@ class TestParkingPlace:
     def test_ParkingPlaceAddFunctionCalledCorrectly(self, mocker):
         pController = ParkingController("gui", "repository")
         spy = mocker.spy(pController, 'addNewParkingPlace')
-        pController.addNewParkingPlace(5, "test", "test123", "1522", 5, 120, "url", "Light")
+        pController.addNewParkingPlace(None)
         assert spy.called
         pytest.fail("No implementation in ParkingController yet, TBD")
