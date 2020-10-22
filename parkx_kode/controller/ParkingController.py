@@ -18,9 +18,9 @@ class ParkingController:
        Repository.addNewParkingPlaceToRepository(newPlace)
 
     def deleteParkingPlace(self, parkingPlaceName):
-        Repository.remove(parkingPlaceName)
+        self.repository.remove(parkingPlaceName)
 
-    def getAExistingParkingPlace(self, parkingPlaceName):
+    def getAnExistingParkingPlace(self, parkingPlaceName):
         Repository.getAParkingPlace(parkingPlaceName)
 
     def getAllExistingParkingPlaces(self):

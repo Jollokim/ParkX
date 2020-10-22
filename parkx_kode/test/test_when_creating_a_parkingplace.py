@@ -43,7 +43,7 @@ class TestParkingPlace:
     def test_ParkingPlaceGetAExistingFunctionCalledCorrectly(self, mocker):
         pController = ParkingController("gui", "repository")
         spy = mocker.spy(pController, 'getAExistingParkingPlace')
-        pController.getAExistingParkingPlace("test123")
+        pController.getAnExistingParkingPlace("test123")
         assert spy.called
         pytest.fail("Error: the methode: getAExistingParkingPlace seems to have no implementation or is not called "
                     "in ParkingController")
