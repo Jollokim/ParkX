@@ -10,9 +10,3 @@ class parkingplace:
         self.details = details
 
 
-
-
-
-
-
-
