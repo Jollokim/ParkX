@@ -1,6 +1,6 @@
 import pytest
 
-from model.parkingplace import *
+from parkx_kode.model.parkingplace import parkingplace
 
 
 class Test_parkingplace_class:
