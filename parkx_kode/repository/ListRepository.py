@@ -14,6 +14,7 @@ class ListRepository:
 
         self.parkingPlaces.append(new_pp)
 
+        print(self.parkingPlaces)
 
     def removeParkingPlace(self, pPlace):
         self.parkingPlaces.remove(pPlace)

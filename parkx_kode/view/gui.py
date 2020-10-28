@@ -62,7 +62,7 @@ class Gui(BoxLayout):
         for i in range(len(self.text_fields)):
             data_dict[Gui.FIELDS[i]] = self.text_fields[i].text
 
-        self.controller.add_parking_place(data_dict)
+        self.controller.add_parking_place_to_repo(data_dict)
 
     def _clear_scene(self):
         self.clear_widgets()
