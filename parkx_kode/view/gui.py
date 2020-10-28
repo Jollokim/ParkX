@@ -153,32 +153,69 @@ class Gui(BoxLayout):
     def _show_available_and_active_parkings_scene(self):
         self.orientation = "vertical"
 
-        button_box = BoxLayout(orientation="vertical", spacing=0, )
-        self.add_widget(button_box)
+        grid_scheme = GridLayout(cols=1)
+        self.add_widget(grid_scheme)
 
-        back_button = Button(text='Main Menu',size=(1000, 2))
+        back_button = Button(text='Main Menu',size=(250, 40), size_hint=(None, None))
         back_button.bind(on_press=lambda instance: self.switch_scene(4))
-        button_box.add_widget(back_button)
+        grid_scheme.add_widget(back_button)
 
-        l = Button(text='Aktive parkeringer:',size_hint=(1, 0.02), background_color=(.8,.9,0,1), pos_hint={"top": 1})
-        button_box.add_widget(l)
+        l = Button(text='Aktive parkeringer:',size=(100, 40), size_hint=(1, None), background_color=(0.5,0.5,0.8,0.8), pos_hint={"top": 1})
+        grid_scheme.add_widget(l)
 
-        back_button1 = Button(text='Main Menu', size_hint=(0.1, 0.1), pos_hint={"top": 1})
+        # PPs_list = FIKSE HVILKEN BACKEND SOM SKAL HIT
 
-        button_box.add_widget(back_button1)
+        PPs_list = [
+            {"name": "Den opptatte PP","address": "Parkveien 1", "status": "Aktiv  (startet 15:23)"},
+        ]
 
-        l1 = Button(text='Aktive parkeringer:', size_hint=(0.1, 0.1), background_color=(.8, .9, 0, 1),
-                   pos_hint={"top": 1})
-        button_box.add_widget(l1)
+        for pp in PPs_list:
+            grid = GridLayout(cols=4)
+            grid_scheme.add_widget(grid)
 
+            grid_elements = [
+                Label(text=f"Navn: {pp['name']}"),
+                Label(text=f"Adresse: {pp['address']}"),
+                Label(text=f"Status: {pp['status']}"),
+                Button(text='STOPP', size_hint=(.4, .8), background_color=(1.0, 0.0, 0.0, 1.0))
+            ]
 
+            for e in grid_elements:
+                grid.add_widget(e)
 
+        l = Button(text='Ledige parkeringer:', size=(100, 40), size_hint=(1, None), background_color=(0.5, 0.5, 0.8, 0.8),pos_hint={"top": 1})
+        grid_scheme.add_widget(l)
 
+        # PPs_list = FIKSE HVILKEN BACKEND SOM SKAL HIT
 
+        PPs_list = [
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "12kr/t", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "22kr/t", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "42kr/t", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "address": "Parkveien 1", "price":  "2kr/t", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "22kr/t", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "42kr/t", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "2kr/t", "bilde": "pp.jpg"},
 
+        ]
 
+        for pp in PPs_list:
+            grid = GridLayout(cols=4)
+            grid_scheme.add_widget(grid)
 
+            grid_elements = [
+                Label(text=f"Navn: {pp['name']}"),
+                Label(text=f"Adresse: {pp['address']}"),
+                Label(text=f"Pris: {pp['price']}"),
+                AsyncImage(
+                    source='https://lh3.googleusercontent.com/proxy'
+                           '/dtj71iL7M_jpY_6qMY1NcBAeCLlm4Ziu7LV1xKzbenAF6WLINuDTgqPIQAmgVo'
+                           '-HsIlUCN_7oErHMhR7VkV2vbfLtM8czIRY9UyWK6f5iiNBbfN82OwL6TBD3QZdr0TZdK8kdysaRyWFh7Nf8QpSHzQX_uU '
+                )
+            ]
 
+            for e in grid_elements:
+                grid.add_widget(e)
 
     def _main_menu_scene(self):
         self.orientation = "vertical"
