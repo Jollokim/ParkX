@@ -33,7 +33,7 @@ class Gui(BoxLayout):
             self._my_profile_scene
         ]
 
-        self.SCENES[3]()
+        self.SCENES[4]()
 
     def _create_legg_til_PP_scene(self):
         self.orientation = "vertical"
@@ -114,9 +114,7 @@ class Gui(BoxLayout):
                 Label(text=f"Navn: {pp['name']}"),
                 Label(text=f"Status: {pp['status']}"),
                 AsyncImage(
-                    source='https://lh3.googleusercontent.com/proxy'
-                           '/dtj71iL7M_jpY_6qMY1NcBAeCLlm4Ziu7LV1xKzbenAF6WLINuDTgqPIQAmgVo'
-                           '-HsIlUCN_7oErHMhR7VkV2vbfLtM8czIRY9UyWK6f5iiNBbfN82OwL6TBD3QZdr0TZdK8kdysaRyWFh7Nf8QpSHzQX_uU '
+                    source = 'http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg'
                 )
             ]
 
@@ -173,11 +171,14 @@ class Gui(BoxLayout):
             grid = GridLayout(cols=4)
             grid_scheme.add_widget(grid)
 
+            stopp_button = Button(text='STOPP', size_hint=(.4, .8), background_color=(1.0, 0.0, 0.0, 1.0))
+            stopp_button.bind(on_press=lambda instance: self.switch_scene(4))
+
             grid_elements = [
                 Label(text=f"Navn: {pp['name']}"),
                 Label(text=f"Adresse: {pp['address']}"),
                 Label(text=f"Status: {pp['status']}"),
-                Button(text='STOPP', size_hint=(.4, .8), background_color=(1.0, 0.0, 0.0, 1.0))
+                stopp_button
             ]
 
             for e in grid_elements:
@@ -200,18 +201,20 @@ class Gui(BoxLayout):
         ]
 
         for pp in PPs_list:
-            grid = GridLayout(cols=4)
+            grid = GridLayout(cols=5)
             grid_scheme.add_widget(grid)
+
+            lei_button = Button(text='      Lei \n Parkering', size_hint=(.55, 1), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0))
+            lei_button.bind(on_press=lambda instance: self.switch_scene(4))
 
             grid_elements = [
                 Label(text=f"Navn: {pp['name']}"),
                 Label(text=f"Adresse: {pp['address']}"),
                 Label(text=f"Pris: {pp['price']}"),
                 AsyncImage(
-                    source='https://lh3.googleusercontent.com/proxy'
-                           '/dtj71iL7M_jpY_6qMY1NcBAeCLlm4Ziu7LV1xKzbenAF6WLINuDTgqPIQAmgVo'
-                           '-HsIlUCN_7oErHMhR7VkV2vbfLtM8czIRY9UyWK6f5iiNBbfN82OwL6TBD3QZdr0TZdK8kdysaRyWFh7Nf8QpSHzQX_uU '
-                )
+                    source = 'http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg'
+                ),
+                lei_button
             ]
 
             for e in grid_elements:
@@ -241,7 +244,7 @@ class Gui(BoxLayout):
         l = Label(text='DENNE SIDEN ER IKKE FERDIG ENDA, OG ER UNDER UTVIKLING')
         self.add_widget(l)
 
-        opt1_button = Button(text='TILBAKE', size=(200, 100), size_hint=(None, None))
+        opt1_button = Button(text='Main Menu', size=(200, 50), size_hint=(None, None))
         opt1_button.bind(on_press=lambda instance: self.switch_scene(4))
         self.add_widget(opt1_button)
 
