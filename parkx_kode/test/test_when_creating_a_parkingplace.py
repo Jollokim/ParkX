@@ -1,6 +1,6 @@
 import pytest
 
-from parkx_kode.controller.ParkingController import ParkingController
+from controller.ParkingController import ParkingController
 
 
 class TestParkingPlace:

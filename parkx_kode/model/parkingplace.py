@@ -1,4 +1,4 @@
-class parkingplace:
+class Parkingplace:
     def __init__(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details):
         self.id = id
         self.name = name
@@ -9,4 +9,5 @@ class parkingplace:
         self.picture = picture
         self.details = details
 
-
+    def toString(self):
+        return str()
