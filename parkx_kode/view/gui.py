@@ -161,24 +161,20 @@ class Gui(BoxLayout):
     def _main_menu_scene(self):
         self.orientation = "vertical"
 
-        opt1_button = Button(text='Leier', size=(100, 40), size_hint=(None, None))
+        grid_scheme = GridLayout(cols=1, rows=3, padding=250, spacing=40)
+        self.add_widget(grid_scheme)
+
+        opt1_button = Button(text='Leier', size_hint=(.2, 1))
         opt1_button.bind(on_press=lambda instance: self.switch_scene(3))
-        self.add_widget(opt1_button)
+        grid_scheme.add_widget(opt1_button)
 
-        opt2_button = Button(text='Utleier', size=(100, 40), size_hint=(None, None))
+        opt2_button = Button(text='Utleier', size_hint=(.2, 1))
         opt2_button.bind(on_press=lambda instance: self.switch_scene(0))
-        self.add_widget(opt2_button)
+        grid_scheme.add_widget(opt2_button)
 
-        opt3_button = Button(text='Min Profil', size=(100, 40), size_hint=(None, None))
+        opt3_button = Button(text='Min Profil', size_hint=(.2, 1))
         opt3_button.bind(on_press=lambda instance: self.switch_scene(5))
-        self.add_widget(opt3_button)
-
-
-
-
-
-
-
+        grid_scheme.add_widget(opt3_button)
 
     def _my_profile_scene(self):
         self.orientation = "vertical"
