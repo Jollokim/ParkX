@@ -27,10 +27,13 @@ class Gui(BoxLayout):
         self.SCENES = [
             self._create_my_PPs_scene,
             self._create_legg_til_PP_scene,
-            self._create_detailedPP_scene
+            self._create_detailedPP_scene,
+            self._show_available_and_active_parkings_scene,
+            self._main_menu_scene,
+            self._my_profile_scene
         ]
 
-        self.SCENES[1]()
+        self.SCENES[4]()
 
     def _create_legg_til_PP_scene(self):
         self.orientation = "vertical"
@@ -81,7 +84,7 @@ class Gui(BoxLayout):
         self.add_widget(button_box)
 
         back_button = Button(text='Main Menu', size=(100, 40), size_hint=(.1, 0), pos_hint={"top": 1})
-        back_button.bind(on_press=lambda instance: None)
+        back_button.bind(on_press=lambda instance: self.switch_scene(4))
         button_box.add_widget(back_button)
 
         go_leggInn_button = Button(text='Legg til parkeringsplass', size=(100, 40), size_hint=(.1, 0),
@@ -147,8 +150,45 @@ class Gui(BoxLayout):
                 label2 = Label(text='eksempel detaljer')
                 grid_scheme.add_widget(label2)
 
+    def _show_available_and_active_parkings_scene(self):
+        self.orientation = "vertical"
+        back_button = Button(text='Tilbake til hovedmenyen', size=(100, 40), size_hint=(None, None))
+        back_button.bind(on_press=lambda instance: self.switch_scene(4))
+        self.add_widget(back_button)
 
 
+
+    def _main_menu_scene(self):
+        self.orientation = "vertical"
+
+        opt1_button = Button(text='Leier', size=(100, 40), size_hint=(None, None))
+        opt1_button.bind(on_press=lambda instance: self.switch_scene(3))
+        self.add_widget(opt1_button)
+
+        opt2_button = Button(text='Utleier', size=(100, 40), size_hint=(None, None))
+        opt2_button.bind(on_press=lambda instance: self.switch_scene(0))
+        self.add_widget(opt2_button)
+
+        opt3_button = Button(text='Min Profil', size=(100, 40), size_hint=(None, None))
+        opt3_button.bind(on_press=lambda instance: self.switch_scene(5))
+        self.add_widget(opt3_button)
+
+
+
+
+
+
+
+
+    def _my_profile_scene(self):
+        self.orientation = "vertical"
+
+        l = Label(text='DENNE SIDEN ER IKKE FERDIG ENDA, OG ER UNDER UTVIKLING')
+        self.add_widget(l)
+
+        opt1_button = Button(text='TILBAKE', size=(200, 100), size_hint=(None, None))
+        opt1_button.bind(on_press=lambda instance: self.switch_scene(4))
+        self.add_widget(opt1_button)
 
 
 
