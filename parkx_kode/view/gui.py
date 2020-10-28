@@ -33,7 +33,7 @@ class Gui(BoxLayout):
             self._my_profile_scene
         ]
 
-        self.SCENES[4]()
+        self.SCENES[3]()
 
     def _create_legg_til_PP_scene(self):
         self.orientation = "vertical"
@@ -152,9 +152,31 @@ class Gui(BoxLayout):
 
     def _show_available_and_active_parkings_scene(self):
         self.orientation = "vertical"
-        back_button = Button(text='Tilbake til hovedmenyen', size=(100, 40), size_hint=(None, None))
+
+        button_box = BoxLayout(orientation="vertical", spacing=0, )
+        self.add_widget(button_box)
+
+        back_button = Button(text='Main Menu',size=(1000, 2))
         back_button.bind(on_press=lambda instance: self.switch_scene(4))
-        self.add_widget(back_button)
+        button_box.add_widget(back_button)
+
+        l = Button(text='Aktive parkeringer:',size_hint=(1, 0.02), background_color=(.8,.9,0,1), pos_hint={"top": 1})
+        button_box.add_widget(l)
+
+        back_button1 = Button(text='Main Menu', size_hint=(0.1, 0.1), pos_hint={"top": 1})
+
+        button_box.add_widget(back_button1)
+
+        l1 = Button(text='Aktive parkeringer:', size_hint=(0.1, 0.1), background_color=(.8, .9, 0, 1),
+                   pos_hint={"top": 1})
+        button_box.add_widget(l1)
+
+
+
+
+
+
+
 
 
 
