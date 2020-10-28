@@ -1,6 +1,7 @@
 from parkx_kode.model.parkingplace import Parkingplace
 from parkx_kode.repository.ListRepository import ListRepository
 
+
 class ParkingController:
     def __init__(self, gui, repository):
         self.gui = gui
@@ -16,7 +17,6 @@ class ParkingController:
         self.increaseCounter()
 
         self.repository.addNewParkingPlace(p_dict)
-
 
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")

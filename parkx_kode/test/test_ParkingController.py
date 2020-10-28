@@ -4,9 +4,6 @@ from parkx_kode.controller.ParkingController import ParkingController
 from parkx_kode.repository.ListRepository import ListRepository
 
 
-
-
-
 @pytest.fixture
 def p_dict():
     dict = {
@@ -20,19 +17,16 @@ def p_dict():
     }
     return dict
 
+
 @pytest.fixture
 def mock_repo():
     return Mock(spec=ListRepository)
+
 
 @pytest.fixture
 def controller(mock_repo):
     controller = ParkingController(None, mock_repo)
     return controller
-
-def test_increaseCounter_increases_counter(controller):
-    controller.increaseCounter()
-
-    assert controller.counter == 1
 
 
 def test_can_add_new_parking_place_from_dict(controller, mock_repo, p_dict):
@@ -40,4 +34,8 @@ def test_can_add_new_parking_place_from_dict(controller, mock_repo, p_dict):
 
     mock_repo.addNewParkingPlace.assert_called_with(p_dict)
 
-# # Parkingplace(1, "big pp", "Bureveien 5", 1784, 1, 20, "webadresse.com", "God utsikt")
+
+def test_increaseCounter_increases_counter(controller):
+    controller.increaseCounter()
+
+    assert controller.counter == 1
