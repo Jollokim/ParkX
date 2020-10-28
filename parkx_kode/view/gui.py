@@ -8,13 +8,13 @@ from kivy.uix.image import AsyncImage
 
 class Gui(BoxLayout):
     FIELDS = [
-        "Navn:",
-        "Adresse:",
-        "PostAdr:",
-        "Antall:",
-        "Pris:",
-        "Bilde:",
-        "Detaljer:"
+        "Navn",
+        "Adresse",
+        "PostAdr",
+        "Antall",
+        "Pris",
+        "Bilde",
+        "Detaljer"
     ]
 
     def __init__(self, **kwargs):

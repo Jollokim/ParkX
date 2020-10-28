@@ -17,7 +17,6 @@ class ParkingController:
 
         self.repository.addNewParkingPlace(p_dict)
 
-        return p_dict
 
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
