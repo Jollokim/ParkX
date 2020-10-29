@@ -16,5 +16,10 @@ class ListRepository:
 
         print(self.parkingPlaces)
 
-    def removeParkingPlace(self, pPlace):
-        self.parkingPlaces.remove(pPlace)
+    def removeParkingPlace(self, id):
+        self.parkingPlaces.remove(self.getPP(id))
+
+    def getPP(self, id):
+        for pp in self.parkingPlaces:
+            if pp.id == id:
+                return pp
