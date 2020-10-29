@@ -16,4 +16,4 @@ class Parkingplace:
                    f"Detaljer: {self.details}")
 
 
-    # def __str__(self):
+
