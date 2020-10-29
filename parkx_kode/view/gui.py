@@ -193,10 +193,9 @@ class Gui(BoxLayout):
             {"name": "Den store PP", "address": "Parkveien 1", "price": "12kr/t", "bilde": "pp.jpg"},
             {"name": "Den store PP", "address": "Parkveien 1", "price": "22kr/t", "bilde": "pp.jpg"},
             {"name": "Den store PP", "address": "Parkveien 1", "price": "42kr/t", "bilde": "pp.jpg"},
-            {"name": "Den store PP", "address": "Parkveien 1", "price":  "2kr/t", "bilde": "pp.jpg"},
-            {"name": "Den store PP", "address": "Parkveien 1", "price": "22kr/t", "bilde": "pp.jpg"},
-            {"name": "Den store PP", "address": "Parkveien 1", "price": "42kr/t", "bilde": "pp.jpg"},
             {"name": "Den store PP", "address": "Parkveien 1", "price": "2kr/t", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "22kr/t", "bilde": "pp.jpg"},
+
 
         ]
 
