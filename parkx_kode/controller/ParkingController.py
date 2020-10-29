@@ -24,5 +24,16 @@ class ParkingController:
     def get_pp_from_repo(self, id):
         return self.repository.getPP(id)
 
+    def get_all_pp_from_list(self):
+        return self.repository.getAllParkingPlaces()
+
+    def change_pp(self, id, p_dict):
+        self.remove_parkingplace(id)
+
+        p_dict["ID"] = id
+
+        self.repository.addNewParkingPlace(p_dict)
+
+
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
