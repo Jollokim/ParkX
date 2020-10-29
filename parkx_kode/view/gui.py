@@ -27,7 +27,8 @@ class Gui(BoxLayout):
         self.SCENES = [
             self._create_my_PPs_scene,
             self._create_legg_til_PP_scene,
-            self._create_detailedPP_scene
+            self._create_detailedPP_owner_scene,
+            self._create_detailedPP_renter_scene
         ]
 
         self.SCENES[0]()
@@ -114,10 +115,7 @@ class Gui(BoxLayout):
                 Label(text=f"Navn: {pp['name']}"),
                 Label(text=f"Status: {pp['status']}"),
                 AsyncImage(
-                    source='https://lh3.googleusercontent.com/proxy'
-                           '/dtj71iL7M_jpY_6qMY1NcBAeCLlm4Ziu7LV1xKzbenAF6WLINuDTgqPIQAmgVo'
-                           '-HsIlUCN_7oErHMhR7VkV2vbfLtM8czIRY9UyWK6f5iiNBbfN82OwL6TBD3QZdr0TZdK8kdysaRyWFh7Nf8QpSHzQX_uU '
-                )
+                    source='https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_1500_2000_s_f/0000/2019/09/16/3423846276/1/original/10099832.jpg?chk=7ABCCD')
             ]
 
             see_detail_b = Button(text='Se detaljert', size=(1, 1))
@@ -129,10 +127,10 @@ class Gui(BoxLayout):
             for e in grid_elements:
                 grid.add_widget(e)
 
-    def _create_detailedPP_scene(self):
+    def _create_detailedPP_owner_scene(self):
         self.orientation = "vertical"
 
-        back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
+        back_button = Button(text='Cancel', size=(100, 40), size_hint=(None, None))
         back_button.bind(on_press=lambda instance: self.switch_scene(0))
         self.add_widget(back_button)
 
@@ -149,6 +147,35 @@ class Gui(BoxLayout):
             else:
                 label2 = Label(text='eksempel detaljer')
                 grid_scheme.add_widget(label2)
+
+        edit_button = Button(text='Edit parking spot', size=(150, 40), size_hint=(None, None))
+        edit_button.bind(on_press=lambda instance: self.switch_scene(1))
+        self.add_widget(edit_button)
+
+    def _create_detailedPP_renter_scene(self):
+        self.orientation = "vertical"
+
+        back_button = Button(text='Cancel', size=(100, 40), size_hint=(None, None))
+        back_button.bind(on_press=lambda instance: self.switch_scene(1))
+        self.add_widget(back_button)
+
+        grid_scheme = GridLayout(cols=2, rows=7)
+        self.add_widget(grid_scheme)
+
+        for l in Gui.FIELDS:
+            label = Label(text=l)
+            grid_scheme.add_widget(label)
+            if l == 'Bilde:':
+                image = AsyncImage(
+                    source='https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_1500_2000_s_f/0000/2019/09/16/3423846276/1/original/10099832.jpg?chk=7ABCCD')
+                grid_scheme.add_widget(image)
+            else:
+                label2 = Label(text='eksempel detaljer')
+                grid_scheme.add_widget(label2)
+
+        confirm_button = Button(text='Confirm', size=(100, 40), size_hint=(None, None))
+        confirm_button.bind(on_press=lambda instance: self.switch_scene(2))
+        self.add_widget(confirm_button)
 
 
 
