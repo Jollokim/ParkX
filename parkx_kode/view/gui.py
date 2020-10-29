@@ -3,18 +3,18 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.image import Image, AsyncImage
+from kivy.uix.image import AsyncImage
 
 
 class Gui(BoxLayout):
     FIELDS = [
-        "Navn:",
-        "Adresse:",
-        "PostAdr:",
-        "Antall:",
-        "Pris:",
-        "Bilde:",
-        "Detaljer:"
+        "Navn",
+        "Adresse",
+        "PostAdr",
+        "Antall",
+        "Pris",
+        "Bilde",
+        "Detaljer"
     ]
 
     def __init__(self, **kwargs):
@@ -23,7 +23,7 @@ class Gui(BoxLayout):
         self.controller = None
 
         self.text_fields = []
-        # self.create_legg_til_PP_scene()
+
         self.SCENES = [
             self._create_my_PPs_scene,
             self._create_legg_til_PP_scene,
@@ -31,7 +31,7 @@ class Gui(BoxLayout):
             self._create_detailedPP_renter_scene
         ]
 
-        self.SCENES[0]()
+        self.SCENES[1]()
 
     def _create_legg_til_PP_scene(self):
         self.orientation = "vertical"
@@ -59,15 +59,12 @@ class Gui(BoxLayout):
         self.add_widget(insert_pp_button)
 
     def insert_pp_button_handler(self, instance):
-        data_list = []
-        for field in self.text_fields:
-            data_list.append(field.text)
+        data_dict = {}
 
-        self.controller.addNewParkingPlace(data_list)
-
-    def print_input_data(self):
         for i in range(len(self.text_fields)):
-            print(f"{Gui.FIELDS[i]} {self.text_fields[i].text}")
+            data_dict[Gui.FIELDS[i]] = self.text_fields[i].text
+
+        self.controller.add_parking_place_to_repo(data_dict)
 
     def _clear_scene(self):
         self.clear_widgets()
