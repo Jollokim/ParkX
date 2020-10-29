@@ -10,4 +10,10 @@ class Parkingplace:
         self.details = details
 
     def toString(self):
-        return str()
+        return str(f"ID: {self.id} Name: {self.name} Address: {self.address}"
+                   f" PostAdr: {self.zip_code} Antall: {self.number_of_places}"
+                   f"Pris: {self.price_pr_hour} Bilde: {self.picture}"
+                   f"Detaljer: {self.details}")
+
+
+    # def __str__(self):
