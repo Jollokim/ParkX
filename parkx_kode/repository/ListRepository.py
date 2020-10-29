@@ -1,9 +1,20 @@
-from parkx_kode.model.parkingplace import Parkingplace
+from parkx_kode.model.Parkingplace import Parkingplace
 
 
 class ListRepository:
     def __init__(self):
         self.parkingPlaces = []
+
+    def addExempleParkings(self):
+        parking1 = Parkingplace("0001", "Første eksempel parkering","Parkeringsveien 1","1231","1","25", "shorturl.at/ruL57","Har lader og god belysning")
+        parking2 = Parkingplace("0002", "Andre eksempel parkering", "Parkeringsgata 81", "1001", "1", "95", "shorturl.at/ixAG5", "Har lader og god belysning. Innendørs")
+        parking3 = Parkingplace("0003", "Tredje eksempel parkering", "Kjøreveien 84", "1521", "1", "1", "shorturl.at/rOQUW", "Utendørs uten noe")
+        parking4 = Parkingplace("0004", "Fjerde eksempel parkering", "Sykkelveien 254", "1539", "2", "15", "shorturl.at/iotP3", "En vegglampe")
+
+        self.parkingPlaces.append(parking1)
+        self.parkingPlaces.append(parking2)
+        self.parkingPlaces.append(parking3)
+        self.parkingPlaces.append(parking4)
 
     def getAllParkingPlaces(self):
         return self.parkingPlaces

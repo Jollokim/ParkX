@@ -1,7 +1,7 @@
 import pytest
 from mock import Mock
 from parkx_kode.controller.ParkingController import ParkingController
-from parkx_kode.model.parkingplace import Parkingplace
+from parkx_kode.model.Parkingplace import Parkingplace
 from parkx_kode.repository.ListRepository import ListRepository
 
 
