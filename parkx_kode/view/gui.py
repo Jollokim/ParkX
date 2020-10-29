@@ -84,7 +84,7 @@ class Gui(BoxLayout):
         button_box = BoxLayout(orientation="horizontal", spacing=0, size_hint=(1, 0.1))
         self.add_widget(button_box)
 
-        back_button = Button(text='Main Menu', size=(100, 40), size_hint=(.1, 0), pos_hint={"top": 1})
+        back_button = Button(text='Hovedmeny', size=(100, 40), size_hint=(.1, 0), pos_hint={"top": 1})
         back_button.bind(on_press=lambda instance: self.switch_scene(5))
         button_box.add_widget(back_button)
 
@@ -184,7 +184,7 @@ class Gui(BoxLayout):
         grid_scheme = GridLayout(cols=1)
         self.add_widget(grid_scheme)
 
-        back_button = Button(text='Main Menu',size=(250, 40), size_hint=(None, None))
+        back_button = Button(text='Hovedmeny',size=(250, 40), size_hint=(None, None))
         back_button.bind(on_press=lambda instance: self.switch_scene(5))
         grid_scheme.add_widget(back_button)
 
@@ -201,14 +201,14 @@ class Gui(BoxLayout):
             grid = GridLayout(cols=4)
             grid_scheme.add_widget(grid)
 
-            stopp_button = Button(text='STOPP', size_hint=(.4, .8), background_color=(1.0, 0.0, 0.0, 1.0))
-            stopp_button.bind(on_press=lambda instance: self.switch_scene(5))
+            stop_button = Button(text='STOPP', size_hint=(.4, .8), background_color=(1.0, 0.0, 0.0, 1.0))
+            stop_button.bind(on_press=lambda instance: self.switch_scene(5))
 
             grid_elements = [
                 Label(text=f"Navn: {pp['name']}"),
                 Label(text=f"Adresse: {pp['address']}"),
                 Label(text=f"Status: {pp['status']}"),
-                stopp_button
+                stop_button
             ]
 
             for e in grid_elements:
@@ -273,7 +273,7 @@ class Gui(BoxLayout):
         l = Label(text='DENNE SIDEN ER IKKE FERDIG ENDA, OG ER UNDER UTVIKLING')
         self.add_widget(l)
 
-        opt1_button = Button(text='Main Menu', size=(200, 50), size_hint=(None, None))
+        opt1_button = Button(text='Hovedmeny', size=(200, 50), size_hint=(None, None))
         opt1_button.bind(on_press=lambda instance: self.switch_scene(5))
         self.add_widget(opt1_button)
 
