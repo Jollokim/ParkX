@@ -11,6 +11,7 @@ setup(
         "kivy-deps.glew",
         "kivy-deps.sdl2",
         "pytest",
-        "pytest-mock"
+        "pytest-mock",
+        "mock"
     ],
 )
