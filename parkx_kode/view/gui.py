@@ -28,10 +28,13 @@ class Gui(BoxLayout):
             self._create_my_PPs_scene,
             self._create_legg_til_PP_scene,
             self._create_detailedPP_owner_scene,
-            self._create_detailedPP_renter_scene
+            self._create_detailedPP_renter_scene,
+            self._show_available_and_active_parkings_scene,
+            self._main_menu_scene,
+            self._my_profile_scene
         ]
 
-        self.SCENES[1]()
+        self.SCENES[5]()
 
     def _create_legg_til_PP_scene(self):
         self.orientation = "vertical"
@@ -82,7 +85,7 @@ class Gui(BoxLayout):
         self.add_widget(button_box)
 
         back_button = Button(text='Main Menu', size=(100, 40), size_hint=(.1, 0), pos_hint={"top": 1})
-        back_button.bind(on_press=lambda instance: None)
+        back_button.bind(on_press=lambda instance: self.switch_scene(5))
         button_box.add_widget(back_button)
 
         go_leggInn_button = Button(text='Legg til parkeringsplass', size=(100, 40), size_hint=(.1, 0),
@@ -112,7 +115,8 @@ class Gui(BoxLayout):
                 Label(text=f"Navn: {pp['name']}"),
                 Label(text=f"Status: {pp['status']}"),
                 AsyncImage(
-                    source='https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_1500_2000_s_f/0000/2019/09/16/3423846276/1/original/10099832.jpg?chk=7ABCCD')
+                    source='https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_1500_2000_s_f/0000/2019/09/16/3423846276/1/original/10099832.jpg?chk=7ABCCD'
+                )
             ]
 
             see_detail_b = Button(text='Se detaljert', size=(1, 1))
@@ -153,7 +157,7 @@ class Gui(BoxLayout):
         self.orientation = "vertical"
 
         back_button = Button(text='Cancel', size=(100, 40), size_hint=(None, None))
-        back_button.bind(on_press=lambda instance: self.switch_scene(1))
+        back_button.bind(on_press=lambda instance: self.switch_scene(4))
         self.add_widget(back_button)
 
         grid_scheme = GridLayout(cols=2, rows=7)
@@ -171,11 +175,107 @@ class Gui(BoxLayout):
                 grid_scheme.add_widget(label2)
 
         confirm_button = Button(text='Confirm', size=(100, 40), size_hint=(None, None))
-        confirm_button.bind(on_press=lambda instance: self.switch_scene(2))
+        confirm_button.bind(on_press=lambda instance: self.switch_scene(4))
         self.add_widget(confirm_button)
 
+    def _show_available_and_active_parkings_scene(self):
+        self.orientation = "vertical"
+
+        grid_scheme = GridLayout(cols=1)
+        self.add_widget(grid_scheme)
+
+        back_button = Button(text='Main Menu',size=(250, 40), size_hint=(None, None))
+        back_button.bind(on_press=lambda instance: self.switch_scene(5))
+        grid_scheme.add_widget(back_button)
+
+        l = Button(text='Aktive parkeringer:',size=(100, 40), size_hint=(1, None), background_color=(0.5,0.5,0.8,0.8), pos_hint={"top": 1})
+        grid_scheme.add_widget(l)
+
+        # PPs_list = FIKSE HVILKEN BACKEND SOM SKAL HIT
+
+        PPs_list = [
+            {"name": "Den opptatte PP","address": "Parkveien 1", "status": "Aktiv  (startet 15:23)"},
+        ]
+
+        for pp in PPs_list:
+            grid = GridLayout(cols=4)
+            grid_scheme.add_widget(grid)
+
+            stopp_button = Button(text='STOPP', size_hint=(.4, .8), background_color=(1.0, 0.0, 0.0, 1.0))
+            stopp_button.bind(on_press=lambda instance: self.switch_scene(5))
+
+            grid_elements = [
+                Label(text=f"Navn: {pp['name']}"),
+                Label(text=f"Adresse: {pp['address']}"),
+                Label(text=f"Status: {pp['status']}"),
+                stopp_button
+            ]
+
+            for e in grid_elements:
+                grid.add_widget(e)
+
+        l = Button(text='Ledige parkeringer:', size=(100, 40), size_hint=(1, None), background_color=(0.5, 0.5, 0.8, 0.8),pos_hint={"top": 1})
+        grid_scheme.add_widget(l)
+
+        # PPs_list = FIKSE HVILKEN BACKEND SOM SKAL HIT
+
+        PPs_list = [
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "12kr/t", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "22kr/t", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "42kr/t", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "2kr/t", "bilde": "pp.jpg"},
+            {"name": "Den store PP", "address": "Parkveien 1", "price": "22kr/t", "bilde": "pp.jpg"},
 
 
+        ]
+
+        for pp in PPs_list:
+            grid = GridLayout(cols=5)
+            grid_scheme.add_widget(grid)
+
+            lei_button = Button(text='      Lei \n Parkering', size_hint=(.55, 1), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0))
+            lei_button.bind(on_press=lambda instance: self.switch_scene(3))
+
+            grid_elements = [
+                Label(text=f"Navn: {pp['name']}"),
+                Label(text=f"Adresse: {pp['address']}"),
+                Label(text=f"Pris: {pp['price']}"),
+                AsyncImage(
+                    source = 'http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg'
+                ),
+                lei_button
+            ]
+
+            for e in grid_elements:
+                grid.add_widget(e)
+
+    def _main_menu_scene(self):
+        self.orientation = "vertical"
+
+        grid_scheme = GridLayout(cols=1, rows=3, padding=250, spacing=40)
+        self.add_widget(grid_scheme)
+
+        opt1_button = Button(text='Leier', size_hint=(.2, 1))
+        opt1_button.bind(on_press=lambda instance: self.switch_scene(4))
+        grid_scheme.add_widget(opt1_button)
+
+        opt2_button = Button(text='Utleier', size_hint=(.2, 1))
+        opt2_button.bind(on_press=lambda instance: self.switch_scene(0))
+        grid_scheme.add_widget(opt2_button)
+
+        opt3_button = Button(text='Min Profil', size_hint=(.2, 1))
+        opt3_button.bind(on_press=lambda instance: self.switch_scene(6))
+        grid_scheme.add_widget(opt3_button)
+
+    def _my_profile_scene(self):
+        self.orientation = "vertical"
+
+        l = Label(text='DENNE SIDEN ER IKKE FERDIG ENDA, OG ER UNDER UTVIKLING')
+        self.add_widget(l)
+
+        opt1_button = Button(text='Main Menu', size=(200, 50), size_hint=(None, None))
+        opt1_button.bind(on_press=lambda instance: self.switch_scene(5))
+        self.add_widget(opt1_button)
 
 
 
