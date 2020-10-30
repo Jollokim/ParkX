@@ -1,5 +1,5 @@
 class Parkingplace:
-    def __init__(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details):
+    def __init__(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details,available):
         self.id = id
         self.name = name
         self.address = address
@@ -8,12 +8,13 @@ class Parkingplace:
         self.price_pr_hour = price_pr_hour
         self.picture = picture
         self.details = details
+        self.available = available
 
     def toString(self):
         return str(f"ID: {self.id} Name: {self.name} Address: {self.address}"
                    f" PostAdr: {self.zip_code} Antall: {self.number_of_places}"
                    f"Pris: {self.price_pr_hour} Bilde: {self.picture}"
-                   f"Detaljer: {self.details}")
+                   f"Detaljer: {self.details} Available: {self.available}")
 
 
 

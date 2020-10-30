@@ -4,6 +4,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import AsyncImage
+from parkx_kode.controller.ParkingController import ParkingController
 
 
 class Gui(BoxLayout):
@@ -15,6 +16,7 @@ class Gui(BoxLayout):
         "Pris",
         "Bilde",
         "Detaljer"
+        "Available"
     ]
 
     def __init__(self, **kwargs):
@@ -191,7 +193,7 @@ class Gui(BoxLayout):
         l = Button(text='Aktive parkeringer:',size=(100, 40), size_hint=(1, None), background_color=(0.5,0.5,0.8,0.8), pos_hint={"top": 1})
         grid_scheme.add_widget(l)
 
-        # PPs_list = FIKSE HVILKEN BACKEND SOM SKAL HIT
+        #PPs_list = ParkingController.get_all_pp_from_list(self.ParkingController.get_all_pp_from_list)
 
         PPs_list = [
             {"name": "Den opptatte PP","address": "Parkveien 1", "status": "Aktiv  (startet 15:23)"},
@@ -217,7 +219,10 @@ class Gui(BoxLayout):
         l = Button(text='Ledige parkeringer:', size=(100, 40), size_hint=(1, None), background_color=(0.5, 0.5, 0.8, 0.8),pos_hint={"top": 1})
         grid_scheme.add_widget(l)
 
-        # PPs_list = FIKSE HVILKEN BACKEND SOM SKAL HIT
+        #self.controller.get_all_pp_from_list()
+        #PPs_list = ParkingController.get_all_pp_from_list()
+
+
 
         PPs_list = [
             {"name": "Den store PP", "address": "Parkveien 1", "price": "12kr/t", "bilde": "pp.jpg"},
