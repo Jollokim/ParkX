@@ -14,11 +14,9 @@ class MyApp(App):
         Config.set('graphics', 'width', '800')
         Config.set('graphics', 'height', '800')
 
-        gui = Gui()
-
-        controller = ParkingController(gui, ListRepository())
-
-        gui.controller = controller
+        controller = ParkingController(None, ListRepository())
+        gui = Gui(controller)
+        controller.gui = gui
 
         return gui
 
