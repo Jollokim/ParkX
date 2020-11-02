@@ -167,7 +167,6 @@ class Gui(BoxLayout):
 
         grid_scheme = GridLayout(cols=2, rows=7)
         self.add_widget(grid_scheme)
-        print(self.PPs_list)
 
         currentParkingPlace = self.controller.get_pp_from_repo(ParkingPlaceID)
 
@@ -239,7 +238,7 @@ class Gui(BoxLayout):
             grid = GridLayout(cols=5)
             grid_scheme.add_widget(grid)
             lei_button = Button(text='      Lei \n Parkering', size_hint=(.55, 1), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0))
-            lei_button.bind(on_press=lambda args: self._create_detailedPP_renter_scene(pp.id))
+            lei_button.bind(on_press=lambda instance, parkingId=pp.id: self._create_detailedPP_renter_scene(parkingId))
 
             grid_elements = [
                 Label(text=f"Navn: {pp.name}"),
