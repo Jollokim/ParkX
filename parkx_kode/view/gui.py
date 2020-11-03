@@ -1,3 +1,5 @@
+from functools import partial
+
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
@@ -18,10 +20,13 @@ class Gui(BoxLayout):
         "Available"
     ]
 
-    def __init__(self, **kwargs):
+    def __init__(self, controller,  **kwargs):
         super(Gui, self).__init__(**kwargs)
 
-        self.controller = None
+        self.controller = controller
+
+        self.PPs_list = controller.get_all_pp_from_list()
+        self.controller.addPlaceholderPlaces()
 
         self.text_fields = []
 
@@ -154,7 +159,8 @@ class Gui(BoxLayout):
         edit_button.bind(on_press=lambda instance: self.switch_scene(1))
         self.add_widget(edit_button)
 
-    def _create_detailedPP_renter_scene(self):
+    def _create_detailedPP_renter_scene(self, ParkingPlaceID):
+        self._clear_scene()
         self.orientation = "vertical"
 
         back_button = Button(text='Cancel', size=(100, 40), size_hint=(None, None))
@@ -164,16 +170,28 @@ class Gui(BoxLayout):
         grid_scheme = GridLayout(cols=2, rows=7)
         self.add_widget(grid_scheme)
 
-        for l in Gui.FIELDS:
-            label = Label(text=l)
-            grid_scheme.add_widget(label)
-            if l == 'Bilde:':
-                image = AsyncImage(
-                    source='https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_1500_2000_s_f/0000/2019/09/16/3423846276/1/original/10099832.jpg?chk=7ABCCD')
-                grid_scheme.add_widget(image)
-            else:
-                label2 = Label(text='eksempel detaljer')
-                grid_scheme.add_widget(label2)
+        currentParkingPlace = self.controller.get_pp_from_repo(ParkingPlaceID)
+
+        grid_scheme.add_widget(Label(text="Navn på plassen"))
+        grid_scheme.add_widget(Label(text=currentParkingPlace.name))
+
+        grid_scheme.add_widget(Label(text="Adresse"))
+        grid_scheme.add_widget(Label(text=currentParkingPlace.address))
+
+        grid_scheme.add_widget(Label(text="Postkode"))
+        grid_scheme.add_widget(Label(text=str(currentParkingPlace.zip_code)))
+
+        grid_scheme.add_widget(Label(text="Antall plasser tilgjengelig"))
+        grid_scheme.add_widget(Label(text=str(currentParkingPlace.number_of_places)))
+
+        grid_scheme.add_widget(Label(text="Pris per time"))
+        grid_scheme.add_widget(Label(text=str(currentParkingPlace.price_pr_hour) + " nok."))
+
+        grid_scheme.add_widget(Label(text="Bilde av plassen (placeholder)"))
+        grid_scheme.add_widget(AsyncImage(source=currentParkingPlace.picture))
+
+        grid_scheme.add_widget(Label(text="Om parkeringsplassen"))
+        grid_scheme.add_widget(Label(text=currentParkingPlace.details))
 
         confirm_button = Button(text='Confirm', size=(100, 40), size_hint=(None, None))
         confirm_button.bind(on_press=lambda instance: self.switch_scene(4))
@@ -218,32 +236,17 @@ class Gui(BoxLayout):
         l = Button(text='Ledige parkeringer:', size=(100, 40), size_hint=(1, None), background_color=(0.5, 0.5, 0.8, 0.8),pos_hint={"top": 1})
         grid_scheme.add_widget(l)
 
-        #self.controller.get_all_pp_from_list()
-        #PPs_list = ParkingController.get_all_pp_from_list()
 
-
-
-        PPs_list = [
-            {"name": "Den store PP", "address": "Parkveien 1", "price": "12kr/t", "bilde": "pp.jpg"},
-            {"name": "Den store PP", "address": "Parkveien 1", "price": "22kr/t", "bilde": "pp.jpg"},
-            {"name": "Den store PP", "address": "Parkveien 1", "price": "42kr/t", "bilde": "pp.jpg"},
-            {"name": "Den store PP", "address": "Parkveien 1", "price": "2kr/t", "bilde": "pp.jpg"},
-            {"name": "Den store PP", "address": "Parkveien 1", "price": "22kr/t", "bilde": "pp.jpg"},
-
-
-        ]
-
-        for pp in PPs_list:
+        for pp in self.PPs_list:
             grid = GridLayout(cols=5)
             grid_scheme.add_widget(grid)
-
             lei_button = Button(text='      Lei \n Parkering', size_hint=(.55, 1), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0))
-            lei_button.bind(on_press=lambda instance: self.switch_scene(3))
+            lei_button.bind(on_press=lambda instance, parkingId=pp.id: self._create_detailedPP_renter_scene(parkingId))
 
             grid_elements = [
-                Label(text=f"Navn: {pp['name']}"),
-                Label(text=f"Adresse: {pp['address']}"),
-                Label(text=f"Pris: {pp['price']}"),
+                Label(text=f"Navn: {pp.name}"),
+                Label(text=f"Adresse: {pp.address}"),
+                Label(text=f"Pris: {pp.price_pr_hour}"),
                 AsyncImage(
                     source = 'http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg'
                 ),
