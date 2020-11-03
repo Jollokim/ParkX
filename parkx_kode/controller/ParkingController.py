@@ -7,7 +7,6 @@ class ParkingController:
         self.gui = gui
         self.repository = repository
         self.counter = 0
-        self.addPlaceholderPlaces()
 
     def increaseCounter(self):
         self.counter += 1
