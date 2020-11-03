@@ -17,7 +17,6 @@ class Gui(BoxLayout):
         "Pris",
         "Bilde",
         "Detaljer"
-        "Available"
     ]
 
     def __init__(self, controller,  **kwargs):
@@ -147,7 +146,7 @@ class Gui(BoxLayout):
         for l in Gui.FIELDS:
             label = Label(text=l)
             grid_scheme.add_widget(label)
-            if l == 'Bilde:':
+            if l == 'picture:':
                 image = AsyncImage(
                     source='https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_1500_2000_s_f/0000/2019/09/16/3423846276/1/original/10099832.jpg?chk=7ABCCD')
                 grid_scheme.add_widget(image)
@@ -185,15 +184,15 @@ class Gui(BoxLayout):
         grid_scheme.add_widget(Label(text=str(currentParkingPlace.number_of_places)))
 
         grid_scheme.add_widget(Label(text="Pris per time"))
-        grid_scheme.add_widget(Label(text=str(currentParkingPlace.price_pr_hour) + " nok."))
+        grid_scheme.add_widget(Label(text=str(currentParkingPlace.price_pr_hour) + " kr/t"))
 
-        grid_scheme.add_widget(Label(text="Bilde av plassen (placeholder)"))
+        grid_scheme.add_widget(Label(text="Bilde av plassen"))
         grid_scheme.add_widget(AsyncImage(source=currentParkingPlace.picture))
 
         grid_scheme.add_widget(Label(text="Om parkeringsplassen"))
         grid_scheme.add_widget(Label(text=currentParkingPlace.details))
 
-        confirm_button = Button(text='Confirm', size=(100, 40), size_hint=(None, None))
+        confirm_button = Button(text='Bekreft', size=(100, 40), size_hint=(None, None))
         confirm_button.bind(on_press=lambda instance: self.switch_scene(4))
         self.add_widget(confirm_button)
 
@@ -246,7 +245,7 @@ class Gui(BoxLayout):
             grid_elements = [
                 Label(text=f"Navn: {pp.name}"),
                 Label(text=f"Adresse: {pp.address}"),
-                Label(text=f"Pris: {pp.price_pr_hour}"),
+                Label(text=f"Pris: {pp.price_pr_hour} kr/t"),
                 AsyncImage(
                     source = 'http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg'
                 ),
