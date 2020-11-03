@@ -40,11 +40,10 @@ class ParkingController:
 
     def addPlaceholderPlaces(self):
         pPlace1 = {
-            "id": "1",
             "name": "Hjembua",
             "address": "Hjørneveien 3",
             "zip_code": 1882,
-            "number_of_places": 4,
+            "number_of_places": 1,
             "price_pr_hour": 150,
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Ligger i hjørnet",
@@ -52,23 +51,21 @@ class ParkingController:
         }
 
         pPlace2 = {
-            "id": "2",
             "name": "Trollhullet",
             "address": "Trolleren 10",
             "zip_code": 7123,
-            "number_of_places": 2,
+            "number_of_places": 1,
             "price_pr_hour": 42,
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Troll kan trolle...",
-            "available": True
+            "available": None
         }
 
         pPlace3 = {
-            "id": "3",
             "name": "Hullet",
             "address": "Storgata 5",
             "zip_code": 8329,
-            "number_of_places": 11,
+            "number_of_places": 1,
             "price_pr_hour": 89,
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Ligger under bakken",
