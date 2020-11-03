@@ -1,4 +1,5 @@
 from functools import partial
+from time import gmtime
 
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
@@ -6,6 +7,8 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import AsyncImage
+import datetime
+
 
 
 class Gui(BoxLayout):
@@ -162,7 +165,7 @@ class Gui(BoxLayout):
         self._clear_scene()
         self.orientation = "vertical"
 
-        back_button = Button(text='Cancel', size=(100, 40), size_hint=(None, None))
+        back_button = Button(text='Avbryt', size=(100, 40), size_hint=(None, None))
         back_button.bind(on_press=lambda instance: self.switch_scene(4))
         self.add_widget(back_button)
 
@@ -193,8 +196,13 @@ class Gui(BoxLayout):
         grid_scheme.add_widget(Label(text=currentParkingPlace.details))
 
         confirm_button = Button(text='Bekreft', size=(100, 40), size_hint=(None, None))
-        confirm_button.bind(on_press=lambda instance: self.switch_scene(4))
+        confirm_button.bind(on_press=lambda instance: self.change_parking_status(ParkingPlaceID))
         self.add_widget(confirm_button)
+
+    def change_parking_status(self, parking_id):
+
+        self.controller.change_pp_status(parking_id)
+        self.switch_scene(4)
 
     def _show_available_and_active_parkings_scene(self):
         self.orientation = "vertical"
@@ -209,20 +217,20 @@ class Gui(BoxLayout):
         l = Button(text='Aktive parkeringer:',size=(100, 40), size_hint=(1, None), background_color=(0.5,0.5,0.8,0.8), pos_hint={"top": 1})
         grid_scheme.add_widget(l)
 
-
-
         for pp in self.PPs_list:
             if not pp.available:
                 grid = GridLayout(cols=4)
                 grid_scheme.add_widget(grid)
 
                 stop_button = Button(text='STOPP', size_hint=(.4, .8), background_color=(1.0, 0.0, 0.0, 1.0))
-                stop_button.bind(on_press=lambda instance: self.switch_scene(5))
+                stop_button.bind(on_press = lambda instance, parkingId=pp.id: self.change_parking_status(parkingId))
+
+
 
                 grid_elements = [
                     Label(text=f"Navn: {pp.name}"),
                     Label(text=f"Adresse: {pp.address}"),
-                    Label(text=f"Ledig: {pp.available}"),
+                    Label(text=f"Parkering startet: {pp.parkingStarted}"),               #ENDRE TIL STARTTID FOR PARKERING
                     stop_button
                 ]
 
@@ -234,12 +242,14 @@ class Gui(BoxLayout):
 
 
         for pp in self.PPs_list:
-            grid = GridLayout(cols=5)
-            grid_scheme.add_widget(grid)
-            lei_button = Button(text='      Lei \n Parkering', size_hint=(.55, 1), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0))
-            lei_button.bind(on_press=lambda instance, parkingId=pp.id: self._create_detailedPP_renter_scene(parkingId))
 
             if pp.available:
+                grid = GridLayout(cols=5)
+                grid_scheme.add_widget(grid)
+                lei_button = Button(text='      Lei \n Parkering', size_hint=(.55, 1), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0))
+                lei_button.bind(on_press=lambda instance, parkingId=pp.id: self._create_detailedPP_renter_scene(parkingId))
+
+
 
                 grid_elements = [
                     Label(text=f"Navn: {pp.name}"),

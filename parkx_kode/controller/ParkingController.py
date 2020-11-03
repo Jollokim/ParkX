@@ -1,3 +1,5 @@
+import datetime
+
 from parkx_kode.model.Parkingplace import Parkingplace
 from parkx_kode.repository.ListRepository import ListRepository
 
@@ -34,6 +36,16 @@ class ParkingController:
 
         self.repository.addNewParkingPlace(p_dict)
 
+    def change_pp_status(self, id):
+        obj = self.repository.getPP(id)
+
+        if obj.available:
+            obj.available = False
+            obj.parkingStarted = datetime.datetime.now().strftime("%H:%M:%S")
+        else:
+            obj.available = True
+
+
 
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
@@ -58,7 +70,7 @@ class ParkingController:
             "price_pr_hour": 42,
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Troll kan trolle...",
-            "available": None
+            "available": True
         }
 
         pPlace3 = {
