@@ -12,7 +12,7 @@ class ParkingController:
         self.counter += 1
 
     def add_parking_place_to_repo(self, p_dict):
-        p_dict["ID"] = self.counter
+        p_dict["id"] = self.counter
 
         self.increaseCounter()
 
@@ -30,7 +30,7 @@ class ParkingController:
     def change_pp(self, id, p_dict):
         self.remove_parkingplace(id)
 
-        p_dict["ID"] = id
+        p_dict["id"] = id
 
         self.repository.addNewParkingPlace(p_dict)
 
@@ -40,33 +40,39 @@ class ParkingController:
 
     def addPlaceholderPlaces(self):
         pPlace1 = {
-            "Navn": "Hjembua",
-            "Adresse": "Hjørneveien 3",
-            "PostAdr": 1882,
-            "Antall": 4,
-            "Pris": 150,
-            "Bilde": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "Detaljer": "Ligger i hjørnet"
+            "id": "1",
+            "name": "Hjembua",
+            "address": "Hjørneveien 3",
+            "zip_code": 1882,
+            "number_of_places": 4,
+            "price_pr_hour": 150,
+            "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
+            "details": "Ligger i hjørnet",
+            "available": True
         }
 
         pPlace2 = {
-            "Navn": "Trollhullet",
-            "Adresse": "Trolleren 10",
-            "PostAdr": 7123,
-            "Antall": 2,
-            "Pris": 42,
-            "Bilde": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "Detaljer": "Troll kan trolle..."
+            "id": "2",
+            "name": "Trollhullet",
+            "address": "Trolleren 10",
+            "zip_code": 7123,
+            "number_of_places": 2,
+            "price_pr_hour": 42,
+            "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
+            "details": "Troll kan trolle...",
+            "available": True
         }
 
         pPlace3 = {
-            "Navn": "Hullet",
-            "Adresse": "Storgata 5",
-            "PostAdr": 8329,
-            "Antall": 11,
-            "Pris": 89,
-            "Bilde": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "Detaljer": "Ligger under bakken"
+            "id": "3",
+            "name": "Hullet",
+            "address": "Storgata 5",
+            "zip_code": 8329,
+            "number_of_places": 11,
+            "price_pr_hour": 89,
+            "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
+            "details": "Ligger under bakken",
+            "available": False
         }
         self.add_parking_place_to_repo(pPlace1)
         self.add_parking_place_to_repo(pPlace2)
