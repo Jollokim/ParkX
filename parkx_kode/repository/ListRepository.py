@@ -1,4 +1,4 @@
-from parkx_kode.model.parkingplace import Parkingplace
+from parkx_kode.model.Parkingplace import Parkingplace
 
 
 class ListRepository:
@@ -34,3 +34,4 @@ class ListRepository:
         pp.price_pr_hour = p_dict["Pris"]
         pp.picture = p_dict["Bilde"]
         pp.details = p_dict["Detaljer"]
+        pp.available = p_dict["Available"]

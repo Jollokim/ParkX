@@ -4,7 +4,8 @@ import pytest
 
 from parkx_kode.repository.ListRepository import ListRepository
 
-from parkx_kode.model.parkingplace import Parkingplace
+from parkx_kode.model.Parkingplace import Parkingplace
+
 
 
 @pytest.fixture(scope="class")

@@ -8,6 +8,7 @@ class Parkingplace:
         self.price_pr_hour = price_pr_hour
         self.picture = picture
         self.details = details
+        self.available = True
 
     def toString(self):
         return str(f"ID: {self.id} Name: {self.name} Address: {self.address}"
