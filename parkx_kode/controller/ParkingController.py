@@ -42,7 +42,7 @@ class ParkingController:
         if obj.available:
             obj.available = False
             obj.parkingStarted = datetime.datetime.now().strftime("%H:%M:%S")
-        if not obj.available:
+        else:
             obj.available = True
 
 
