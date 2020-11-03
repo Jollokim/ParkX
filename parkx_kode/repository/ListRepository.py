@@ -9,6 +9,7 @@ class ListRepository:
         parking4 = Parkingplace("0004", "Fjerde eksempel parkering", "Sykkelveien 254", "1539", "2", "15", "shorturl.at/iotP3", "En vegglampe","yes")
         self.parkingPlaces = [parking1,parking2,parking3,parking4]
 
+
     def getAllParkingPlaces(self):
         return self.parkingPlaces
 
