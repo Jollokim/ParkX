@@ -4,7 +4,6 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import AsyncImage
-from parkx_kode.controller.ParkingController import ParkingController
 
 
 class Gui(BoxLayout):
