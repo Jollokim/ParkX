@@ -8,7 +8,7 @@ class ParkingController:
     def __init__(self, gui, repository):
         self.gui = gui
         self.repository = repository
-        self.counter = 0
+        self.counter = 4
 
     def increaseCounter(self):
         self.counter += 1
@@ -18,7 +18,7 @@ class ParkingController:
 
         self.increaseCounter()
 
-        self.repository.addNewParkingPlace(p_dict)
+        self.repository.addNewParkingPlace(**p_dict)
 
     def remove_parkingplace(self, id):
         self.repository.removeParkingPlace(id)
@@ -63,39 +63,3 @@ class ParkingController:
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
 
-    def addPlaceholderPlaces(self):
-        pPlace1 = {
-            "name": "Hjembua",
-            "address": "Hjørneveien 3",
-            "zip_code": 1882,
-            "number_of_places": 1,
-            "price_pr_hour": 3600,              #priser er kunstig høye for å rask se resultat i programmet
-            "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "details": "Ligger i hjørnet",
-            "available": True
-        }
-
-        pPlace2 = {
-            "name": "Trollhullet",
-            "address": "Trolleren 10",
-            "zip_code": 7123,
-            "number_of_places": 1,
-            "price_pr_hour": 8200,      #priser er kunstig høye for å rask se resultat i programmet
-            "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "details": "Troll kan trolle...",
-            "available": True
-        }
-
-        pPlace3 = {
-            "name": "Hullet",
-            "address": "Storgata 5",
-            "zip_code": 8329,
-            "number_of_places": 1,
-            "price_pr_hour": 3500,          #priser er kunstig høye for å rask se resultat i programmet
-            "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "details": "Ligger under bakken",
-            "available": True
-        }
-        self.add_parking_place_to_repo(pPlace1)
-        self.add_parking_place_to_repo(pPlace2)
-        self.add_parking_place_to_repo(pPlace3)

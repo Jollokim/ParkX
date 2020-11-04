@@ -5,18 +5,13 @@ class ListRepository:
     def __init__(self):
         self.parkingPlaces = []
 
+        self.addPlaceholderPlaces()
+
     def getAllParkingPlaces(self):
         return self.parkingPlaces
 
-    def addNewParkingPlace(self, p_dict):
-
-        if not p_dict["available"] == False:
-            p_dict["available"] = True
-
-        new_pp = Parkingplace(p_dict["id"], p_dict["name"], p_dict["address"],
-                              p_dict["zip_code"], p_dict["number_of_places"],
-                              p_dict["price_pr_hour"], p_dict["picture"],
-                              p_dict["details"], p_dict["available"])
+    def addNewParkingPlace(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details):
+        new_pp = Parkingplace(id, name, address, zip_code, number_of_places, price_pr_hour, picture, details)
 
         self.parkingPlaces.append(new_pp)
 
@@ -28,6 +23,7 @@ class ListRepository:
             if pp.id == id:
                 return pp
 
+    # TODO: needs double start for p_dict
     def changePP(self, id, p_dict):
         pp = self.getPP(id)
 
@@ -39,3 +35,46 @@ class ListRepository:
         pp.picture = p_dict["picture"]
         pp.details = p_dict["details"]
         pp.available = p_dict["available"]
+
+    def addPlaceholderPlaces(self):
+        pPlace1 = {
+            "id": 0,
+            "name": "Hjembua",
+            "address": "Hjørneveien 3",
+            "zip_code": 1882,
+            "number_of_places": 4,
+            "price_pr_hour": 8234,
+            "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
+            "details": "Ligger i hjørnet",
+            # "available": True
+        }
+
+        pPlace2 = {
+            "id": 1,
+            "name": "Trollhullet",
+            "address": "Trolleren 10",
+            "zip_code": 7123,
+            "number_of_places": 2,
+            "price_pr_hour": 42,
+            "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
+            "details": "Troll kan trolle...",
+            # "available": True
+        }
+
+        pPlace3 = {
+            "id": 2,
+            "name": "Hullet",
+            "address": "Storgata 5",
+            "zip_code": 8329,
+            "number_of_places": 11,
+            "price_pr_hour": 89,
+            "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
+            "details": "Ligger under bakken",
+            # "available": False
+        }
+
+        self.addNewParkingPlace(**pPlace1)
+
+        self.addNewParkingPlace(**pPlace2)
+
+        self.addNewParkingPlace(**pPlace3)
