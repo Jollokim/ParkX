@@ -12,7 +12,6 @@ class Parkingplace:
         self.picture = picture
         self.details = details
         self.available = True
-        # self.parkingStarted = datetime.datetime.now().strftime("%H:%M:%S")
         self.parkingStarted = None
 
     def toString(self):

@@ -38,7 +38,6 @@ class Gui(BoxLayout):
         self.controller = controller
 
         self.PPs_list = controller.get_all_pp_from_list()
-        # self.controller.addPlaceholderPlaces()
 
         self.text_fields = []
 
