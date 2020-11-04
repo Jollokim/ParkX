@@ -35,7 +35,7 @@ class Gui(BoxLayout):
 
         self.SCENES = [
             self._create_my_PPs_scene,
-            self._create_legg_til_PP_scene,
+            self._create_new_PP_scene,
             self._create_detailedPP_owner_scene,
             self._create_detailedPP_renter_scene,
             self._show_available_and_active_parkings_scene,
@@ -45,7 +45,7 @@ class Gui(BoxLayout):
 
         self.SCENES[5]()
 
-    def _create_legg_til_PP_scene(self):
+    def _create_new_PP_scene(self):
         self.orientation = "vertical"
 
         self.spacing = [20, 20]
