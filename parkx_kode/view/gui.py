@@ -18,6 +18,15 @@ class Gui(BoxLayout):
         "Bilde",
         "Detaljer"
     ]
+    ENG_FIELDS = [
+        "name",
+        "address",
+        "zip_code",
+        "number_of_places",
+        "price_pr_hour",
+        "picture",
+        "details"
+    ]
 
     def __init__(self, controller,  **kwargs):
         super(Gui, self).__init__(**kwargs)
@@ -25,7 +34,7 @@ class Gui(BoxLayout):
         self.controller = controller
 
         self.PPs_list = controller.get_all_pp_from_list()
-        self.controller.addPlaceholderPlaces()
+        # self.controller.addPlaceholderPlaces()
 
         self.text_fields = []
 
@@ -70,7 +79,7 @@ class Gui(BoxLayout):
         data_dict = {}
 
         for i in range(len(self.text_fields)):
-            data_dict[Gui.FIELDS[i]] = self.text_fields[i].text
+            data_dict[Gui.ENG_FIELDS[i]] = self.text_fields[i].text
 
         self.controller.add_parking_place_to_repo(data_dict)
 
