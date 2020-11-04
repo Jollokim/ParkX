@@ -72,7 +72,7 @@ class ParkingController:
             "price_pr_hour": 3600,              #priser er kunstig høye for å rask se resultat i programmet
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Ligger i hjørnet",
-            "available": False
+            "available": True
         }
 
         pPlace2 = {
