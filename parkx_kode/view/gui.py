@@ -200,7 +200,7 @@ class Gui(BoxLayout):
         confirm_button.bind(on_press=lambda instance: self.change_parking_status(ParkingPlaceID))
         self.add_widget(confirm_button)
 
-    def popup(self, parking_id):
+    def popup_ended_parking(self, parking_id):
 
         layout = GridLayout(cols=1,rows=2, padding=10)
 
@@ -247,7 +247,7 @@ class Gui(BoxLayout):
 
                 stop_button = Button(text='STOPP', size_hint=(.4, .8), background_color=(1.0, 0.0, 0.0, 1.0))
                 stop_button.bind(on_press=lambda instance, parkingId=pp.id: self.change_parking_status(parkingId))
-                stop_button.bind(on_press=lambda instance, parkingId=pp.id: self.popup(parkingId))
+                stop_button.bind(on_press=lambda instance, parkingId=pp.id: self.popup_ended_parking(parkingId))
 
                 grid_elements = [
                     Label(text=f"Navn: {pp.name}"),
