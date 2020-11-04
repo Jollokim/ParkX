@@ -45,7 +45,20 @@ class ParkingController:
         else:
             obj.available = True
 
+    def calc_parking_price(self, parking_id, parkingStopped):
 
+        parkingPlace = self.repository.getPP(parking_id)
+
+        FMT = '%H:%M:%S'
+        parkedTimeDelta = datetime.datetime.strptime(parkingStopped, FMT) \
+               - datetime.datetime.strptime(parkingPlace.parkingStarted, FMT)
+
+        ParkedTimeSec = parkedTimeDelta.total_seconds()
+        ParkedTimeHour = (ParkedTimeSec/3600)
+
+        totalPrice = ParkedTimeHour * parkingPlace.price_pr_hour
+        totalPriceTwoDec = str("{:.2f}".format(totalPrice))
+        return totalPriceTwoDec
 
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
@@ -56,10 +69,10 @@ class ParkingController:
             "address": "Hjørneveien 3",
             "zip_code": 1882,
             "number_of_places": 1,
-            "price_pr_hour": 150,
+            "price_pr_hour": 3600,              #priser er kunstig høye for å rask se resultat i programmet
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Ligger i hjørnet",
-            "available": True
+            "available": False
         }
 
         pPlace2 = {
@@ -67,7 +80,7 @@ class ParkingController:
             "address": "Trolleren 10",
             "zip_code": 7123,
             "number_of_places": 1,
-            "price_pr_hour": 42,
+            "price_pr_hour": 8200,      #priser er kunstig høye for å rask se resultat i programmet
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Troll kan trolle...",
             "available": True
@@ -78,10 +91,10 @@ class ParkingController:
             "address": "Storgata 5",
             "zip_code": 8329,
             "number_of_places": 1,
-            "price_pr_hour": 89,
+            "price_pr_hour": 3500,          #priser er kunstig høye for å rask se resultat i programmet
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Ligger under bakken",
-            "available": False
+            "available": True
         }
         self.add_parking_place_to_repo(pPlace1)
         self.add_parking_place_to_repo(pPlace2)

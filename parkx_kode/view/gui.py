@@ -1,13 +1,14 @@
+import datetime
 from functools import partial
-from time import gmtime
 
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.popup import Popup
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import AsyncImage
-import datetime
+
 
 
 
@@ -195,9 +196,31 @@ class Gui(BoxLayout):
         grid_scheme.add_widget(Label(text="Om parkeringsplassen"))
         grid_scheme.add_widget(Label(text=currentParkingPlace.details))
 
-        confirm_button = Button(text='Bekreft', size=(100, 40), size_hint=(None, None))
+        confirm_button = Button(text='Bekreft', size=(130, 60), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0), size_hint=(None, None))
         confirm_button.bind(on_press=lambda instance: self.change_parking_status(ParkingPlaceID))
         self.add_widget(confirm_button)
+
+    def popup(self, parking_id):
+
+        layout = GridLayout(cols=1,rows=2, padding=10)
+
+        popup = Popup(title='Parkering stanset', content=layout, size_hint=(None, None), size=(400, 300))
+        popup.open()
+
+        parkid = self.controller.get_pp_from_repo(parking_id)
+
+        parkingStopped = datetime.datetime.now().strftime("%H:%M:%S")
+
+        total_parking_price = self.controller.calc_parking_price(parking_id, parkingStopped)
+
+        l = Label(text='Din parkering med navn ' + parkid.name + ' er nå stanset: \n\n Adresse: ' + parkid.address + '\n Parkering startet: ' + parkid.parkingStarted + '\n Parkering stoppet: ' + parkingStopped + '\n Totalpris: ' + total_parking_price + 'kr')
+
+        layout.add_widget(l)
+
+        closeButton = Button(text='Lukk', size_hint=(None, None), size=(350,50))
+
+        closeButton.bind(on_press=popup.dismiss)
+        layout.add_widget(closeButton)
 
     def change_parking_status(self, parking_id):
 
@@ -223,14 +246,13 @@ class Gui(BoxLayout):
                 grid_scheme.add_widget(grid)
 
                 stop_button = Button(text='STOPP', size_hint=(.4, .8), background_color=(1.0, 0.0, 0.0, 1.0))
-                stop_button.bind(on_press = lambda instance, parkingId=pp.id: self.change_parking_status(parkingId))
-
-
+                stop_button.bind(on_press=lambda instance, parkingId=pp.id: self.change_parking_status(parkingId))
+                stop_button.bind(on_press=lambda instance, parkingId=pp.id: self.popup(parkingId))
 
                 grid_elements = [
                     Label(text=f"Navn: {pp.name}"),
                     Label(text=f"Adresse: {pp.address}"),
-                    Label(text=f"Parkering startet: {pp.parkingStarted}"),               #ENDRE TIL STARTTID FOR PARKERING
+                    Label(text=f"Parkering startet: {pp.parkingStarted}"),
                     stop_button
                 ]
 
