@@ -10,7 +10,6 @@ class ListRepository:
     def getAllParkingPlaces(self):
         return self.parkingPlaces
 
-
     def addNewParkingPlace(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details):
         new_pp = Parkingplace(id, name, address, zip_code, number_of_places, price_pr_hour, picture, details)
 
