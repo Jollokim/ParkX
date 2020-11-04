@@ -10,9 +10,11 @@ class ListRepository:
     def getAllParkingPlaces(self):
         return self.parkingPlaces
 
+
     def addNewParkingPlace(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details):
         new_pp = Parkingplace(id, name, address, zip_code, number_of_places, price_pr_hour, picture, details)
 
+        print(new_pp.toString())
         self.parkingPlaces.append(new_pp)
 
     def removeParkingPlace(self, id):
@@ -23,6 +25,7 @@ class ListRepository:
             if pp.id == id:
                 return pp
 
+    # TODO: needs double start for p_dict
     def changePP(self, id, p_dict):
         pp = self.getPP(id)
 
@@ -42,7 +45,7 @@ class ListRepository:
             "address": "Hjørneveien 3",
             "zip_code": 1882,
             "number_of_places": 4,
-            "price_pr_hour": 150,
+            "price_pr_hour": 8234,
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Ligger i hjørnet",
             # "available": True
@@ -77,5 +80,3 @@ class ListRepository:
         self.addNewParkingPlace(**pPlace2)
 
         self.addNewParkingPlace(**pPlace3)
-        self.getPP(2).available = False
-        print(self.parkingPlaces[2].available)

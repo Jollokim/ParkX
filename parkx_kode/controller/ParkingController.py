@@ -1,3 +1,5 @@
+import datetime
+
 from parkx_kode.model.Parkingplace import Parkingplace
 from parkx_kode.repository.ListRepository import ListRepository
 
@@ -34,6 +36,30 @@ class ParkingController:
 
         self.repository.addNewParkingPlace(p_dict)
 
+    def change_pp_status(self, id):
+        obj = self.repository.getPP(id)
+
+        if obj.available:
+            obj.available = False
+            obj.parkingStarted = datetime.datetime.now().strftime("%H:%M:%S")
+        else:
+            obj.available = True
+
+    def calc_parking_price(self, parking_id, parkingStopped):
+
+        parkingPlace = self.repository.getPP(parking_id)
+
+        FMT = '%H:%M:%S'
+        parkedTimeDelta = datetime.datetime.strptime(parkingStopped, FMT) \
+               - datetime.datetime.strptime(parkingPlace.parkingStarted, FMT)
+
+        ParkedTimeSec = parkedTimeDelta.total_seconds()
+        ParkedTimeHour = (ParkedTimeSec/3600)
+
+        totalPrice = ParkedTimeHour * parkingPlace.price_pr_hour
+        totalPriceTwoDec = str("{:.2f}".format(totalPrice))
+        return totalPriceTwoDec
 
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
+
