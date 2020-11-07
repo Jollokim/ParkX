@@ -5,8 +5,6 @@ class ListRepository:
     def __init__(self):
         self.parkingPlaces = []
 
-        self.addPlaceholderPlaces()
-
     def getAllParkingPlaces(self):
         return self.parkingPlaces
 
