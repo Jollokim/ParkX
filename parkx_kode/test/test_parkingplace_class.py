@@ -55,10 +55,18 @@ class Test_parkingplace_class:
         actual = fakeParkingPlace.details
         assert actual == expected
 
-    def test_defaultAvailibleAttributeIsTrue(self, fakeParkingPlace):
+    def test_availibleAttributeTrueByDefault(self, fakeParkingPlace):
         expected = True
         actual = fakeParkingPlace.available
         assert actual == expected
 
+    def test_parkingStartedAttributeNoneByDefault(self, fakeParkingPlace):
+        expected = None
+        actual = fakeParkingPlace.parkingStarted
+        assert actual == expected
 
-
+    def test_entireObjectCreatedProperly(self, fakeParkingPlace):
+        actual = fakeParkingPlace.toString()
+        expected = "ID: 1 Name: TestPlass Address: Adresseveien1 " \
+                   "PostAdr: 1234 Antall: 1Pris: 50 Bilde: NULLDetaljer: Har lader Ledig: True"
+        assert actual == expected
