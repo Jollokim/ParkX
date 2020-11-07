@@ -67,34 +67,34 @@ def test_can_get_all_parkingplaces_in_list(controller):
 @pytest.mark.parametrize("id, p_dict",
                          [
                              (1, {
-                                 "ID": 2,
-                                 "Navn": "kalle balle",
-                                 "Adresse": "Kalle balle veien 5",
-                                 "PostAdr": 2013,
-                                 "Antall": 2,
-                                 "Pris": 25,
-                                 "Bilde": "adresse.com",
-                                 "Detaljer": "Dårlig utsikt men nær sentrum!"
+                                 "id": 2,
+                                 "name": "kalle balle",
+                                 "address": "Kalle balle veien 5",
+                                 "zip_code": 2013,
+                                 "number_of_places": 2,
+                                 "price_pr_hour": 25,
+                                 "picture": "adresse.com",
+                                 "details": "Dårlig utsikt men nær sentrum!"
                              }),
                              (3, {
-                                 "ID": 1,
-                                 "Navn": "abekatt",
-                                 "Adresse": "olebole veien",
-                                 "PostAdr": 1712,
-                                 "Antall": 1,
-                                 "Pris": 20,
-                                 "Bilde": "adresse.com",
-                                 "Detaljer": "Fin utsikt blandt flere ting!"
+                                 "id": 1,
+                                 "name": "abekatt",
+                                 "address": "olebole veien",
+                                 "zip_code": 1712,
+                                 "number_of_places": 1,
+                                 "price_pr_hour": 20,
+                                 "picture": "adresse.com",
+                                 "details": "Fin utsikt blandt flere ting!"
                              }),
                              (2, {
-                                 "ID": 3,
-                                 "Navn": "Karbos",
-                                 "Adresse": "Karbos parkeringsplass",
-                                 "PostAdr": 3036,
-                                 "Antall": 30,
-                                 "Pris": 25,
-                                 "Bilde": "adresse.com",
-                                 "Detaljer": "Lei og finn en ledig plass"
+                                 "id": 3,
+                                 "name": "Karbos",
+                                 "address": "Karbos parkeringsplass",
+                                 "zip_code": 3036,
+                                 "number_of_places": 30,
+                                 "price_pr_hour": 25,
+                                 "picture": "adresse.com",
+                                 "details": "Lei og finn en ledig plass"
                              })
                          ]
                          )
@@ -116,4 +116,4 @@ def test_can_change_pp(controller, id, p_dict):
 def test_increaseCounter_increases_counter(controller_with_mock):
     controller_with_mock.increaseCounter()
 
-    assert controller_with_mock.counter == 1
+    assert controller_with_mock.counter == 5
