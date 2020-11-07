@@ -104,13 +104,13 @@ def test_can_change_pp(controller, id, p_dict):
     pp = controller.get_pp_from_repo(id)
 
     assert pp.id == id
-    assert pp.name == p_dict["Navn"]
-    assert pp.address == p_dict["Adresse"]
-    assert pp.zip_code == p_dict["PostAdr"]
-    assert pp.number_of_places == p_dict["Antall"]
-    assert pp.price_pr_hour == p_dict["Pris"]
-    assert pp.picture == p_dict["Bilde"]
-    assert pp.details == p_dict["Detaljer"]
+    assert pp.name == p_dict["name"]
+    assert pp.address == p_dict["address"]
+    assert pp.zip_code == p_dict["zip_code"]
+    assert pp.number_of_places == p_dict["number_of_places"]
+    assert pp.price_pr_hour == p_dict["price_pr_hour"]
+    assert pp.picture == p_dict["picture"]
+    assert pp.details == p_dict["details"]
 
 
 def test_increaseCounter_increases_counter(controller_with_mock):
