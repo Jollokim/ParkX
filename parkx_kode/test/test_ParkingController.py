@@ -10,13 +10,13 @@ from parkx_kode.test.test_ListRepository import repository, p_dict1, p_dict2, p_
 @pytest.fixture
 def p_dict():
     dict = {
-        "Navn": "abekatt",
-        "Adresse": "olebole veien",
-        "PostAdr": 1712,
-        "Antall": 1,
-        "Pris": 20,
-        "Bilde": "adresse.com",
-        "Detaljer": "Fin utsikt blandt flere ting!"
+        "name": "abekatt",
+        "address": "olebole veien",
+        "zip_code": 1712,
+        "number_of_places": 1,
+        "price_pr_hour": 20,
+        "picture": "adresse.com",
+        "details": "Fin utsikt blandt flere ting!"
     }
     return dict
 
@@ -40,7 +40,7 @@ def controller(repository):
 def test_can_call_add_new_parking_place_with_dict(controller_with_mock, mock_repo, p_dict):
     controller_with_mock.add_parking_place_to_repo(p_dict)
 
-    mock_repo.addNewParkingPlace.assert_called_with(p_dict)
+    mock_repo.addNewParkingPlace.assert_called_with(**p_dict)
 
 
 def test_can_call_remove_parkingplace_from_id(controller_with_mock, mock_repo):
