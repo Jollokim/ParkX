@@ -43,6 +43,16 @@ class TestListRepository:
 
         assert pp.id == 2
 
+    def test_changesParkingPlaceCorrectly(self, repository, p_dict2):
+        p_dict2["available"] = True
+        p_dict2["parkingStarted"] = None
+        p_dict2["id"] = 1
+
+        repository.changePP(1, p_dict2)
+
+        changedFirstInListParkingPlace = repository.getPP(1)
+
+        assert changedFirstInListParkingPlace.__dict__ == p_dict2
 
 @pytest.fixture
 def repository(p_dict1, p_dict2, p_dict3):
