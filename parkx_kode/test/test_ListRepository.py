@@ -14,6 +14,17 @@ class TestListRepository:
             if expectedParkingPlaceList[parkingPlaceId] != actualParkingPlaceList[parkingPlaceId]:
                 pytest.fail(f"Parkingplaces do not match")
 
+    def test_addsNewParkingPlaceCorrectly(self, p_dict1, repository):
+        repository.addNewParkingPlace(**p_dict1)
+
+        # Adding fields that are being added in ParkingPlace constructor
+        p_dict1["available"] = True
+        p_dict1["parkingStarted"] = None
+
+        repoParkingPlaceDict = repository.getPP(p_dict1["id"]).__dict__
+
+        assert repoParkingPlaceDict == p_dict1
+
     def test_can_remove_from_ID(self, repository):
         repository.removeParkingPlace(2)
 
