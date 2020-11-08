@@ -1,6 +1,6 @@
-import pytest
-
 from parkx_kode.repository.ListRepository import ListRepository
+
+import pytest
 
 
 class TestListRepository:
@@ -53,6 +53,17 @@ class TestListRepository:
         changedFirstInListParkingPlace = repository.getPP(1)
 
         assert changedFirstInListParkingPlace.__dict__ == p_dict2
+
+    def test_createsPlaceHoldersCorrectly(self, emptyRepo):
+        emptyRepo.addPlaceholderPlaces()
+        placeHolderList = emptyRepo.getAllParkingPlaces()
+
+        assert len(placeHolderList) == 3
+
+
+@pytest.fixture
+def emptyRepo():
+    return ListRepository()
 
 
 @pytest.fixture

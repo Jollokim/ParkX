@@ -2,10 +2,12 @@ import pytest
 
 from parkx_kode.model.Parkingplace import Parkingplace
 
+
 @pytest.fixture
 def fakeParkingPlace():
     pPlace = Parkingplace(1, "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
     return pPlace
+
 
 class Test_parkingplace_class:
 
@@ -14,24 +16,20 @@ class Test_parkingplace_class:
         actual = fakeParkingPlace.id
         assert actual == expected
 
-
     def test_parameters_are_used_in_constructor_correct_name(self, fakeParkingPlace):
         expected = "TestPlass"
         actual = fakeParkingPlace.name
         assert actual == expected
-
 
     def test_parameters_are_used_in_constructor_correct_address(self, fakeParkingPlace):
         expected = "Adresseveien1"
         actual = fakeParkingPlace.address
         assert actual == expected
 
-
     def test_parameters_are_used_in_constructor_correct_zipcode(self, fakeParkingPlace):
         expected = "1234"
         actual = fakeParkingPlace.zip_code
         assert actual == expected
-
 
     def test_parameters_are_used_in_constructor_correct_number_of_spaces(self, fakeParkingPlace):
         expected = 1
@@ -43,12 +41,10 @@ class Test_parkingplace_class:
         actual = fakeParkingPlace.price_pr_hour
         assert actual == expected
 
-
     def test_parameters_are_used_in_constructor_correct_picture(self, fakeParkingPlace):
         expected = "NULL"
         actual = fakeParkingPlace.picture
         assert actual == expected
-
 
     def test_parameters_are_used_in_constructor_correct_details(self, fakeParkingPlace):
         expected = "Har lader"
