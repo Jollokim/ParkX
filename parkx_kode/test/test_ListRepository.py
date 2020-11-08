@@ -5,19 +5,13 @@ from parkx_kode.repository.ListRepository import ListRepository
 
 class TestListRepository:
 
-
-    def test_getsAllParkingPlacesCorrectly(self, repository, p_dict1, p_dict2, p_dict3):
-        expectedParkingPlaceList = [p_dict1, p_dict2, p_dict3]
-        #Adding availible and parkingStarted to dictionaries
-
-        for p_dict in expectedParkingPlaceList:
-            p_dict["available"] = True
-            p_dict["parkingStarted"] = None
+    def test_getsAllParkingPlacesCorrectly(self, repository, parkingObject1, parkingObject2, parkingObject3):
+        expectedParkingPlaceList = [parkingObject1, parkingObject2, parkingObject3]
 
         actualParkingPlaceList = repository.getAllParkingPlaces()
 
         for parkingPlaceId in range(len(actualParkingPlaceList)):
-            if expectedParkingPlaceList[parkingPlaceId] != actualParkingPlaceList[parkingPlaceId].__dict__:
+            if expectedParkingPlaceList[parkingPlaceId] != actualParkingPlaceList[parkingPlaceId]:
                 pytest.fail(f"Parkingplaces do not match")
 
     def test_can_remove_from_ID(self, repository):
@@ -37,6 +31,32 @@ class TestListRepository:
         pp = repository.getPP(2)
 
         assert pp.id == 2
+
+
+@pytest.fixture
+def repository(p_dict1, p_dict2, p_dict3):
+    repo = ListRepository()
+
+    repo.addNewParkingPlace(**p_dict1)
+    repo.addNewParkingPlace(**p_dict2)
+    repo.addNewParkingPlace(**p_dict3)
+
+    return repo
+
+
+@pytest.fixture
+def parkingObject1(repository):
+    return repository.getPP(1)
+
+
+@pytest.fixture
+def parkingObject2(repository):
+    return repository.getPP(2)
+
+
+@pytest.fixture
+def parkingObject3(repository):
+    return repository.getPP(3)
 
 
 @pytest.fixture
@@ -82,14 +102,3 @@ def p_dict3():
         "details": "Lei og finn en ledig plass"
     }
     return dict
-
-
-@pytest.fixture
-def repository(p_dict1, p_dict2, p_dict3):
-    repo = ListRepository()
-
-    repo.addNewParkingPlace(**p_dict1)
-    repo.addNewParkingPlace(**p_dict2)
-    repo.addNewParkingPlace(**p_dict3)
-
-    return repo
