@@ -3,6 +3,41 @@ import pytest
 from parkx_kode.repository.ListRepository import ListRepository
 
 
+class TestListRepository:
+
+
+    def test_getsAllParkingPlacesCorrectly(self, repository, p_dict1, p_dict2, p_dict3):
+        expectedParkingPlaceList = [p_dict1, p_dict2, p_dict3]
+        #Adding availible and parkingStarted to dictionaries
+
+        for p_dict in expectedParkingPlaceList:
+            p_dict["available"] = True
+            p_dict["parkingStarted"] = None
+
+        actualParkingPlaceList = repository.getAllParkingPlaces()
+
+        for parkingPlaceId in range(len(actualParkingPlaceList)):
+            if expectedParkingPlaceList[parkingPlaceId] != actualParkingPlaceList[parkingPlaceId].__dict__:
+                pytest.fail(f"Parkingplaces do not match")
+
+    def test_can_remove_from_ID(self, repository):
+        repository.removeParkingPlace(2)
+
+        assert len(repository.parkingPlaces) == 2
+
+        object_removed = True
+
+        for pp in repository.parkingPlaces:
+            if pp.id == 2:
+                object_removed = False
+
+        assert object_removed
+
+    def test_can_get_parkingplace_from_ID(self, repository):
+        pp = repository.getPP(2)
+
+        assert pp.id == 2
+
 
 @pytest.fixture
 def p_dict1():
@@ -18,6 +53,7 @@ def p_dict1():
     }
     return dict
 
+
 @pytest.fixture
 def p_dict2():
     dict = {
@@ -31,6 +67,7 @@ def p_dict2():
         "details": "Dårlig utsikt men nær sentrum!"
     }
     return dict
+
 
 @pytest.fixture
 def p_dict3():
@@ -46,6 +83,7 @@ def p_dict3():
     }
     return dict
 
+
 @pytest.fixture
 def repository(p_dict1, p_dict2, p_dict3):
     repo = ListRepository()
@@ -55,22 +93,3 @@ def repository(p_dict1, p_dict2, p_dict3):
     repo.addNewParkingPlace(**p_dict3)
 
     return repo
-
-def test_can_remove_from_ID(repository):
-    repository.removeParkingPlace(2)
-
-    assert len(repository.parkingPlaces) == 2
-
-    object_removed = True
-
-    for pp in repository.parkingPlaces:
-        if pp.id == 2:
-            object_removed = False
-
-    assert object_removed
-
-
-def test_can_get_parkingplace_from_ID(repository):
-    pp = repository.getPP(2)
-
-    assert pp.id == 2

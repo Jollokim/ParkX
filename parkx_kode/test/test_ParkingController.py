@@ -6,7 +6,8 @@ from parkx_kode.repository.ListRepository import ListRepository
 from parkx_kode.test.test_ListRepository import repository, p_dict1, p_dict2, p_dict3
 
 # TODO: teste en ikke happy path
-
+# TODO: Fjerne tester fra parkingcontroller, controller testes i integrasjonstester
+"""
 @pytest.fixture
 def p_dict():
     dict = {
@@ -117,3 +118,4 @@ def test_increaseCounter_increases_counter(controller_with_mock):
     controller_with_mock.increaseCounter()
 
     assert controller_with_mock.counter == 5
+"""
