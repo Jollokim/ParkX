@@ -54,6 +54,7 @@ class TestListRepository:
 
         assert changedFirstInListParkingPlace.__dict__ == p_dict2
 
+
 @pytest.fixture
 def repository(p_dict1, p_dict2, p_dict3):
     repo = ListRepository()
