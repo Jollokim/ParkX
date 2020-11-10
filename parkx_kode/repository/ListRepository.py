@@ -24,17 +24,16 @@ class ListRepository:
                 return pp
 
     # TODO: needs double start for p_dict
-    def changePP(self, id, p_dict):
+    def changePP(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details):
         pp = self.getPP(id)
 
-        pp.name = p_dict["name"]
-        pp.address = p_dict["address"]
-        pp.zip_code = p_dict["zip_code"]
-        pp.number_of_place = p_dict["number_of_places"]
-        pp.price_pr_hour = p_dict["price_pr_hour"]
-        pp.picture = p_dict["picture"]
-        pp.details = p_dict["details"]
-        pp.available = p_dict["available"]
+        pp.name = name
+        pp.address = address
+        pp.zip_code = zip_code
+        pp.number_of_place = number_of_places
+        pp.price_pr_hour = price_pr_hour
+        pp.picture = picture
+        pp.details = details
 
     def addPlaceholderPlaces(self):
         pPlace1 = {
