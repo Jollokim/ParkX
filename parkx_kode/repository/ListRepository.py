@@ -5,8 +5,6 @@ class ListRepository:
     def __init__(self):
         self.parkingPlaces = []
 
-        self.addPlaceholderPlaces()
-
     def getAllParkingPlaces(self):
         return self.parkingPlaces
 
@@ -34,6 +32,7 @@ class ListRepository:
         pp.price_pr_hour = price_pr_hour
         pp.picture = picture
         pp.details = details
+
 
     def addPlaceholderPlaces(self):
         pPlace1 = {

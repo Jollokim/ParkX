@@ -3,64 +3,66 @@ import pytest
 from parkx_kode.model.Parkingplace import Parkingplace
 
 
+@pytest.fixture
+def fakeParkingPlace():
+    pPlace = Parkingplace(1, "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
+    return pPlace
+
+
 class Test_parkingplace_class:
 
-    def test_parameters_are_used_in_constructor_correct_id(self):
-        pplace = Parkingplace("0001", "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
-        expected = "0001"
-        actual = pplace.id
+    def test_parameters_are_used_in_constructor_correct_id(self, fakeParkingPlace):
+        expected = 1
+        actual = fakeParkingPlace.id
         assert actual == expected
-        pytest.fail("An Error occurred: Id")
 
-    def test_parameters_are_used_in_constructor_correct_name(self):
-        pplace = Parkingplace("0001", "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
+    def test_parameters_are_used_in_constructor_correct_name(self, fakeParkingPlace):
         expected = "TestPlass"
-        actual = pplace.name
+        actual = fakeParkingPlace.name
         assert actual == expected
-        pytest.fail("An Error occurred: name")
 
-    def test_parameters_are_used_in_constructor_correct_address(self):
-        pplace = Parkingplace("0001", "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
+    def test_parameters_are_used_in_constructor_correct_address(self, fakeParkingPlace):
         expected = "Adresseveien1"
-        actual = pplace.address
+        actual = fakeParkingPlace.address
         assert actual == expected
-        pytest.fail("An Error occurred: address")
 
-    def test_parameters_are_used_in_constructor_correct_zipcode(self):
-        pplace = Parkingplace("0001", "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
+    def test_parameters_are_used_in_constructor_correct_zipcode(self, fakeParkingPlace):
         expected = "1234"
-        actual = pplace.zip_code
+        actual = fakeParkingPlace.zip_code
         assert actual == expected
-        pytest.fail("An Error occurred: zipcode")
 
-    def test_parameters_are_used_in_constructor_correct_number_of_spaces(self):
-        pplace = Parkingplace("0001", "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
-        expected = "1"
-        actual = pplace.number_of_places
+    def test_parameters_are_used_in_constructor_correct_number_of_spaces(self, fakeParkingPlace):
+        expected = 1
+        actual = fakeParkingPlace.number_of_places
         assert actual == expected
-        pytest.fail("An Error occurred: number of spaces")
 
-    def test_parameters_are_used_in_constructor_correct_price(self):
-        pplace = Parkingplace("0001", "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
-        expected = "50"
-        actual = pplace.price_pr_hour
+    def test_parameters_are_used_in_constructor_correct_price(self, fakeParkingPlace):
+        expected = 50
+        actual = fakeParkingPlace.price_pr_hour
         assert actual == expected
-        pytest.fail("An Error occurred: price")
 
-    def test_parameters_are_used_in_constructor_correct_picture(self):
-        pplace = Parkingplace("0001", "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
+    def test_parameters_are_used_in_constructor_correct_picture(self, fakeParkingPlace):
         expected = "NULL"
-        actual = pplace.picture
+        actual = fakeParkingPlace.picture
         assert actual == expected
-        pytest.fail("An Error occurred: picture")
 
-    def test_parameters_are_used_in_constructor_correct_details(self):
-        pplace = Parkingplace("0001", "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
+    def test_parameters_are_used_in_constructor_correct_details(self, fakeParkingPlace):
         expected = "Har lader"
-        actual = pplace.details
+        actual = fakeParkingPlace.details
         assert actual == expected
-        pytest.fail("An Error occurred:  details")
 
+    def test_availibleAttributeTrueByDefault(self, fakeParkingPlace):
+        expected = True
+        actual = fakeParkingPlace.available
+        assert actual == expected
 
+    def test_parkingStartedAttributeNoneByDefault(self, fakeParkingPlace):
+        expected = None
+        actual = fakeParkingPlace.parkingStarted
+        assert actual == expected
 
-
+    def test_entireObjectCreatedProperly(self, fakeParkingPlace):
+        actual = fakeParkingPlace.toString()
+        expected = "ID: 1 Name: TestPlass Address: Adresseveien1 " \
+                   "PostAdr: 1234 Antall: 1Pris: 50 Bilde: NULLDetaljer: Har lader Ledig: True"
+        assert actual == expected
