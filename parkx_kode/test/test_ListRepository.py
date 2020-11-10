@@ -44,11 +44,11 @@ class TestListRepository:
         assert pp.id == 2
 
     def test_changesParkingPlaceCorrectly(self, repository, p_dict2):
-        p_dict2["available"] = True
-        p_dict2["parkingStarted"] = None
+        # p_dict2["available"] = True
+        # p_dict2["parkingStarted"] = None
         p_dict2["id"] = 1
 
-        repository.changePP(1, p_dict2)
+        repository.changePP(**p_dict2)
 
         changedFirstInListParkingPlace = repository.getPP(1)
 
@@ -102,7 +102,9 @@ def p_dict1():
         "number_of_places": 1,
         "price_pr_hour": 20,
         "picture": "adresse.com",
-        "details": "Fin utsikt blandt flere ting!"
+        "details": "Fin utsikt blandt flere ting!",
+        "available": True,
+        "parkingStarted": None
     }
     return dict
 
@@ -117,7 +119,9 @@ def p_dict2():
         "number_of_places": 2,
         "price_pr_hour": 25,
         "picture": "adresse.com",
-        "details": "Dårlig utsikt men nær sentrum!"
+        "details": "Dårlig utsikt men nær sentrum!",
+        "available": True,
+        "parkingStarted": None
     }
     return dict
 
@@ -132,6 +136,8 @@ def p_dict3():
         "number_of_places": 30,
         "price_pr_hour": 25,
         "picture": "adresse.com",
-        "details": "Lei og finn en ledig plass"
+        "details": "Lei og finn en ledig plass",
+        "available": True,
+        "parkingStarted": None
     }
     return dict
