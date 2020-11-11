@@ -52,6 +52,7 @@ class Gui(BoxLayout):
         self.SCENES[0]()
 
     def _create_new_PP_scene(self, ParkingPlaceID=None):
+        self._clear_scene()
         self.orientation = "vertical"
 
         self.spacing = [20, 20]
@@ -69,7 +70,7 @@ class Gui(BoxLayout):
             if ParkingPlaceID != None:
                 PP = self.controller.get_pp_from_repo(ParkingPlaceID)
                 PPList = PP.toListNameToDetails()
-                text_input = TextInput(text=PPList[i], multiline=True)
+                text_input = TextInput(text=str(PPList[i]), multiline=True)
             else:
                 text_input = TextInput(text='', multiline=True)
 
@@ -80,20 +81,20 @@ class Gui(BoxLayout):
 
         if ParkingPlaceID != None:
             insert_pp_button = Button(text='Endre', size=(100, 40), size_hint=(None, None))
-            insert_pp_button.bind(on_press= lambda instance: self.insert_pp_button_handler(instance, True))
+            insert_pp_button.bind(on_press= lambda instance: self.insert_pp_button_handler(instance, True, ParkingPlaceID))
         else:
             insert_pp_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
             insert_pp_button.bind(on_press=self.insert_pp_button_handler)
         self.add_widget(insert_pp_button)
 
-    def insert_pp_button_handler(self, instance, changing=False):
+    def insert_pp_button_handler(self, instance, changing=False, ParkingPlaceID=None):
         data_dict = {}
 
         for i in range(len(self.text_fields)):
             data_dict[Gui.ENG_FIELDS[i]] = self.text_fields[i].text
 
-        if changing == True:
-            self.controller.change_pp(data_dict)
+        if changing == True and ParkingPlaceID != None:
+            self.controller.change_pp(data_dict, ParkingPlaceID)
         else:
             self.controller.add_parking_place_to_repo(data_dict)
 

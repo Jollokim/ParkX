@@ -32,8 +32,8 @@ class ListRepository:
         pp.name = name
         pp.address = address
         pp.zip_code = zip_code
-        pp.number_of_places = number_of_places
-        pp.price_pr_hour = price_pr_hour
+        pp.number_of_places = int(number_of_places)
+        pp.price_pr_hour = int(price_pr_hour)
         pp.picture = picture
         pp.details = details
 
