@@ -139,37 +139,74 @@ class Gui(BoxLayout):
             see_detail_b = Button(text='Se detaljert', size=(1, 1))
             # needs bind to detailed view | FIXED 22/10 - Mathias
             see_detail_b.bind(on_press=lambda instance, id=pp.id:
-                self._create_detailedPP_owner_scene(id))
+            self._create_detailedPP_owner_scene(id))
 
             grid_elements.append(see_detail_b)
 
             for e in grid_elements:
                 grid.add_widget(e)
 
-    def _create_detailedPP_owner_scene(self):
+    def delete_PP_button_handler(self, ParkingPlaceID):
+        self.controller.remove_parkingplace(ParkingPlaceID)
+        self.switch_scene(0)
+
+    def _create_detailedPP_owner_scene(self, ParkingPlaceID):
+        self._clear_scene()
+
         self.orientation = "vertical"
 
-        back_button = Button(text='Cancel', size=(100, 40), size_hint=(None, None))
+        button_box = BoxLayout(orientation="horizontal", spacing=0, size_hint=(1, 0.1))
+        self.add_widget(button_box)
+
+        back_button = Button(text='Tilbake', size=(100, 40), size_hint=(.1, 0), pos_hint={"top": 1})
+        back_button.bind(on_press=lambda instance: self.switch_scene(0))
+        button_box.add_widget(back_button)
+
+        delete_button = Button(text='Slett denne Parkeringsplassen', size=(100, 40), size_hint=(.1, 0),
+                               pos_hint={"top": 1})
+        delete_button.bind(on_press=lambda instance: self.delete_PP_button_handler(ParkingPlaceID))
+
+        button_box.add_widget(delete_button)
+
+        '''
+        back_button = Button(text='Tilbake', size=(100, 40), size_hint=(None, None))
         back_button.bind(on_press=lambda instance: self.switch_scene(0))
         self.add_widget(back_button)
 
+        delete_button = Button(text='Slett', size=(100, 40), size_hint=(None, None))
+        delete_button.bind(on_press=lambda instance: self.delete_PP(ParkingPlaceID))
+        self.add_widget(delete_button)
+        '''
         grid_scheme = GridLayout(cols=2, rows=7)
         self.add_widget(grid_scheme)
 
-        for l in Gui.FIELDS:
-            label = Label(text=l)
-            grid_scheme.add_widget(label)
-            if l == 'picture:':
-                image = AsyncImage(
-                    source='https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_1500_2000_s_f/0000/2019/09/16/3423846276/1/original/10099832.jpg?chk=7ABCCD')
-                grid_scheme.add_widget(image)
-            else:
-                label2 = Label(text='eksempel detaljer')
-                grid_scheme.add_widget(label2)
+        currentParkingPlace = self.controller.get_pp_from_repo(ParkingPlaceID)
 
-        edit_button = Button(text='Edit parking spot', size=(150, 40), size_hint=(None, None))
-        edit_button.bind(on_press=lambda instance: self.switch_scene(1))
-        self.add_widget(edit_button)
+        grid_scheme.add_widget(Label(text="Navn på plassen"))
+        grid_scheme.add_widget(Label(text=currentParkingPlace.name))
+
+        grid_scheme.add_widget(Label(text="Adresse"))
+        grid_scheme.add_widget(Label(text=currentParkingPlace.address))
+
+        grid_scheme.add_widget(Label(text="Postkode"))
+        grid_scheme.add_widget(Label(text=str(currentParkingPlace.zip_code)))
+
+        grid_scheme.add_widget(Label(text="Antall plasser tilgjengelig"))
+        grid_scheme.add_widget(Label(text=str(currentParkingPlace.number_of_places)))
+
+        grid_scheme.add_widget(Label(text="Pris per time"))
+        grid_scheme.add_widget(Label(text=str(currentParkingPlace.price_pr_hour) + " kr/t"))
+
+        grid_scheme.add_widget(Label(text="Bilde av plassen"))
+        grid_scheme.add_widget(AsyncImage(source=currentParkingPlace.picture))
+
+        grid_scheme.add_widget(Label(text="Om parkeringsplassen"))
+        grid_scheme.add_widget(Label(text=currentParkingPlace.details))
+
+        confirm_button = Button(text='Endre', size=(130, 60), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0),
+                                size_hint=(None, None))
+        confirm_button.bind(on_press=lambda instance: self.change_parking_status(ParkingPlaceID))
+        self.add_widget(confirm_button)
 
     def _create_detailedPP_renter_scene(self, ParkingPlaceID):
         self._clear_scene()
