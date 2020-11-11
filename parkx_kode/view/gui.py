@@ -51,7 +51,7 @@ class Gui(BoxLayout):
             self._my_profile_scene
         ]
 
-        self.SCENES[2](0)
+        self.SCENES[5]()
 
     def _create_new_PP_scene(self):
         self.orientation = "vertical"
@@ -140,7 +140,6 @@ class Gui(BoxLayout):
             ]
 
             see_detail_b = Button(text='Se detaljert', size=(1, 1))
-            # needs bind to detailed view | FIXED 22/10 - Mathias
             see_detail_b.bind(on_press=lambda instance: self.switch_scene(2))
 
             grid_elements.append(see_detail_b)
