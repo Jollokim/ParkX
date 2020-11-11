@@ -21,5 +21,7 @@ class Parkingplace:
                    f"Pris: {self.price_pr_hour} Bilde: {self.picture}"
                    f"Detaljer: {self.details} Ledig: {self.available}")
 
+    def toListNameToDetails(self):
+        return [self.name, self.address, self.zip_code, self.number_of_places, self.price_pr_hour, self.picture, self.details]
 
 

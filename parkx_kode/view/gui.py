@@ -51,7 +51,7 @@ class Gui(BoxLayout):
 
         self.SCENES[0]()
 
-    def _create_new_PP_scene(self):
+    def _create_new_PP_scene(self, ParkingPlaceID=None):
         self.orientation = "vertical"
 
         self.spacing = [20, 20]
@@ -63,26 +63,39 @@ class Gui(BoxLayout):
         grid_scheme = GridLayout(cols=2, rows=7)
         self.add_widget(grid_scheme)
 
-        for label in Gui.FIELDS:
-            label = Label(text=label)
-            text_input = TextInput(text='', multiline=True)
+        for i in range(len(Gui.FIELDS)):
+            label = Label(text=Gui.FIELDS[i])
+
+            if ParkingPlaceID != None:
+                PP = self.controller.get_pp_from_repo(ParkingPlaceID)
+                PPList = PP.toListNameToDetails()
+                text_input = TextInput(text=PPList[i], multiline=True)
+            else:
+                text_input = TextInput(text='', multiline=True)
 
             self.text_fields.append(text_input)
 
             grid_scheme.add_widget(label)
             grid_scheme.add_widget(text_input)
 
-        insert_pp_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
-        insert_pp_button.bind(on_press=self.insert_pp_button_handler)
+        if ParkingPlaceID != None:
+            insert_pp_button = Button(text='Endre', size=(100, 40), size_hint=(None, None))
+            insert_pp_button.bind(on_press= lambda instance: self.insert_pp_button_handler(instance, True))
+        else:
+            insert_pp_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
+            insert_pp_button.bind(on_press=self.insert_pp_button_handler)
         self.add_widget(insert_pp_button)
 
-    def insert_pp_button_handler(self, instance):
+    def insert_pp_button_handler(self, instance, changing=False):
         data_dict = {}
 
         for i in range(len(self.text_fields)):
             data_dict[Gui.ENG_FIELDS[i]] = self.text_fields[i].text
 
-        self.controller.add_parking_place_to_repo(data_dict)
+        if changing == True:
+            self.controller.change_pp(data_dict)
+        else:
+            self.controller.add_parking_place_to_repo(data_dict)
 
         self.switch_scene(0)
 
@@ -168,15 +181,6 @@ class Gui(BoxLayout):
 
         button_box.add_widget(delete_button)
 
-        '''
-        back_button = Button(text='Tilbake', size=(100, 40), size_hint=(None, None))
-        back_button.bind(on_press=lambda instance: self.switch_scene(0))
-        self.add_widget(back_button)
-
-        delete_button = Button(text='Slett', size=(100, 40), size_hint=(None, None))
-        delete_button.bind(on_press=lambda instance: self.delete_PP(ParkingPlaceID))
-        self.add_widget(delete_button)
-        '''
         grid_scheme = GridLayout(cols=2, rows=7)
         self.add_widget(grid_scheme)
 
@@ -205,7 +209,7 @@ class Gui(BoxLayout):
 
         confirm_button = Button(text='Endre', size=(130, 60), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0),
                                 size_hint=(None, None))
-        confirm_button.bind(on_press=lambda instance: self.change_parking_status(ParkingPlaceID))
+        confirm_button.bind(on_press=lambda instance: self._create_new_PP_scene(ParkingPlaceID))
         self.add_widget(confirm_button)
 
     def _create_detailedPP_renter_scene(self, ParkingPlaceID):
