@@ -148,7 +148,7 @@ class Gui(BoxLayout):
             for e in grid_elements:
                 grid.add_widget(e)
 
-    def delete_PP(self, ParkingPlaceID):
+    def delete_PP_button_handler(self, ParkingPlaceID):
         self.controller.remove_parkingplace(ParkingPlaceID)
         self.switch_scene(0)
 
