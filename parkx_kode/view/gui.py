@@ -51,7 +51,7 @@ class Gui(BoxLayout):
             self._my_profile_scene
         ]
 
-        self.SCENES[2](1)
+        self.SCENES[2](0)
 
     def _create_new_PP_scene(self):
         self.orientation = "vertical"
@@ -148,16 +148,35 @@ class Gui(BoxLayout):
             for e in grid_elements:
                 grid.add_widget(e)
 
+    def delete_PP(self, ParkingPlaceID):
+        self.controller.remove_parkingplace(ParkingPlaceID)
+        self.switch_scene(0)
+
     def _create_detailedPP_owner_scene(self, ParkingPlaceID):
         self.orientation = "vertical"
 
+        button_box = BoxLayout(orientation="horizontal", spacing=0, size_hint=(1, 0.1))
+        self.add_widget(button_box)
+
+        back_button = Button(text='Tilbake', size=(100, 40), size_hint=(.1, 0), pos_hint={"top": 1})
+        back_button.bind(on_press=lambda instance: self.switch_scene(0))
+        button_box.add_widget(back_button)
+
+        delete_button = Button(text='Slett denne Parkeringsplassen', size=(100, 40), size_hint=(.1, 0),
+                                   pos_hint={"top": 1})
+        delete_button.bind(on_press=lambda instance: self.delete_PP(ParkingPlaceID))
+
+        button_box.add_widget(delete_button)
+
+        '''
         back_button = Button(text='Tilbake', size=(100, 40), size_hint=(None, None))
         back_button.bind(on_press=lambda instance: self.switch_scene(0))
         self.add_widget(back_button)
 
         delete_button = Button(text='Slett', size=(100, 40), size_hint=(None, None))
-        delete_button.bind(on_press=lambda instance: self.controller.remove_parkingplace())
-
+        delete_button.bind(on_press=lambda instance: self.delete_PP(ParkingPlaceID))
+        self.add_widget(delete_button)
+        '''
         grid_scheme = GridLayout(cols=2, rows=7)
         self.add_widget(grid_scheme)
 
@@ -184,7 +203,7 @@ class Gui(BoxLayout):
         grid_scheme.add_widget(Label(text="Om parkeringsplassen"))
         grid_scheme.add_widget(Label(text=currentParkingPlace.details))
 
-        confirm_button = Button(text='Bekreft', size=(130, 60), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0),
+        confirm_button = Button(text='Endre', size=(130, 60), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0),
                                 size_hint=(None, None))
         confirm_button.bind(on_press=lambda instance: self.change_parking_status(ParkingPlaceID))
         self.add_widget(confirm_button)
