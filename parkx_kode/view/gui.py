@@ -69,7 +69,7 @@ class Gui(BoxLayout):
             if ParkingPlaceID != None:
                 PP = self.controller.get_pp_from_repo(ParkingPlaceID)
                 PPList = PP.toListNameToDetails()
-                text_input = TextInput(text=PPList[i], multiline=True)
+                text_input = TextInput(text=str(PPList[i]), multiline=True)
             else:
                 text_input = TextInput(text='', multiline=True)
 
