@@ -29,12 +29,9 @@ class ParkingController:
     def get_all_pp_from_list(self):
         return self.repository.getAllParkingPlaces()
 
-    def change_pp(self, id, p_dict):
-        self.remove_parkingplace(id)
+    def change_pp(self, p_dict):
+        self.repository.changePP(**p_dict)
 
-        p_dict["id"] = id
-
-        self.repository.addNewParkingPlace(**p_dict)
 
     def change_pp_status(self, id):
         obj = self.repository.getPP(id)

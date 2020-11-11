@@ -10,8 +10,6 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import AsyncImage
 
 
-
-
 class Gui(BoxLayout):
     FIELDS = [
         "Navn",
@@ -32,7 +30,7 @@ class Gui(BoxLayout):
         "details"
     ]
 
-    def __init__(self, controller,  **kwargs):
+    def __init__(self, controller, **kwargs):
         super(Gui, self).__init__(**kwargs)
 
         self.controller = controller
@@ -51,7 +49,7 @@ class Gui(BoxLayout):
             self._my_profile_scene
         ]
 
-        self.SCENES[5]()
+        self.SCENES[0]()
 
     def _create_new_PP_scene(self):
         self.orientation = "vertical"
@@ -114,33 +112,34 @@ class Gui(BoxLayout):
 
         button_box.add_widget(go_leggInn_button)
 
-        grid_scheme = GridLayout(cols=1, rows=8)
+        pps_list = self.controller.get_all_pp_from_list()
+
+        grid_scheme = GridLayout(cols=1, rows=len(pps_list))
         self.add_widget(grid_scheme)
 
-        # PPs_list = self.controller.getPPs
-
-        PPs_list = [
-            {"name": "Den store PP", "status": "I bruk", "bilde": "pp.jpg"},
-            {"name": "Den store PP", "status": "I bruk", "bilde": "images/pp.jpg"},
-            {"name": "Den store PP", "status": "I bruk", "bilde": "images/pp.jpg"},
-            {"name": "Den store PP", "status": "I bruk", "bilde": "images/pp.jpg"},
-            {"name": "Den store PP", "status": "I bruk", "bilde": "images/pp.jpg"},
-        ]
-
-        for pp in PPs_list:
+        for pp in pps_list:
             grid = GridLayout(cols=2, rows=2)
             grid_scheme.add_widget(grid)
 
+            status = None
+
+            if pp.parkingStarted != None:
+                status = "I bruk"
+            else:
+                status = "Ikke i bruk"
+
             grid_elements = [
-                Label(text=f"Navn: {pp['name']}"),
-                Label(text=f"Status: {pp['status']}"),
+                Label(text=f"Navn: {pp.name}"),
+                Label(text=f"Status: {status}"),
                 AsyncImage(
-                    source='https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_1500_2000_s_f/0000/2019/09/16/3423846276/1/original/10099832.jpg?chk=7ABCCD'
+                    source=pp.picture
                 )
             ]
 
             see_detail_b = Button(text='Se detaljert', size=(1, 1))
-            see_detail_b.bind(on_press=lambda instance: self.switch_scene(2))
+            # needs bind to detailed view | FIXED 22/10 - Mathias
+            see_detail_b.bind(on_press=lambda instance, id=pp.id:
+            self._create_detailedPP_owner_scene(id))
 
             grid_elements.append(see_detail_b)
 
@@ -152,6 +151,8 @@ class Gui(BoxLayout):
         self.switch_scene(0)
 
     def _create_detailedPP_owner_scene(self, ParkingPlaceID):
+        self._clear_scene()
+
         self.orientation = "vertical"
 
         button_box = BoxLayout(orientation="horizontal", spacing=0, size_hint=(1, 0.1))
@@ -162,8 +163,8 @@ class Gui(BoxLayout):
         button_box.add_widget(back_button)
 
         delete_button = Button(text='Slett denne Parkeringsplassen', size=(100, 40), size_hint=(.1, 0),
-                                   pos_hint={"top": 1})
-        delete_button.bind(on_press=lambda instance: self.delete_PP(ParkingPlaceID))
+                               pos_hint={"top": 1})
+        delete_button.bind(on_press=lambda instance: self.delete_PP_button_handler(ParkingPlaceID))
 
         button_box.add_widget(delete_button)
 
@@ -241,13 +242,14 @@ class Gui(BoxLayout):
         grid_scheme.add_widget(Label(text="Om parkeringsplassen"))
         grid_scheme.add_widget(Label(text=currentParkingPlace.details))
 
-        confirm_button = Button(text='Bekreft', size=(130, 60), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0), size_hint=(None, None))
+        confirm_button = Button(text='Bekreft', size=(130, 60), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0),
+                                size_hint=(None, None))
         confirm_button.bind(on_press=lambda instance: self.change_parking_status(ParkingPlaceID))
         self.add_widget(confirm_button)
 
     def popup_ended_parking(self, parking_id):
 
-        layout = GridLayout(cols=1,rows=2, padding=10)
+        layout = GridLayout(cols=1, rows=2, padding=10)
 
         popup = Popup(title='Parkering stanset', content=layout, size_hint=(None, None), size=(400, 300))
         popup.open()
@@ -258,11 +260,12 @@ class Gui(BoxLayout):
 
         total_parking_price = self.controller.calc_parking_price(parking_id, parkingStopped)
 
-        l = Label(text='Din parkering med navn ' + parkid.name + ' er nå stanset: \n\n Adresse: ' + parkid.address + '\n Parkering startet: ' + parkid.parkingStarted + '\n Parkering stoppet: ' + parkingStopped + '\n Totalpris: ' + total_parking_price + 'kr')
+        l = Label(
+            text='Din parkering med navn ' + parkid.name + ' er nå stanset: \n\n Adresse: ' + parkid.address + '\n Parkering startet: ' + parkid.parkingStarted + '\n Parkering stoppet: ' + parkingStopped + '\n Totalpris: ' + total_parking_price + 'kr')
 
         layout.add_widget(l)
 
-        closeButton = Button(text='Lukk', size_hint=(None, None), size=(350,50))
+        closeButton = Button(text='Lukk', size_hint=(None, None), size=(350, 50))
 
         closeButton.bind(on_press=popup.dismiss)
         layout.add_widget(closeButton)
@@ -278,11 +281,12 @@ class Gui(BoxLayout):
         grid_scheme = GridLayout(cols=1)
         self.add_widget(grid_scheme)
 
-        back_button = Button(text='Hovedmeny',size=(250, 40), size_hint=(None, None))
+        back_button = Button(text='Hovedmeny', size=(250, 40), size_hint=(None, None))
         back_button.bind(on_press=lambda instance: self.switch_scene(5))
         grid_scheme.add_widget(back_button)
 
-        l = Button(text='Aktive parkeringer:',size=(100, 40), size_hint=(1, None), background_color=(0.5,0.5,0.8,0.8), pos_hint={"top": 1})
+        l = Button(text='Aktive parkeringer:', size=(100, 40), size_hint=(1, None),
+                   background_color=(0.5, 0.5, 0.8, 0.8), pos_hint={"top": 1})
         grid_scheme.add_widget(l)
 
         for pp in self.PPs_list:
@@ -304,26 +308,26 @@ class Gui(BoxLayout):
                 for e in grid_elements:
                     grid.add_widget(e)
 
-        l = Button(text='Ledige parkeringer:', size=(100, 40), size_hint=(1, None), background_color=(0.5, 0.5, 0.8, 0.8),pos_hint={"top": 1})
+        l = Button(text='Ledige parkeringer:', size=(100, 40), size_hint=(1, None),
+                   background_color=(0.5, 0.5, 0.8, 0.8), pos_hint={"top": 1})
         grid_scheme.add_widget(l)
-
 
         for pp in self.PPs_list:
 
             if pp.available:
                 grid = GridLayout(cols=5)
                 grid_scheme.add_widget(grid)
-                lei_button = Button(text='      Lei \n Parkering', size_hint=(.55, 1), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0))
-                lei_button.bind(on_press=lambda instance, parkingId=pp.id: self._create_detailedPP_renter_scene(parkingId))
-
-
+                lei_button = Button(text='      Lei \n Parkering', size_hint=(.55, 1),
+                                    background_color=(129 / 255, 205 / 255, 48 / 255, 1.0))
+                lei_button.bind(
+                    on_press=lambda instance, parkingId=pp.id: self._create_detailedPP_renter_scene(parkingId))
 
                 grid_elements = [
                     Label(text=f"Navn: {pp.name}"),
                     Label(text=f"Adresse: {pp.address}"),
                     Label(text=f"Pris: {pp.price_pr_hour} kr/t"),
                     AsyncImage(
-                        source = 'http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg'
+                        source='http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg'
                     ),
                     lei_button
                 ]
@@ -358,7 +362,3 @@ class Gui(BoxLayout):
         opt1_button = Button(text='Hovedmeny', size=(200, 50), size_hint=(None, None))
         opt1_button.bind(on_press=lambda instance: self.switch_scene(5))
         self.add_widget(opt1_button)
-
-
-
-

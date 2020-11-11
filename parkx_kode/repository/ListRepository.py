@@ -8,8 +8,11 @@ class ListRepository:
     def getAllParkingPlaces(self):
         return self.parkingPlaces
 
-    def addNewParkingPlace(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details):
-        new_pp = Parkingplace(id, name, address, zip_code, number_of_places, price_pr_hour, picture, details)
+    def addNewParkingPlace(self, id, name, address, zip_code, number_of_places,
+                           price_pr_hour, picture, details, available=True, parkingStarted=None):
+
+        new_pp = Parkingplace(id, name, address, zip_code, number_of_places,
+                              price_pr_hour, picture, details, available, parkingStarted)
 
         self.parkingPlaces.append(new_pp)
 
@@ -22,17 +25,17 @@ class ListRepository:
                 return pp
 
     # TODO: needs double start for p_dict
-    def changePP(self, id, p_dict):
+    def changePP(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details, available=True,
+                 parkingStarted=None):
         pp = self.getPP(id)
 
-        pp.name = p_dict["name"]
-        pp.address = p_dict["address"]
-        pp.zip_code = p_dict["zip_code"]
-        pp.number_of_places = p_dict["number_of_places"]
-        pp.price_pr_hour = p_dict["price_pr_hour"]
-        pp.picture = p_dict["picture"]
-        pp.details = p_dict["details"]
-        pp.available = p_dict["available"]
+        pp.name = name
+        pp.address = address
+        pp.zip_code = zip_code
+        pp.number_of_places = number_of_places
+        pp.price_pr_hour = price_pr_hour
+        pp.picture = picture
+        pp.details = details
 
     def addPlaceholderPlaces(self):
         pPlace1 = {

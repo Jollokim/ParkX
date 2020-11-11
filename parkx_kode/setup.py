@@ -14,4 +14,5 @@ setup(
         "pytest-mock",
         "mock"
     ],
+    python_requires='>=3.5, <=3.7'
 )
