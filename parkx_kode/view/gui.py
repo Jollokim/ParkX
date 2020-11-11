@@ -51,7 +51,7 @@ class Gui(BoxLayout):
             self._my_profile_scene
         ]
 
-        self.SCENES[5]()
+        self.SCENES[2](1)
 
     def _create_new_PP_scene(self):
         self.orientation = "vertical"
@@ -148,30 +148,46 @@ class Gui(BoxLayout):
             for e in grid_elements:
                 grid.add_widget(e)
 
-    def _create_detailedPP_owner_scene(self):
+    def _create_detailedPP_owner_scene(self, ParkingPlaceID):
         self.orientation = "vertical"
 
-        back_button = Button(text='Cancel', size=(100, 40), size_hint=(None, None))
+        back_button = Button(text='Tilbake', size=(100, 40), size_hint=(None, None))
         back_button.bind(on_press=lambda instance: self.switch_scene(0))
         self.add_widget(back_button)
+
+        delete_button = Button(text='Slett', size=(100, 40), size_hint=(None, None))
+        delete_button.bind(on_press=lambda instance: self.controller.remove_parkingplace())
 
         grid_scheme = GridLayout(cols=2, rows=7)
         self.add_widget(grid_scheme)
 
-        for l in Gui.FIELDS:
-            label = Label(text=l)
-            grid_scheme.add_widget(label)
-            if l == 'picture:':
-                image = AsyncImage(
-                    source='https://g.acdn.no/obscura/API/dynamic/r1/nadp/tr_1500_2000_s_f/0000/2019/09/16/3423846276/1/original/10099832.jpg?chk=7ABCCD')
-                grid_scheme.add_widget(image)
-            else:
-                label2 = Label(text='eksempel detaljer')
-                grid_scheme.add_widget(label2)
+        currentParkingPlace = self.controller.get_pp_from_repo(ParkingPlaceID)
 
-        edit_button = Button(text='Edit parking spot', size=(150, 40), size_hint=(None, None))
-        edit_button.bind(on_press=lambda instance: self.switch_scene(1))
-        self.add_widget(edit_button)
+        grid_scheme.add_widget(Label(text="Navn på plassen"))
+        grid_scheme.add_widget(Label(text=currentParkingPlace.name))
+
+        grid_scheme.add_widget(Label(text="Adresse"))
+        grid_scheme.add_widget(Label(text=currentParkingPlace.address))
+
+        grid_scheme.add_widget(Label(text="Postkode"))
+        grid_scheme.add_widget(Label(text=str(currentParkingPlace.zip_code)))
+
+        grid_scheme.add_widget(Label(text="Antall plasser tilgjengelig"))
+        grid_scheme.add_widget(Label(text=str(currentParkingPlace.number_of_places)))
+
+        grid_scheme.add_widget(Label(text="Pris per time"))
+        grid_scheme.add_widget(Label(text=str(currentParkingPlace.price_pr_hour) + " kr/t"))
+
+        grid_scheme.add_widget(Label(text="Bilde av plassen"))
+        grid_scheme.add_widget(AsyncImage(source=currentParkingPlace.picture))
+
+        grid_scheme.add_widget(Label(text="Om parkeringsplassen"))
+        grid_scheme.add_widget(Label(text=currentParkingPlace.details))
+
+        confirm_button = Button(text='Bekreft', size=(130, 60), background_color=(129 / 255, 205 / 255, 48 / 255, 1.0),
+                                size_hint=(None, None))
+        confirm_button.bind(on_press=lambda instance: self.change_parking_status(ParkingPlaceID))
+        self.add_widget(confirm_button)
 
     def _create_detailedPP_renter_scene(self, ParkingPlaceID):
         self._clear_scene()
