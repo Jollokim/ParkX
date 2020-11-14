@@ -1,5 +1,8 @@
-import pytest
+from datetime import datetime, date
 
+import pytest
+from mock import patch
+from freezegun import freeze_time
 from parkx_kode.model.Parkingplace import Parkingplace
 
 
@@ -82,8 +85,11 @@ class Test_parkingplace_class:
         assert statusShouldBeTrueAgain
 
     def test_savesDateTimeNowInObject(self, fakeParkingPlace):
-        pass
+        freezer = freeze_time('2019-12-12 20:00:00')
+        freezer.start()
+        fakeParkingPlace.updateParkingPlaceStatus()
+        freezer.stop()
+        assert fakeParkingPlace.parkingStarted == "20:00:00"
 
     def test_calculatesParkingPlacePriceCorrectly(self, fakeParkingPlace):
-
         pass
