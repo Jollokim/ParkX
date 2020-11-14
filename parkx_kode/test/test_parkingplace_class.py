@@ -66,3 +66,17 @@ class Test_parkingplace_class:
         expected = "ID: 1 Name: TestPlass Address: Adresseveien1 " \
                    "PostAdr: 1234 Antall: 1Pris: 50 Bilde: NULLDetaljer: Har lader Ledig: True"
         assert actual == expected
+
+    def test_updatesParkingPlaceStatusCorrectly(self, fakeParkingPlace):
+        isTrueByDefault = fakeParkingPlace.available
+        assert isTrueByDefault
+
+        fakeParkingPlace.updateParkingPlaceStatus()
+        statusShouldNowBeFale = fakeParkingPlace.available
+
+        assert statusShouldNowBeFale == False
+
+        fakeParkingPlace.updateParkingPlaceStatus()
+        statusShouldBeTrueAgain = fakeParkingPlace.available
+
+        assert statusShouldBeTrueAgain
