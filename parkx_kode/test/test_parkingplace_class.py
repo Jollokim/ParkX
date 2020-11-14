@@ -72,14 +72,17 @@ class Test_parkingplace_class:
         assert isTrueByDefault
 
         fakeParkingPlace.updateParkingPlaceStatus()
-        statusShouldNowBeFale = fakeParkingPlace.available
+        statusShouldNowBeFalse = fakeParkingPlace.available
 
-        assert statusShouldNowBeFale == False
+        assert statusShouldNowBeFalse == False
 
         fakeParkingPlace.updateParkingPlaceStatus()
         statusShouldBeTrueAgain = fakeParkingPlace.available
 
         assert statusShouldBeTrueAgain
+
+    def test_savesDateTimeNowInObject(self, fakeParkingPlace):
+        pass
 
     def test_calculatesParkingPlacePriceCorrectly(self, fakeParkingPlace):
 
