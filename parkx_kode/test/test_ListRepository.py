@@ -42,7 +42,7 @@ class TestListRepository:
     def test_changesParkingPlaceCorrectly(self, repository, p_dict2):
         p_dict2["id"] = 1
 
-        repository.changePP(**p_dict2)
+        repository.changePP(p_dict2)
 
         changedFirstInListParkingPlace = repository.getPP(1)
 

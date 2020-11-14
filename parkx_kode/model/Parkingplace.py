@@ -24,4 +24,14 @@ class Parkingplace:
     def toListNameToDetails(self):
         return [self.name, self.address, self.zip_code, self.number_of_places, self.price_pr_hour, self.picture, self.details]
 
+    def updateAttributes(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details, available, parkingStarted):
+        self.id = id
+        self.name = name
+        self.address = address
+        self.zip_code = zip_code
+        self.number_of_places = int(number_of_places)
+        self.price_pr_hour = int(price_pr_hour)
+        self.picture = picture
+        self.details = details
+
 
