@@ -87,9 +87,21 @@ class Test_parkingplace_class:
     def test_savesDateTimeNowInObject(self, fakeParkingPlace):
         freezer = freeze_time('2019-12-12 20:00:00')
         freezer.start()
+
         fakeParkingPlace.updateParkingPlaceStatus()
+
         freezer.stop()
+
         assert fakeParkingPlace.parkingStarted == "20:00:00"
 
     def test_calculatesParkingPlacePriceCorrectly(self, fakeParkingPlace):
-        pass
+        freezer = freeze_time('2019-12-12 20:00:00')
+        freezer.start()
+
+        fakeParkingPlace.updateParkingPlaceStatus()
+
+        freezer.stop()
+        expectedToPay = float(fakeParkingPlace.price_pr_hour)
+        actualPrice = float(fakeParkingPlace.calculatePriceForParkingPeriod("21:00:00"))
+
+        assert expectedToPay == actualPrice
