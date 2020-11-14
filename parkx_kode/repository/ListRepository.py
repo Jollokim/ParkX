@@ -33,6 +33,11 @@ class ListRepository:
         parkingPlaceObject = self.getPP(id)
         parkingPlaceObject.updateParkingPlaceStatus()
 
+    def calculatePriceForParkingPeriod(self, id, parkingStopped):
+        parkingPlaceObject = self.getPP(id)
+        calculatedPrice = parkingPlaceObject.calculatePriceForParkingPeriod(parkingStopped)
+        return calculatedPrice
+
     def addPlaceholderPlaces(self):
         pPlace1 = {
             "id": 0,

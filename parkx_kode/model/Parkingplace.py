@@ -22,9 +22,11 @@ class Parkingplace:
                    f"Detaljer: {self.details} Ledig: {self.available}")
 
     def toListNameToDetails(self):
-        return [self.name, self.address, self.zip_code, self.number_of_places, self.price_pr_hour, self.picture, self.details]
+        return [self.name, self.address, self.zip_code, self.number_of_places, self.price_pr_hour, self.picture,
+                self.details]
 
-    def updateAttributes(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details, available, parkingStarted):
+    def updateAttributes(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details,
+                         available, parkingStarted):
         self.id = id
         self.name = name
         self.address = address
@@ -40,3 +42,15 @@ class Parkingplace:
             self.parkingStarted = datetime.datetime.now().strftime("%H:%M:%S")
         else:
             self.available = True
+
+    def calculatePriceForParkingPeriod(self, parkingStopped):
+        FMT = '%H:%M:%S'
+        parkedTimeDelta = datetime.datetime.strptime(parkingStopped, FMT) \
+                          - datetime.datetime.strptime(self.parkingStarted, FMT)
+
+        ParkedTimeSec = parkedTimeDelta.total_seconds()
+        ParkedTimeHour = (ParkedTimeSec / 3600)
+
+        totalPrice = ParkedTimeHour * self.price_pr_hour
+        totalPriceTwoDec = str("{:.2f}".format(totalPrice))
+        return totalPriceTwoDec

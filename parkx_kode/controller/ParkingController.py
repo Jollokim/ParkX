@@ -1,8 +1,3 @@
-import datetime
-
-from parkx_kode.model.Parkingplace import Parkingplace
-from parkx_kode.repository.ListRepository import ListRepository
-
 
 class ParkingController:
     def __init__(self, gui, repository):
@@ -36,20 +31,9 @@ class ParkingController:
     def change_pp_status(self, id):
         self.repository.updateParkingPlaceStatus(id)
 
-    def calc_parking_price(self, parking_id, parkingStopped):
-
-        parkingPlace = self.repository.getPP(parking_id)
-
-        FMT = '%H:%M:%S'
-        parkedTimeDelta = datetime.datetime.strptime(parkingStopped, FMT) \
-               - datetime.datetime.strptime(parkingPlace.parkingStarted, FMT)
-
-        ParkedTimeSec = parkedTimeDelta.total_seconds()
-        ParkedTimeHour = (ParkedTimeSec/3600)
-
-        totalPrice = ParkedTimeHour * parkingPlace.price_pr_hour
-        totalPriceTwoDec = str("{:.2f}".format(totalPrice))
-        return totalPriceTwoDec
+    def calc_parking_price(self, id, parkingStopped):
+        calculatedPrice = self.repository.calculatePriceForParkingPeriod(id, parkingStopped)
+        return calculatedPrice
 
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
