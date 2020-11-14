@@ -39,14 +39,31 @@ class TestListRepository:
 
         assert pp.id == 2
 
-    def test_changesParkingPlaceCorrectly(self, repository, p_dict2):
-        p_dict2["id"] = 1
+    @pytest.fixture
+    def p_dictFromUser(self):
+        dict = {
+            "id": 2,
+            "name": "kalle balle",
+            "address": "Kalle balle veien 5",
+            "zip_code": 2013,
+            "number_of_places": 2,
+            "price_pr_hour": 25,
+            "picture": "adresse.com",
+            "details": "Dårlig utsikt men nær sentrum!"
+        }
+        return dict
 
-        repository.changePP(p_dict2)
+    def test_changesParkingPlaceCorrectly(self, repository, p_dictFromUser):
+        p_dictFromUser["id"] = 1
+
+        repository.changePP(p_dictFromUser)
 
         changedFirstInListParkingPlace = repository.getPP(1)
+        listOfParkingPlaceObjectValues = list(changedFirstInListParkingPlace.__dict__.values())
+        listOfParkingPlaceDictionary = list(p_dictFromUser.values())
 
-        assert changedFirstInListParkingPlace.__dict__ == p_dict2
+        for i in range(len(listOfParkingPlaceDictionary)):
+            assert listOfParkingPlaceObjectValues[i] == listOfParkingPlaceDictionary[i]
 
     def test_createsPlaceHoldersCorrectly(self, emptyRepo):
         emptyRepo.addPlaceholderPlaces()

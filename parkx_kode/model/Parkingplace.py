@@ -25,8 +25,7 @@ class Parkingplace:
         return [self.name, self.address, self.zip_code, self.number_of_places, self.price_pr_hour, self.picture,
                 self.details]
 
-    def updateAttributes(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details,
-                         available, parkingStarted):
+    def updateAttributes(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details):
         self.id = id
         self.name = name
         self.address = address
