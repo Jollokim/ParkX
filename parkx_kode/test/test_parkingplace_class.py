@@ -80,3 +80,7 @@ class Test_parkingplace_class:
         statusShouldBeTrueAgain = fakeParkingPlace.available
 
         assert statusShouldBeTrueAgain
+
+    def test_calculatesParkingPlacePriceCorrectly(self, fakeParkingPlace):
+
+        pass
