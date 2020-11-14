@@ -17,10 +17,6 @@ class TestListRepository:
     def test_addsNewParkingPlaceCorrectly(self, p_dict1, repository):
         repository.addNewParkingPlace(**p_dict1)
 
-        # Adding fields that are being added in ParkingPlace constructor
-        p_dict1["available"] = True
-        p_dict1["parkingStarted"] = None
-
         repoParkingPlaceDict = repository.getPP(p_dict1["id"]).__dict__
 
         assert repoParkingPlaceDict == p_dict1
@@ -44,8 +40,6 @@ class TestListRepository:
         assert pp.id == 2
 
     def test_changesParkingPlaceCorrectly(self, repository, p_dict2):
-        # p_dict2["available"] = True
-        # p_dict2["parkingStarted"] = None
         p_dict2["id"] = 1
 
         repository.changePP(**p_dict2)

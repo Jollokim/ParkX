@@ -33,7 +33,6 @@ class ParkingController:
         p_dict["id"] = id
         self.repository.changePP(**p_dict)
 
-
     def change_pp_status(self, id):
         obj = self.repository.getPP(id)
 
