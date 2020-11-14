@@ -34,4 +34,9 @@ class Parkingplace:
         self.picture = picture
         self.details = details
 
-
+    def updateParkingPlaceStatus(self):
+        if self.available:
+            self.available = False
+            self.parkingStarted = datetime.datetime.now().strftime("%H:%M:%S")
+        else:
+            self.available = True

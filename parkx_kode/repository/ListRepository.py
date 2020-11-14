@@ -29,6 +29,10 @@ class ListRepository:
         pp = self.getPP(parkingPlaceId)
         pp.updateAttributes(**p_dict)
 
+    def updateParkingPlaceStatus(self, id):
+        parkingPlaceObject = self.getPP(id)
+        parkingPlaceObject.updateParkingPlaceStatus()
+
     def addPlaceholderPlaces(self):
         pPlace1 = {
             "id": 0,

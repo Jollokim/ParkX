@@ -34,13 +34,7 @@ class ParkingController:
         self.repository.changePP(p_dict)
 
     def change_pp_status(self, id):
-        obj = self.repository.getPP(id)
-
-        if obj.available:
-            obj.available = False
-            obj.parkingStarted = datetime.datetime.now().strftime("%H:%M:%S")
-        else:
-            obj.available = True
+        self.repository.updateParkingPlaceStatus(id)
 
     def calc_parking_price(self, parking_id, parkingStopped):
 
