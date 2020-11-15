@@ -89,15 +89,20 @@ class Gui(BoxLayout):
         self.add_widget(insert_pp_button)
 
     def insert_pp_button_handler(self, instance, changing=False, ParkingPlaceID=None):
-        data_dict = {}
+        try:
+            data_dict = {}
 
-        for i in range(len(self.text_fields)):
-            data_dict[Gui.ENG_FIELDS[i]] = self.text_fields[i].text
+            for i in range(len(self.text_fields)):
+                data_dict[Gui.ENG_FIELDS[i]] = self.text_fields[i].text
 
-        if changing == True and ParkingPlaceID != None:
-            self.controller.change_pp(data_dict, ParkingPlaceID)
-        else:
-            self.controller.add_parking_place_to_repo(data_dict)
+            if changing == True and ParkingPlaceID != None:
+                self.controller.change_pp(data_dict, ParkingPlaceID)
+            else:
+                self.controller.add_parking_place_to_repo(data_dict)
+        except ValueError:
+            newPopup = Popup(title='An error occured', content=Label(text='An error occured when processing data, check if correct data was given in the fields'))
+            newPopup.open()
+            self._create_new_PP_scene(ParkingPlaceID)
 
         self.switch_scene(0)
 

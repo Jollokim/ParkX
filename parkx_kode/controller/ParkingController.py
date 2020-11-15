@@ -12,7 +12,7 @@ class ParkingController:
         p_dict["id"] = self.counter
 
         self.increaseCounter()
-
+        self.validateUserInput(p_dict)
         self.repository.addNewParkingPlace(**p_dict)
 
     def remove_parkingplace(self, id):
@@ -26,6 +26,7 @@ class ParkingController:
 
     def change_pp(self, p_dict, id):
         p_dict["id"] = id
+        self.validateUserInput(p_dict)
         self.repository.changePP(p_dict)
 
     def change_pp_status(self, id):
@@ -36,7 +37,17 @@ class ParkingController:
         return calculatedPrice
 
     def validateUserInput(self, p_dict):
-        pass
+        try:
+            int(p_dict["id"])
+            str(p_dict["name"])
+            str(p_dict["address"])
+            str(p_dict["zip_code"])
+            int(p_dict["number_of_places"])
+            int(p_dict["price_pr_hour"])
+            str(p_dict["picture"])
+            str(p_dict["details"])
+        except ValueError:
+            raise ValueError
 
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
