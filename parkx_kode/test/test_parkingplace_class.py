@@ -3,6 +3,7 @@ from datetime import datetime, date
 import pytest
 from mock import patch
 from freezegun import freeze_time
+
 from parkx_kode.model.Parkingplace import Parkingplace
 
 
@@ -95,6 +96,8 @@ class Test_parkingplace_class:
         assert fakeParkingPlace.parkingStarted == "20:00:00"
 
     def test_calculatesParkingPlacePriceCorrectly(self, fakeParkingPlace):
+        # freezer sets the time to 20-19-12-12 20 o'clock, used to
+        # test the datetime.now() inside of updateParkingPlaceStatus()
         freezer = freeze_time('2019-12-12 20:00:00')
         freezer.start()
 

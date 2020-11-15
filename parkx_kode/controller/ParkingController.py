@@ -35,6 +35,9 @@ class ParkingController:
         calculatedPrice = self.repository.calculatePriceForParkingPeriod(id, parkingStopped)
         return calculatedPrice
 
+    def validateUserInput(self, p_dict):
+        pass
+
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
 

@@ -65,22 +65,24 @@ class Gui(BoxLayout):
 
         for i in range(len(Gui.FIELDS)):
             label = Label(text=Gui.FIELDS[i])
-
-            if ParkingPlaceID != None:
-                PP = self.controller.get_pp_from_repo(ParkingPlaceID)
-                PPList = PP.toListNameToDetails()
-                text_input = TextInput(text=str(PPList[i]), multiline=True)
-            else:
-                text_input = TextInput(text='', multiline=True)
+            text_input = TextInput(text='', multiline=True)
 
             self.text_fields.append(text_input)
-
             grid_scheme.add_widget(label)
             grid_scheme.add_widget(text_input)
 
-        if ParkingPlaceID != None:
+        if ParkingPlaceID is not None:
+            pp = self.controller.get_pp_from_repo(ParkingPlaceID)
+            ppDict = pp.__dict__
+            ppAttributeList = list(ppDict.values())[1:-2]
+
+            for i in range(len(self.text_fields)):
+                self.text_fields[i].text = str(ppAttributeList[i])
+
+        if ParkingPlaceID is not None:
             insert_pp_button = Button(text='Endre', size=(100, 40), size_hint=(None, None))
-            insert_pp_button.bind(on_press= lambda instance: self.insert_pp_button_handler(instance, True, ParkingPlaceID))
+            insert_pp_button.bind(
+                on_press=lambda instance: self.insert_pp_button_handler(instance, True, ParkingPlaceID))
         else:
             insert_pp_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
             insert_pp_button.bind(on_press=self.insert_pp_button_handler)
