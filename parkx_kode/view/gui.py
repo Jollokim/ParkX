@@ -99,12 +99,26 @@ class Gui(BoxLayout):
                 self.controller.change_pp(data_dict, ParkingPlaceID)
             else:
                 self.controller.add_parking_place_to_repo(data_dict)
+
+            self.switch_scene(0)
         except ValueError:
-            newPopup = Popup(title='An error occured', content=Label(text='An error occured when processing data, check if correct data was given in the fields'))
-            newPopup.open()
+            self.createPopup()
             self._create_new_PP_scene(ParkingPlaceID)
 
-        self.switch_scene(0)
+    def createPopup(self):
+        box = BoxLayout(orientation='vertical', padding=(10))
+        popupLabel = Label(text='An error occured when processing data, check if correct data was given in the '
+                                'fields')
+        newPopup = Popup(title='An error occured', size_hint=(None, None), size=(650, 200), auto_dismiss=False)
+
+        popupButton = Button(text="Ok Understood")
+        popupButton.bind(on_press=newPopup.dismiss)
+
+        box.add_widget(popupLabel)
+        box.add_widget(popupButton)
+
+        newPopup.add_widget(box)
+        newPopup.open()
 
     def _clear_scene(self):
         self.clear_widgets()

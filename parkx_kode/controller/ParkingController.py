@@ -12,7 +12,7 @@ class ParkingController:
         p_dict["id"] = self.counter
 
         self.increaseCounter()
-        self.validateUserInput(p_dict)
+        p_dict = self.validateUserInput(p_dict)
         self.repository.addNewParkingPlace(**p_dict)
 
     def remove_parkingplace(self, id):
@@ -26,7 +26,7 @@ class ParkingController:
 
     def change_pp(self, p_dict, id):
         p_dict["id"] = id
-        self.validateUserInput(p_dict)
+        p_dict = self.validateUserInput(p_dict)
         self.repository.changePP(p_dict)
 
     def change_pp_status(self, id):
@@ -38,14 +38,16 @@ class ParkingController:
 
     def validateUserInput(self, p_dict):
         try:
-            int(p_dict["id"])
-            str(p_dict["name"])
-            str(p_dict["address"])
-            str(p_dict["zip_code"])
-            int(p_dict["number_of_places"])
-            int(p_dict["price_pr_hour"])
-            str(p_dict["picture"])
-            str(p_dict["details"])
+            p_dict["id"] = int(p_dict["id"])
+            p_dict["name"] = str(p_dict["name"])
+            p_dict["address"] = str(p_dict["address"])
+            p_dict["zip_code"] = str(p_dict["zip_code"])
+            p_dict["number_of_places"] = int(p_dict["number_of_places"])
+            p_dict["price_pr_hour"] = p_dict["price_pr_hour"].replace(",", ".")
+            p_dict["price_pr_hour"] = float(p_dict["price_pr_hour"])
+            p_dict["picture"] = str(p_dict["picture"])
+            p_dict["details"] = str(p_dict["details"])
+            return p_dict
         except ValueError:
             raise ValueError
 

@@ -8,8 +8,8 @@ class Parkingplace:
         self.name = name
         self.address = address
         self.zip_code = zip_code
-        self.number_of_places = int(number_of_places)
-        self.price_pr_hour = int(price_pr_hour)
+        self.number_of_places = number_of_places
+        self.price_pr_hour = price_pr_hour
         self.picture = picture
         self.details = details
         self.available = available
@@ -26,8 +26,13 @@ class Parkingplace:
         self.name = name
         self.address = address
         self.zip_code = zip_code
-        self.number_of_places = int(number_of_places)
-        self.price_pr_hour = int(price_pr_hour)
+        self.number_of_places = number_of_places
+
+        if price_pr_hour % 1 == 0:
+            self.price_pr_hour = int(price_pr_hour)
+        else:
+            self.price_pr_hour = price_pr_hour
+
         self.picture = picture
         self.details = details
 
