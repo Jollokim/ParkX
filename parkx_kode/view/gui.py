@@ -49,7 +49,7 @@ class Gui(BoxLayout):
             self._my_profile_scene
         ]
 
-        self.SCENES[0]()
+        self.SCENES[5]()
 
     def _create_new_PP_scene(self, ParkingPlaceID=None):
         self._clear_scene()
@@ -331,9 +331,7 @@ class Gui(BoxLayout):
                     Label(text=f"Navn: {pp.name}"),
                     Label(text=f"Adresse: {pp.address}"),
                     Label(text=f"Pris: {pp.price_pr_hour} kr/t"),
-                    AsyncImage(
-                        source='http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg'
-                    ),
+                    AsyncImage(source=pp.picture),
                     lei_button
                 ]
 
