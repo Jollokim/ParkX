@@ -9,7 +9,7 @@ from parkx_kode.model.Parkingplace import Parkingplace
 
 @pytest.fixture
 def fakeParkingPlace():
-    pPlace = Parkingplace(1, "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
+    pPlace = Parkingplace(1, "TestPlass", "Adresseveien1", "1234", 1, "50", "NULL", "Har lader")
     return pPlace
 
 

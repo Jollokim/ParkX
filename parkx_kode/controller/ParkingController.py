@@ -43,7 +43,8 @@ class ParkingController:
             p_dict["address"] = str(p_dict["address"])
             p_dict["zip_code"] = str(p_dict["zip_code"])
             p_dict["number_of_places"] = int(p_dict["number_of_places"])
-            p_dict["price_pr_hour"] = p_dict["price_pr_hour"].replace(",", ".")
+            if isinstance(p_dict["price_pr_hour"], str):
+                p_dict["price_pr_hour"] = p_dict["price_pr_hour"].replace(",", ".")
             p_dict["price_pr_hour"] = float(p_dict["price_pr_hour"])
             p_dict["picture"] = str(p_dict["picture"])
             p_dict["details"] = str(p_dict["details"])
