@@ -54,9 +54,8 @@ class Parkingplace:
         totalPrice = ParkedTimeHour * self.price_pr_hour
         totalPriceTwoDec = str("{:.2f}".format(totalPrice))
 
-
         return totalPriceTwoDec
-
 
     def reset_parkingStarted(self):
         self.parkingStarted = None
+
