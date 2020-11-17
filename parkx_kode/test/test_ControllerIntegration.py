@@ -1,4 +1,6 @@
 import pytest
+from freezegun import freeze_time
+
 from parkx_kode.controller.ParkingController import ParkingController
 from parkx_kode.repository.ListRepository import ListRepository
 
@@ -90,9 +92,36 @@ class TestControllerIntegration:
         for dictKey in p_dictFromUserInput.keys():
             assert changedObjectDict.get(dictKey) == p_dictFromUserInput.get(dictKey)
 
-    def test_controllerSendsRequestToChangeParkingPlaceStatusCorrectly(self, controller):
-        controller.repository.addPlaceholderPlaces()
+    def test_controllerSendsRequestToChangeParkingPlaceStatusAndSavesStartDateCorrectly(self, controller):
+        #sets the time to 12/12/2020 20 o'clock
+        freezer = freeze_time('2019-12-12 20:00:00')
+        freezer.start()
 
+        controller.repository.addPlaceholderPlaces()
+        #argument is parkingplace id
+
+        changedObject = controller.get_pp_from_repo(2)
+        beforeUpdateExpectedFalse = True
+        defaultParkingStartedValue = None
+
+        assert changedObject.available == beforeUpdateExpectedFalse
+        assert changedObject.parkingStarted == defaultParkingStartedValue
+
+        controller.change_pp_status(2)
+
+        expectedFalseAfterUpdate = False
+        expectedParkingStartedValueAfterUpdate = "20:00:00"
+
+        assert changedObject.available == expectedFalseAfterUpdate
+        assert changedObject.parkingStarted == expectedParkingStartedValueAfterUpdate
+
+        freezer.stop()
+
+    def test_controllerReturnsCalculatedPriceForParkingBasedOnTimePassedSinceParkingStartCorrectly(self, controller):
+        controller.repository.addPlaceholderPlaces()
+        testingObject = controller.get_pp_from_repo(2)
+
+        testingObject.parkingStarted = "20:00:00"
 
 
 
