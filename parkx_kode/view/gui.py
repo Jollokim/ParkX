@@ -292,8 +292,13 @@ class Gui(BoxLayout):
 
         closeButton = Button(text='Lukk', size_hint=(None, None), size=(350, 50))
 
-        closeButton.bind(on_press=popup.dismiss)
+        # closeButton.bind(on_press=popup.dismiss)
+        closeButton.bind(on_press=lambda instance: self.pop_ended_parking_close_button_handler(parking_id, popup))
         layout.add_widget(closeButton)
+
+    def pop_ended_parking_close_button_handler(self, parking_id, popup):
+        popup.dismiss()
+        self.controller.reset_parking_started(parking_id)
 
     def change_parking_status(self, parking_id):
 

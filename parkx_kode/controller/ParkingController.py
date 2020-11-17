@@ -51,6 +51,10 @@ class ParkingController:
         except ValueError:
             raise ValueError
 
+
+    def reset_parking_started(self, parking_id):
+        self.repository.getPP(parking_id).reset_parkingStarted()
+
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
 
