@@ -18,8 +18,9 @@ class TestControllerIntegration:
         assert actual == expectedAfterAddingPlaceHolders and \
                len(repository.parkingPlaces) == expectedAfterAddingPlaceHolders
 
-    def test_receivesDictionaryFromUserSavesItInRepositoryAndCreatesTheObjectProperly(self, p_dictFromUserInput,
-                                                                                      controller):
+        assert controller.get_all_pp_from_list() == repository.parkingPlaces
+
+    def test_receivesDictionaryFromUserSavesItInRepositoryAndCreatesTheObjectProperly(self, p_dictFromUserInput, controller):
         lengthBeforeAddCall = len(controller.repository.parkingPlaces)
         controller.add_parking_place_to_repo(p_dictFromUserInput)
 
@@ -41,9 +42,12 @@ class TestControllerIntegration:
 
         assert controller.counter == 5
 
-    def test_receivesIdFromUserAndDeletesCorrectParkingPlaceObject(self, controller, repositoryWithPlaceholders):
-        controller.repository = repositoryWithPlaceholders
-        #user id from UI
+    def test_receivesIdFromUserAndDeletesCorrectParkingPlaceObject(self, controller):
+        controller.repository.addPlaceholderPlaces()
+        listLength = len(controller.get_all_pp_from_list())
+        assert listLength == 3
+
+        # user id from UI
         id = 2
 
         objectStillInList = False
@@ -54,6 +58,45 @@ class TestControllerIntegration:
         assert objectStillInList
 
         controller.remove_parkingplace(id)
+
+        objectStillInList = False
+
+        for object in controller.get_all_pp_from_list():
+            if object.id == id:
+                objectStillInList = True
+
+        assert objectStillInList == False
+
+        listLength = len(controller.get_all_pp_from_list())
+        assert listLength == 2
+
+    def test_controllerGetsSpecificParkingPlaceWithId(self, controller):
+        controller.repository.addPlaceholderPlaces()
+        id = 2
+        returnedObjectFromRepo = controller.get_pp_from_repo(id)
+
+        assert returnedObjectFromRepo.id == id
+
+    def test_controllerChangesParkingPlaceAttributesProperly(self, controller, p_dictFromUserInput):
+        controller.repository.addPlaceholderPlaces()
+
+        #simulates the user sending new schema to modify his parkingplace offer
+        #Here we will change the current object with id = 2 to our fixture dict that simulates user input
+        controller.change_pp(p_dictFromUserInput, 2)
+
+        changedObject = controller.get_pp_from_repo(2)
+        changedObjectDict = changedObject.__dict__
+
+        for dictKey in p_dictFromUserInput.keys():
+            assert changedObjectDict.get(dictKey) == p_dictFromUserInput.get(dictKey)
+
+    def test_controllerSendsRequestToChangeParkingPlaceStatusCorrectly(self, controller):
+        controller.repository.addPlaceholderPlaces()
+
+
+
+
+
 
 # TODO: teste en ikke happy path
 
@@ -80,10 +123,3 @@ def repository():
 @pytest.fixture
 def controller(repository):
     return ParkingController(None, repository)
-
-
-@pytest.fixture()
-def repositoryWithPlaceholders():
-    listRepo = ListRepository()
-    listRepo.addPlaceholderPlaces()
-    return listRepo
