@@ -27,11 +27,7 @@ class Parkingplace:
         self.address = address
         self.zip_code = zip_code
         self.number_of_places = number_of_places
-# TODO: i kontroller
-        if price_pr_hour % 1 == 0:
-            self.price_pr_hour = int(price_pr_hour)
-        else:
-            self.price_pr_hour = price_pr_hour
+        self.price_pr_hour = float(price_pr_hour)
 
         self.picture = picture
         self.details = details

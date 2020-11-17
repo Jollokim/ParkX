@@ -119,12 +119,15 @@ class TestControllerIntegration:
 
     def test_controllerReturnsCalculatedPriceForParkingBasedOnTimePassedSinceParkingStartCorrectly(self, controller):
         controller.repository.addPlaceholderPlaces()
-        testingObject = controller.get_pp_from_repo(2)
+        id = 2
+        testingObject = controller.get_pp_from_repo(id)
 
         testingObject.parkingStarted = "20:00:00"
 
-
-
+        calculatedPrice = controller.calc_parking_price(id, "21:00:00")
+        calculatedPrice = float(calculatedPrice)
+        expectedPrice = testingObject.price_pr_hour
+        assert calculatedPrice == expectedPrice
 
 
 # TODO: teste en ikke happy path

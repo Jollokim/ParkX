@@ -9,7 +9,7 @@ from parkx_kode.model.Parkingplace import Parkingplace
 
 @pytest.fixture
 def fakeParkingPlace():
-    pPlace = Parkingplace(1, "TestPlass", "Adresseveien1", "1234", 1, "50", "NULL", "Har lader")
+    pPlace = Parkingplace(1, "TestPlass", "Adresseveien1", "1234", 1, float(50), "NULL", "Har lader")
     return pPlace
 
 
@@ -41,7 +41,7 @@ class Test_parkingplace_class:
         assert actual == expected
 
     def test_parameters_are_used_in_constructor_correct_price(self, fakeParkingPlace):
-        expected = 50
+        expected = float(50)
         actual = fakeParkingPlace.price_pr_hour
         assert actual == expected
 
@@ -68,7 +68,7 @@ class Test_parkingplace_class:
     def test_entireObjectCreatedProperly(self, fakeParkingPlace):
         actual = fakeParkingPlace.toString()
         expected = "ID: 1 Name: TestPlass Address: Adresseveien1 " \
-                   "PostAdr: 1234 Antall: 1Pris: 50 Bilde: NULLDetaljer: Har lader Ledig: True"
+                   "PostAdr: 1234 Antall: 1Pris: 50.0 Bilde: NULLDetaljer: Har lader Ledig: True"
         assert actual == expected
 
     def test_updatesParkingPlaceStatusCorrectly(self, fakeParkingPlace):
