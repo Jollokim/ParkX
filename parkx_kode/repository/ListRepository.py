@@ -81,11 +81,11 @@ class ListRepository:
 
         self.addNewParkingPlace(**pPlace3)
 
-        def add_payment(self, pay_dict):
-            self.payments.append(pay_dict)
+    def add_payment(self, pay_dict):
+        self.payments.append(pay_dict)
 
-        def remove_all_payments(self):
-            self.payments.clear()
+    def remove_all_payments(self):
+        self.payments.clear()
 
-        def get_all_payments(self):
-            return self.payments
+    def get_all_payments(self):
+        return self.payments
