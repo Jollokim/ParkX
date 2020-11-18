@@ -1,11 +1,15 @@
+from datetime import datetime, date
+
 import pytest
+from mock import patch
+from freezegun import freeze_time
 
 from parkx_kode.model.Parkingplace import Parkingplace
 
 
 @pytest.fixture
 def fakeParkingPlace():
-    pPlace = Parkingplace(1, "TestPlass", "Adresseveien1", "1234", "1", "50", "NULL", "Har lader")
+    pPlace = Parkingplace(1, "TestPlass", "Adresseveien1", "1234", 1, float(50), "NULL", "Har lader")
     return pPlace
 
 
@@ -37,7 +41,7 @@ class Test_parkingplace_class:
         assert actual == expected
 
     def test_parameters_are_used_in_constructor_correct_price(self, fakeParkingPlace):
-        expected = 50
+        expected = float(50)
         actual = fakeParkingPlace.price_pr_hour
         assert actual == expected
 
@@ -64,5 +68,43 @@ class Test_parkingplace_class:
     def test_entireObjectCreatedProperly(self, fakeParkingPlace):
         actual = fakeParkingPlace.toString()
         expected = "ID: 1 Name: TestPlass Address: Adresseveien1 " \
-                   "PostAdr: 1234 Antall: 1Pris: 50 Bilde: NULLDetaljer: Har lader Ledig: True"
+                   "PostAdr: 1234 Antall: 1Pris: 50.0 Bilde: NULLDetaljer: Har lader Ledig: True"
         assert actual == expected
+
+    def test_updatesParkingPlaceStatusCorrectly(self, fakeParkingPlace):
+        isTrueByDefault = fakeParkingPlace.available
+        assert isTrueByDefault
+
+        fakeParkingPlace.updateParkingPlaceStatus()
+        statusShouldNowBeFalse = fakeParkingPlace.available
+
+        assert statusShouldNowBeFalse == False
+
+        fakeParkingPlace.updateParkingPlaceStatus()
+        statusShouldBeTrueAgain = fakeParkingPlace.available
+
+        assert statusShouldBeTrueAgain
+
+    def test_savesDateTimeNowInObject(self, fakeParkingPlace):
+        freezer = freeze_time('2019-12-12 20:00:00')
+        freezer.start()
+
+        fakeParkingPlace.updateParkingPlaceStatus()
+
+        freezer.stop()
+
+        assert fakeParkingPlace.parkingStarted == "20:00:00"
+
+    def test_calculatesParkingPlacePriceCorrectly(self, fakeParkingPlace):
+        # freezer sets the time to 20-19-12-12 20 o'clock, used to
+        # test the datetime.now() inside of updateParkingPlaceStatus()
+        freezer = freeze_time('2019-12-12 20:00:00')
+        freezer.start()
+
+        fakeParkingPlace.updateParkingPlaceStatus()
+
+        freezer.stop()
+        expectedToPay = float(fakeParkingPlace.price_pr_hour)
+        actualPrice = float(fakeParkingPlace.calculatePriceForParkingPeriod("21:00:00"))
+
+        assert expectedToPay == actualPrice

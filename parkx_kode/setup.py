@@ -12,7 +12,8 @@ setup(
         "kivy-deps.sdl2",
         "pytest",
         "pytest-mock",
-        "mock"
+        "mock",
+        "freezegun"
     ],
     python_requires='>=3.5, <=3.7'
 )

@@ -1,5 +1,4 @@
 import datetime
-from functools import partial
 
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
@@ -66,39 +65,59 @@ class Gui(BoxLayout):
 
         for i in range(len(Gui.FIELDS)):
             label = Label(text=Gui.FIELDS[i])
-
-            if ParkingPlaceID != None:
-                PP = self.controller.get_pp_from_repo(ParkingPlaceID)
-                PPList = PP.toListNameToDetails()
-                text_input = TextInput(text=str(PPList[i]), multiline=True)
-            else:
-                text_input = TextInput(text='', multiline=True)
+            text_input = TextInput(text='', multiline=True)
 
             self.text_fields.append(text_input)
-
             grid_scheme.add_widget(label)
             grid_scheme.add_widget(text_input)
 
-        if ParkingPlaceID != None:
+        if ParkingPlaceID is not None:
+            pp = self.controller.get_pp_from_repo(ParkingPlaceID)
+            ppDict = pp.__dict__
+            ppAttributeList = list(ppDict.values())[1:-2]
+
+            for i in range(len(self.text_fields)):
+                self.text_fields[i].text = str(ppAttributeList[i])
+
+        if ParkingPlaceID is not None:
             insert_pp_button = Button(text='Endre', size=(100, 40), size_hint=(None, None))
-            insert_pp_button.bind(on_press= lambda instance: self.insert_pp_button_handler(instance, True, ParkingPlaceID))
+            insert_pp_button.bind(
+                on_press=lambda instance: self.insert_pp_button_handler(instance, True, ParkingPlaceID))
         else:
             insert_pp_button = Button(text='Legg til', size=(100, 40), size_hint=(None, None))
             insert_pp_button.bind(on_press=self.insert_pp_button_handler)
         self.add_widget(insert_pp_button)
 
     def insert_pp_button_handler(self, instance, changing=False, ParkingPlaceID=None):
-        data_dict = {}
+        try:
+            data_dict = {}
 
-        for i in range(len(self.text_fields)):
-            data_dict[Gui.ENG_FIELDS[i]] = self.text_fields[i].text
+            for i in range(len(self.text_fields)):
+                data_dict[Gui.ENG_FIELDS[i]] = self.text_fields[i].text
 
-        if changing == True and ParkingPlaceID != None:
-            self.controller.change_pp(data_dict, ParkingPlaceID)
-        else:
-            self.controller.add_parking_place_to_repo(data_dict)
+            if changing == True and ParkingPlaceID != None:
+                self.controller.change_pp(data_dict, ParkingPlaceID)
+            else:
+                self.controller.add_parking_place_to_repo(data_dict)
 
-        self.switch_scene(0)
+            self.switch_scene(0)
+        except ValueError:
+            self.createPopup()
+            self._create_new_PP_scene(ParkingPlaceID)
+
+    def createPopup(self):
+        box = BoxLayout(orientation='vertical', padding=(10))
+        popupLabel = Label(text='Noe har gått feil, sjekk om alle feltene har blitt fylt ut riktig')
+        newPopup = Popup(title='Error', size_hint=(None, None), size=(650, 200), auto_dismiss=False)
+
+        popupButton = Button(text="Ok, forstått")
+        popupButton.bind(on_press=newPopup.dismiss)
+
+        box.add_widget(popupLabel)
+        box.add_widget(popupButton)
+
+        newPopup.add_widget(box)
+        newPopup.open()
 
     def _clear_scene(self):
         self.clear_widgets()
@@ -272,8 +291,13 @@ class Gui(BoxLayout):
 
         closeButton = Button(text='Lukk', size_hint=(None, None), size=(350, 50))
 
-        closeButton.bind(on_press=popup.dismiss)
+        # closeButton.bind(on_press=popup.dismiss)
+        closeButton.bind(on_press=lambda instance: self.pop_ended_parking_close_button_handler(parking_id, popup))
         layout.add_widget(closeButton)
+
+    def pop_ended_parking_close_button_handler(self, parking_id, popup):
+        popup.dismiss()
+        self.controller.reset_parking_started(parking_id)
 
     def change_parking_status(self, parking_id):
 

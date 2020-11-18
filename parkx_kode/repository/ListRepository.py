@@ -24,18 +24,19 @@ class ListRepository:
             if pp.id == id:
                 return pp
 
-    # TODO: needs double start for p_dict
-    def changePP(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details, available=True,
-                 parkingStarted=None):
-        pp = self.getPP(id)
+    def changePP(self, p_dict):
+        parkingPlaceId = p_dict["id"]
+        pp = self.getPP(parkingPlaceId)
+        pp.updateAttributes(**p_dict)
 
-        pp.name = name
-        pp.address = address
-        pp.zip_code = zip_code
-        pp.number_of_places = int(number_of_places)
-        pp.price_pr_hour = int(price_pr_hour)
-        pp.picture = picture
-        pp.details = details
+    def updateParkingPlaceStatus(self, id):
+        parkingPlaceObject = self.getPP(id)
+        parkingPlaceObject.updateParkingPlaceStatus()
+
+    def calculatePriceForParkingPeriod(self, id, parkingStopped):
+        parkingPlaceObject = self.getPP(id)
+        calculatedPrice = parkingPlaceObject.calculatePriceForParkingPeriod(parkingStopped)
+        return calculatedPrice
 
     def addPlaceholderPlaces(self):
         pPlace1 = {
@@ -44,7 +45,7 @@ class ListRepository:
             "address": "Hjørneveien 3",
             "zip_code": 1882,
             "number_of_places": 4,
-            "price_pr_hour": 8234,
+            "price_pr_hour": float(8234),
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Hjørneparkering med god plass. Lys i taket.",
             # "available": True
@@ -56,7 +57,7 @@ class ListRepository:
             "address": "Parkveien 73A",
             "zip_code": 7123,
             "number_of_places": 2,
-            "price_pr_hour": 42,
+            "price_pr_hour": float(42),
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Har lys på veggen, og 1 stk 230V kontakt på plassen",
             # "available": True
@@ -68,7 +69,7 @@ class ListRepository:
             "address": "Storgata 565",
             "zip_code": 1629,
             "number_of_places": 11,
-            "price_pr_hour": 89,
+            "price_pr_hour": float(89),
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
             "details": "Ligger under bakken. Strøm på noen av plassene. Lys på alle plasser. Varmt og tørt.",
             # "available": False
