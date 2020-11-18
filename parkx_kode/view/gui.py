@@ -110,7 +110,7 @@ class Gui(BoxLayout):
         popupLabel = Label(text='Noe har gått feil, sjekk om alle feltene har blitt fylt ut riktig')
         newPopup = Popup(title='Error', size_hint=(None, None), size=(650, 200), auto_dismiss=False)
 
-        popupButton = Button(text="Ok Understood")
+        popupButton = Button(text="Ok, forstått")
         popupButton.bind(on_press=newPopup.dismiss)
 
         box.add_widget(popupLabel)
