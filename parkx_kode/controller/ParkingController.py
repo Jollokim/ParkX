@@ -58,7 +58,12 @@ class ParkingController:
         return str(f"Gui: {self.gui} Repository: {self.repository}")
 
     def add_new_payment(self, name, parkingstarted, parkingStopped, price_to_pay):
-        pay_dict = {"name": name, "parkingStarted": parkingstarted, "parkingStopped": parkingStopped, "price": price_to_pay}
+        pay_dict = {
+            "name": name,
+            "parkingStarted": parkingstarted,
+            "parkingStopped": parkingStopped,
+            "price": price_to_pay
+        }
         self.repository.add_payment(pay_dict)
 
     def get_all_payments(self):
