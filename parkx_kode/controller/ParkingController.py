@@ -43,6 +43,14 @@ class ParkingController:
         else:
             obj.available = True
 
+    def check_payment_details(self):
+
+        # Would have functionalety to a third party service that deals with the payments in here
+
+        paymentDetailsStatus = True
+
+        return paymentDetailsStatus
+
     def calc_parking_price(self, parking_id, parkingStopped):
 
         parkingPlace = self.repository.getPP(parking_id)
