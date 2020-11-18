@@ -383,9 +383,36 @@ class Gui(BoxLayout):
     def _my_profile_scene(self):
         self.orientation = "vertical"
 
-        l = Label(text='DENNE SIDEN ER IKKE FERDIG ENDA, OG ER UNDER UTVIKLING')
-        self.add_widget(l)
+        layout = GridLayout(cols=1, rows=2, padding=10)
 
-        opt1_button = Button(text='Hovedmeny', size=(200, 50), size_hint=(None, None))
-        opt1_button.bind(on_press=lambda instance: self.switch_scene(5))
-        self.add_widget(opt1_button)
+        popup = Popup(title='Betalingsmiddel endret', content=layout, size_hint=(None, None), size=(400, 300))
+
+        changed = Label(text='Betalingsmiddel har blitt endret')
+
+        layout.add_widget(changed)
+
+        closeButton = Button(text='Lukk', size_hint=(None, None), size=(350, 50))
+
+        closeButton.bind(on_press=popup.dismiss)
+        closeButton.bind(on_press=lambda instance: self.switch_scene(5))
+
+        layout.add_widget(closeButton)
+
+        grid_scheme = GridLayout(cols=1, rows=3, padding=250, spacing=40)
+        self.add_widget(grid_scheme)
+
+        opt1_button = Button(text='Aktiver godkjent betalingsmiddel', size_hint=(.2, 1))
+        opt1_button.bind(on_press=lambda instance: self.controller.check_payment_details())
+        opt1_button.bind(on_press=lambda instance: popup.open())
+        grid_scheme.add_widget(opt1_button)
+
+        opt2_button = Button(text='Aktiver ikke-godkjent betalingsmiddel', size_hint=(.2, 1))
+        opt2_button.bind(on_press=lambda instance: self.controller.check_payment_details())
+        opt2_button.bind(on_press=lambda instance: popup.open())
+        grid_scheme.add_widget(opt2_button)
+
+        back_button = Button(text='Hovedmeny', size=(200, 50), size_hint=(None, None))
+        back_button.bind(on_press=lambda instance: self.switch_scene(5))
+        self.add_widget(back_button)
+
+
