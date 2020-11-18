@@ -284,10 +284,19 @@ class Gui(BoxLayout):
 
         total_parking_price = self.controller.calc_parking_price(parking_id, parkingStopped)
 
-        l = Label(
+        successfulPaymentMSG = Label(
             text='Din parkering med navn ' + parkid.name + ' er nå stanset: \n\n Adresse: ' + parkid.address + '\n Parkering startet: ' + parkid.parkingStarted + '\n Parkering stoppet: ' + parkingStopped + '\n Totalpris: ' + total_parking_price + 'kr')
 
-        layout.add_widget(l)
+        failedPaymentMSG = Label(
+            text='Automatisk trekk fra ditt bankkort kunne \nikke gjennomføres. Parkeringen kan finnes på "min profil"')
+
+        #valid_payment_information = self.controller.check_payment_details()
+        valid_payment_information = True
+
+        if (valid_payment_information):
+            layout.add_widget(successfulPaymentMSG)
+        else:
+            layout.add_widget(failedPaymentMSG)
 
         closeButton = Button(text='Lukk', size_hint=(None, None), size=(350, 50))
 
@@ -398,18 +407,39 @@ class Gui(BoxLayout):
 
         layout.add_widget(closeButton)
 
-        grid_scheme = GridLayout(cols=1, rows=3, padding=250, spacing=40)
+        # --------- kode over er for popupmelding ----------
+
+        grid_scheme = GridLayout(cols=1, rows=4, padding=250, spacing=40)
         self.add_widget(grid_scheme)
 
         opt1_button = Button(text='Aktiver godkjent betalingsmiddel', size_hint=(.2, 1))
-        opt1_button.bind(on_press=lambda instance: self.controller.check_payment_details())
+        opt1_button.bind(on_press=lambda instance: self.controller.change_accepted_payment_details())
         opt1_button.bind(on_press=lambda instance: popup.open())
         grid_scheme.add_widget(opt1_button)
 
         opt2_button = Button(text='Aktiver ikke-godkjent betalingsmiddel', size_hint=(.2, 1))
-        opt2_button.bind(on_press=lambda instance: self.controller.check_payment_details())
+        opt2_button.bind(on_press=lambda instance: self.controller.change_accepted_payment_details())
         opt2_button.bind(on_press=lambda instance: popup.open())
         grid_scheme.add_widget(opt2_button)
+
+        for payments in self.controller.get_all_payments():
+
+                grid = GridLayout(cols=4)
+                grid_scheme.add_widget(grid)
+
+                grid_elements = [
+                    Label(text=f"Navn: {payments.name}"),
+                    Label(text=f"Parkering startet: {payments.parkingStarted}"),
+                    Label(text=f"Parkering stoppet: {payments.parkingStopped}"),
+                    Label(text=f"Pris: {payments.price_to_pay}")
+                ]
+
+                for e in grid_elements:
+                    grid.add_widget(e)
+
+        pay_button = Button(text='Betal utestående', size_hint=(.2, 1))
+        pay_button.bind(on_press=lambda instance: self.controller.pay_all_payments(False))
+        grid_scheme.add_widget(pay_button)
 
         back_button = Button(text='Hovedmeny', size=(200, 50), size_hint=(None, None))
         back_button.bind(on_press=lambda instance: self.switch_scene(5))
