@@ -57,3 +57,17 @@ class ParkingController:
     def toString(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
 
+    def add_new_payment(self, name, parkingstarted, parkingStopped, price_to_pay):
+        pay_dict = {"name": name, "parkingStarted": parkingstarted, "parkingStopped": parkingStopped, "price": price_to_pay}
+        self.repository.add_payment(pay_dict)
+
+    def get_all_payments(self):
+        return self.repository.get_all_payments()
+
+    def pay_all_payments(self, fail):
+        if fail:
+            return False
+        else:
+            self.repository.remove_all_payments()
+            return True
+

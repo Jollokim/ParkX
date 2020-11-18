@@ -279,14 +279,17 @@ class Gui(BoxLayout):
         popup = Popup(title='Parkering stanset', content=layout, size_hint=(None, None), size=(400, 300))
         popup.open()
 
-        parkid = self.controller.get_pp_from_repo(parking_id)
+        parkingplace = self.controller.get_pp_from_repo(parking_id)
 
         parkingStopped = datetime.datetime.now().strftime("%H:%M:%S")
 
         total_parking_price = self.controller.calc_parking_price(parking_id, parkingStopped)
 
+        # her tenkte jeg, kaller kontroller som lager en ny betaling
+        self.controller.add_new_payment(parkingplace.name, parkingplace.parkingStarted, parkingStopped, total_parking_price)
+
         l = Label(
-            text='Din parkering med navn ' + parkid.name + ' er nå stanset: \n\n Adresse: ' + parkid.address + '\n Parkering startet: ' + parkid.parkingStarted + '\n Parkering stoppet: ' + parkingStopped + '\n Totalpris: ' + total_parking_price + 'kr')
+            text='Din parkering med navn ' + parkingplace.name + ' er nå stanset: \n\n Adresse: ' + parkingplace.address + '\n Parkering startet: ' + parkingplace.parkingStarted + '\n Parkering stoppet: ' + parkingStopped + '\n Totalpris: ' + total_parking_price + 'kr')
 
         layout.add_widget(l)
 

@@ -4,6 +4,7 @@ from parkx_kode.model.Parkingplace import Parkingplace
 class ListRepository:
     def __init__(self):
         self.parkingPlaces = []
+        self.payments =  []
 
     def getAllParkingPlaces(self):
         return self.parkingPlaces
@@ -80,3 +81,12 @@ class ListRepository:
         self.addNewParkingPlace(**pPlace2)
 
         self.addNewParkingPlace(**pPlace3)
+
+    def add_payment(self, pay_dict):
+        self.payments.append(pay_dict)
+
+    def remove_all_payments(self):
+        self.payments.clear()
+
+    def get_all_payments(self):
+        return self.payments
