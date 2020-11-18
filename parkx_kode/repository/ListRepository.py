@@ -4,6 +4,7 @@ from parkx_kode.model.Parkingplace import Parkingplace
 class ListRepository:
     def __init__(self):
         self.parkingPlaces = []
+        self.payments =  []
 
     def getAllParkingPlaces(self):
         return self.parkingPlaces

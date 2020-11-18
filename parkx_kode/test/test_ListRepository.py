@@ -1,3 +1,5 @@
+import datetime
+
 from parkx_kode.repository.ListRepository import ListRepository
 
 import pytest
@@ -71,10 +73,51 @@ class TestListRepository:
 
         assert len(placeHolderList) == 3
 
+    def test_can_add_payment_to_list(self, emptyRepo, payment_dict):
+        emptyRepo.add_payment(payment_dict)
+
+        assert len(emptyRepo.payments) == 1
+
+        assert emptyRepo.payments[0]["name"] == payment_dict["name"]
+        assert emptyRepo.payments[0]["parkingStarted"] == payment_dict["parkingStarted"]
+        assert emptyRepo.payments[0]["parkingStopped"] == payment_dict["parkingStopped"]
+        assert emptyRepo.payments[0]["price"] == payment_dict["price"]
+
+    def test_can_remove_alll_payments(self, repo_with_5_payments):
+        repo_with_5_payments.remove_all_payments()
+
+        assert len(repo_with_5_payments.payments) == 0
+
+    def test_can_get_all_payments_as_list(self, repo_with_5_payments):
+        payment_list = repo_with_5_payments.get_all_payments()
+
+        assert isinstance(payment_list, list)
+
+        assert len(payment_list) == 5
+
+
+@pytest.fixture
+def payment_dict():
+    payment = {
+        "name": "KarlsByGaten",
+        "parkingStarted": "11:12:13",
+        "parkingStopped": "11:30:57",
+        "price": 30
+    }
+    return payment
+
 
 @pytest.fixture
 def emptyRepo():
     return ListRepository()
+
+
+@pytest.fixture
+def repo_with_5_payments(emptyRepo, payment_dict):
+    for i in range(5):
+        emptyRepo.add_payment(payment_dict)
+
+    return emptyRepo
 
 
 @pytest.fixture
