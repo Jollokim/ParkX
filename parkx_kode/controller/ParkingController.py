@@ -71,15 +71,12 @@ class ParkingController:
     def get_all_payments(self):
         return self.repository.get_all_payments()
 
-    def pay_all_payments(self, fail):
-        if fail:
-            return False
-        else:
+    def pay_all_payments(self):
+        if self.acceptedPaymentDetails:
             self.repository.remove_all_payments()
             return True
+        else:
+            return False
 
-    def change_accepted_payment_details(self):
-        print(self.acceptedPaymentDetails)
-        self.acceptedPaymentDetails = not self.acceptedPaymentDetails
-
-        print(self.acceptedPaymentDetails)
+    def change_accepted_payment_details(self, buttonValueBool):
+        self.acceptedPaymentDetails = buttonValueBool
