@@ -290,8 +290,7 @@ class Gui(BoxLayout):
         failedPaymentMSG = Label(
             text='Automatisk trekk fra ditt bankkort kunne \nikke gjennomføres. Parkeringen kan finnes på "min profil"')
 
-        #valid_payment_information = self.controller.check_payment_details()
-        valid_payment_information = True
+        valid_payment_information = self.controller.acceptedPaymentDetails
 
         if (valid_payment_information):
             layout.add_widget(successfulPaymentMSG)

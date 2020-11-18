@@ -79,4 +79,7 @@ class ParkingController:
             return True
 
     def change_accepted_payment_details(self):
+        print(self.acceptedPaymentDetails)
         self.acceptedPaymentDetails = not self.acceptedPaymentDetails
+
+        print(self.acceptedPaymentDetails)
