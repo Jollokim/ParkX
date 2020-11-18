@@ -96,10 +96,6 @@ class TestListRepository:
         assert len(payment_list) == 5
 
 
-
-
-
-
 @pytest.fixture
 def payment_dict():
     payment = {
@@ -110,9 +106,11 @@ def payment_dict():
     }
     return payment
 
+
 @pytest.fixture
 def emptyRepo():
     return ListRepository()
+
 
 @pytest.fixture
 def repo_with_5_payments(emptyRepo, payment_dict):
@@ -120,6 +118,7 @@ def repo_with_5_payments(emptyRepo, payment_dict):
         emptyRepo.add_payment(payment_dict)
 
     return emptyRepo
+
 
 @pytest.fixture
 def repository(p_dict1, p_dict2, p_dict3):
@@ -196,5 +195,3 @@ def p_dict3():
         "parkingStarted": None
     }
     return dict
-
-
