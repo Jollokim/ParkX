@@ -107,11 +107,10 @@ class Gui(BoxLayout):
 
     def createPopup(self):
         box = BoxLayout(orientation='vertical', padding=(10))
-        popupLabel = Label(text='An error occured when processing data, check if correct data was given in the '
-                                'fields')
-        newPopup = Popup(title='An error occured', size_hint=(None, None), size=(650, 200), auto_dismiss=False)
+        popupLabel = Label(text='Noe har gått feil, sjekk om alle feltene har blitt fylt ut riktig')
+        newPopup = Popup(title='Error', size_hint=(None, None), size=(650, 200), auto_dismiss=False)
 
-        popupButton = Button(text="Ok Understood")
+        popupButton = Button(text="Ok, forstått")
         popupButton.bind(on_press=newPopup.dismiss)
 
         box.add_widget(popupLabel)
