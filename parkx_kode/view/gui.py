@@ -275,21 +275,35 @@ class Gui(BoxLayout):
 
         layout = GridLayout(cols=1, rows=2, padding=10)
 
-        popup = Popup(title='Parkering stanset', content=layout, size_hint=(None, None), size=(400, 300))
+        popup = Popup(title='Parkering stanset', content=layout, size_hint=(None, None), size=(450, 350))
         popup.open()
 
-        parkid = self.controller.get_pp_from_repo(parking_id)
+        parkingplace = self.controller.get_pp_from_repo(parking_id)
 
         parkingStopped = datetime.datetime.now().strftime("%H:%M:%S")
 
         total_parking_price = self.controller.calc_parking_price(parking_id, parkingStopped)
 
-        l = Label(
-            text='Din parkering med navn ' + parkid.name + ' er nå stanset: \n\n Adresse: ' + parkid.address + '\n Parkering startet: ' + parkid.parkingStarted + '\n Parkering stoppet: ' + parkingStopped + '\n Totalpris: ' + total_parking_price + 'kr')
+        successfulPaymentMSG = Label(
+            text='Din parkering med navn ' + parkingplace.name + ' er nå stanset og betalt: \n\n Adresse: '
+                 + parkingplace.address + '\n Parkering startet: ' + parkingplace.parkingStarted +
+                 '\n Parkering stoppet: ' + parkingStopped + '\n Totalpris: ' + total_parking_price + 'kr' +
+                 '\n Pengene er automatisk trukket fra ditt betalingsmiddel.')
 
-        layout.add_widget(l)
+        failedPaymentMSG = Label(
+            text='Automatisk trekk fra ditt bankkort kunne ikke \ngjennomføres. Ubetalte parkeringer finner du\n'
+                 'under \"Min Profil\", og kan betales derfra.')
 
-        closeButton = Button(text='Lukk', size_hint=(None, None), size=(350, 50))
+        valid_payment_information = self.controller.acceptedPaymentDetails
+
+        if (valid_payment_information):
+            layout.add_widget(successfulPaymentMSG)
+        else:
+            layout.add_widget(failedPaymentMSG)
+            self.controller.add_new_payment(parkingplace.name, parkingplace.parkingStarted, parkingStopped,
+                                            total_parking_price)
+
+        closeButton = Button(text='Lukk', size_hint=(None, None), size=(400, 50))
 
         # closeButton.bind(on_press=popup.dismiss)
         closeButton.bind(on_press=lambda instance: self.pop_ended_parking_close_button_handler(parking_id, popup))
@@ -380,12 +394,94 @@ class Gui(BoxLayout):
         opt3_button.bind(on_press=lambda instance: self.switch_scene(6))
         grid_scheme.add_widget(opt3_button)
 
+    def pay_unpayed_parkings_handler(self):
+
+        popupPayedLayout = GridLayout(cols=1, rows=2, padding=10)
+
+        popup = Popup(title='Betaling av Ubetalte Parkeringer', content=popupPayedLayout, size_hint=(None, None),
+                      size=(400, 300))
+        popup.open()
+
+        sucsessfulpopup = Label(text='Alle ubetalte parkeringer er nå betalt')
+
+        unSucsessfulpopup = Label(text='Det gikk ikke å gjennomføre betalingen. \nVelg godkjent betalingsmiddel for å kunne betale')
+
+        valid_payment_information = self.controller.acceptedPaymentDetails
+
+        if valid_payment_information:
+            popupPayedLayout.add_widget(sucsessfulpopup)
+            self.controller.pay_all_payments()
+        else:
+            popupPayedLayout.add_widget(unSucsessfulpopup)
+
+        closeButton = Button(text='Lukk', size_hint=(None, None), size=(350, 50))
+
+        closeButton.bind(on_press=popup.dismiss)
+        closeButton.bind(on_press=lambda instance: self.switch_scene(6))
+
+        popupPayedLayout.add_widget(closeButton)
+
+
+
     def _my_profile_scene(self):
         self.orientation = "vertical"
 
-        l = Label(text='DENNE SIDEN ER IKKE FERDIG ENDA, OG ER UNDER UTVIKLING')
-        self.add_widget(l)
+        popupChangedLayout = GridLayout(cols=1, rows=2, padding=10)
 
-        opt1_button = Button(text='Hovedmeny', size=(200, 50), size_hint=(None, None))
-        opt1_button.bind(on_press=lambda instance: self.switch_scene(5))
-        self.add_widget(opt1_button)
+        popup = Popup(title='Betalingsmiddel endret', content=popupChangedLayout, size_hint=(None, None), size=(400, 300))
+
+        changed = Label(text='Betalingsmiddel har blitt endret')
+
+        popupChangedLayout.add_widget(changed)
+
+        closeButton = Button(text='Lukk', size_hint=(None, None), size=(350, 50))
+
+        closeButton.bind(on_press=popup.dismiss)
+
+        popupChangedLayout.add_widget(closeButton)
+
+        # --------- kode over er for popupmelding for endret betalingsmiddel ----------
+
+        button_box_top = BoxLayout(orientation="horizontal", spacing=0)
+        self.add_widget(button_box_top)
+
+        grid_scheme = GridLayout(cols=1)
+        self.add_widget(grid_scheme)
+
+        opt1_button = Button(text='Aktiver godkjent betalingsmiddel', size=(200, 50), size_hint=(1, 0), pos_hint={"top": 1})
+        opt1_button.bind(on_press=lambda instance: self.controller.change_accepted_payment_details(True))
+        opt1_button.bind(on_press=lambda instance: popup.open())
+        button_box_top.add_widget(opt1_button)
+
+        opt2_button = Button(text='Aktiver ikke-godkjent betalingsmiddel', size=(200, 50), size_hint=(1, 0), pos_hint={"top": 1})
+        opt2_button.bind(on_press=lambda instance: self.controller.change_accepted_payment_details(False))
+        opt2_button.bind(on_press=lambda instance: popup.open())
+        button_box_top.add_widget(opt2_button)
+
+        for payment in self.controller.get_all_payments():
+
+                grid = GridLayout(cols=4)
+                grid_scheme.add_widget(grid)
+
+                grid_elements = [
+                    Label(text=f"Navn: {payment['name']}"),
+                    Label(text=f"Parkering startet: {payment['parkingStarted']}"),
+                    Label(text=f"Parkering stoppet: {payment['parkingStopped']}"),
+                    Label(text=f"Pris: {payment['price']}")
+                ]
+
+                for e in grid_elements:
+                    grid.add_widget(e)
+
+
+        button_box = BoxLayout(orientation="horizontal")
+        grid_scheme.add_widget(button_box)
+
+        back_button = Button(text='Hovedmeny', size=(200, 50), size_hint=(1, 0), pos_hint={"bottom": 1})
+        back_button.bind(on_press=lambda instance: self.switch_scene(5))
+        button_box.add_widget(back_button)
+
+        pay_button = Button(text='Betal utestående', size=(200, 50), size_hint=(1, 0), pos_hint={"bottom": 1})
+        pay_button.bind(on_press=lambda instance: self.pay_unpayed_parkings_handler())
+        button_box.add_widget(pay_button)
+
