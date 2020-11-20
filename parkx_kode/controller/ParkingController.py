@@ -65,7 +65,7 @@ class ParkingController:
         self.payment.add_new_payment(name, parkingstarted, parkingStopped, price_to_pay)
 
     def get_all_payments(self):
-        return self.payment.get_all_payments()
+        return self.repository.get_all_payments()
 
     def pay_all_payments(self):
         self.payment.pay_all_payments()

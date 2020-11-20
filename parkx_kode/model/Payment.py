@@ -12,9 +12,6 @@ class Payment:
         }
         self.repository.add_payment(pay_dict)
 
-    def get_all_payments(self):
-        return self.repository.get_all_payments()
-
     def pay_all_payments(self):
         if self.acceptedPaymentDetails:
             self.repository.remove_all_payments()
