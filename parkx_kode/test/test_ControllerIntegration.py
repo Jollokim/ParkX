@@ -154,4 +154,4 @@ def repository():
 
 @pytest.fixture
 def controller(repository):
-    return ParkingController(None, repository)
+    return ParkingController(None, None, repository)
