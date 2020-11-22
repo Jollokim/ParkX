@@ -294,9 +294,9 @@ class Gui(BoxLayout):
             text='Automatisk trekk fra ditt bankkort kunne ikke \ngjennomføres. Ubetalte parkeringer finner du\n'
                  'under \"Min Profil\", og kan betales derfra.')
 
-        valid_payment_information = self.controller.acceptedPaymentDetails
+        valid_payment_information = self.controller.check_accepted_payment_details()
 
-        if (valid_payment_information):
+        if valid_payment_information:
             layout.add_widget(successfulPaymentMSG)
         else:
             layout.add_widget(failedPaymentMSG)
@@ -406,7 +406,7 @@ class Gui(BoxLayout):
 
         unSucsessfulpopup = Label(text='Det gikk ikke å gjennomføre betalingen. \nVelg godkjent betalingsmiddel for å kunne betale')
 
-        valid_payment_information = self.controller.acceptedPaymentDetails
+        valid_payment_information = self.controller.check_accepted_payment_details()
 
         if valid_payment_information:
             popupPayedLayout.add_widget(sucsessfulpopup)

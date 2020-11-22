@@ -1,10 +1,12 @@
+from parkx_kode.model import Payment
+
 
 class ParkingController:
-    def __init__(self, gui, repository):
+    def __init__(self, gui, payment, repository,):
+        self.payment = payment
         self.gui = gui
         self.repository = repository
         self.counter = 4
-        self.acceptedPaymentDetails = False
 
     def increaseCounter(self):
         self.counter += 1
@@ -60,23 +62,16 @@ class ParkingController:
         return str(f"Gui: {self.gui} Repository: {self.repository}")
 
     def add_new_payment(self, name, parkingstarted, parkingStopped, price_to_pay):
-        pay_dict = {
-            "name": name,
-            "parkingStarted": parkingstarted,
-            "parkingStopped": parkingStopped,
-            "price": price_to_pay
-        }
-        self.repository.add_payment(pay_dict)
+        self.payment.add_new_payment(name, parkingstarted, parkingStopped, price_to_pay)
 
     def get_all_payments(self):
         return self.repository.get_all_payments()
 
     def pay_all_payments(self):
-        if self.acceptedPaymentDetails:
-            self.repository.remove_all_payments()
-            return True
-        else:
-            return False
+        self.payment.pay_all_payments()
 
     def change_accepted_payment_details(self, buttonValueBool):
-        self.acceptedPaymentDetails = buttonValueBool
+        self.payment.change_accepted_payment_details(buttonValueBool)
+
+    def check_accepted_payment_details(self):
+        return self.payment.check_accepted_payment_details()

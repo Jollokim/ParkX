@@ -4,6 +4,7 @@ from kivy.config import Config
 from parkx_kode.controller.ParkingController import ParkingController
 from parkx_kode.repository.ListRepository import ListRepository
 from parkx_kode.view.gui import Gui
+from parkx_kode.model.Payment import Payment
 
 
 class MyApp(App):
@@ -16,7 +17,8 @@ class MyApp(App):
 
         listRepo = ListRepository()
         listRepo.addPlaceholderPlaces()
-        controller = ParkingController(None, listRepo)
+        payment = Payment(listRepo)
+        controller = ParkingController(None, payment, listRepo)
         gui = Gui(controller)
         controller.gui = gui
 
