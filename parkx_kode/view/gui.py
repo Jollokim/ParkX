@@ -95,8 +95,6 @@ class Gui(BoxLayout):
             for i in range(len(self.text_fields)):
                 data_dict[Gui.ENG_FIELDS[i]] = self.text_fields[i].text
 
-            self.validateInputLength(data_dict)
-
             if changing == True and ParkingPlaceID != None:
                 self.controller.change_pp(data_dict, ParkingPlaceID)
             else:
@@ -109,11 +107,6 @@ class Gui(BoxLayout):
         except ValueError:
             self.createPopup(0)
             self._create_new_PP_scene(ParkingPlaceID)
-
-    def validateInputLength(self, data_dict):
-        for value in data_dict.values():
-            if len(value) <= 0:
-                raise UserWarning
 
     def createPopup(self, i):
         errorText = [
