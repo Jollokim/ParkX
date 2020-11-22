@@ -33,7 +33,16 @@ class TestPaymentClass:
         paymentObject.pay_all_payments()
         assert len(paymentObject.repository.payments) == 0
 
+    def test_returnsProperPaymentDetailsBooleanValue(self, paymentObject):
+        expected = paymentObject.acceptedPaymentDetails
+        actual = paymentObject.check_accepted_payment_details()
+        assert expected == actual
 
+        paymentObject.acceptedPaymentDetails = True
+        expected = paymentObject.acceptedPaymentDetails
+        actual = paymentObject.check_accepted_payment_details()
+
+        assert expected == actual
 
 
 @pytest.fixture
