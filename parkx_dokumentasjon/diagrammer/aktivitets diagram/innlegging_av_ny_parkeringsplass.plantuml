@@ -1,7 +1,7 @@
 @startuml
 GUI -> Controller: Sender Dictionary med input fra GUI til controller (add_parking_place_to_repo)
 Controller -> Controller: Sender til ny metode i Controller for validering av input (validateUserInput)
-Controller -> GUI: Dersom validering feiler returneres det en error tilbake til GUI (createPopup)
+Controller -> GUI: Dersom validering feiler returneres det en error tilbake til GUI , og den skifter GUI side(createPopup)
 Controller -> Repository: Lagrer Dictionary-input som nytt element i parkingPlaces-listen(addNewParkingPlace)
 
 @enduml
