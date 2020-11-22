@@ -62,7 +62,7 @@ class ParkingController:
 
     def validateInputLength(self, data_dict):
         for value in data_dict.values():
-            if len(value) <= 0:
+            if len(str(value)) <= 0:
                 raise UserWarning
 
     def reset_parking_started(self, parking_id):
