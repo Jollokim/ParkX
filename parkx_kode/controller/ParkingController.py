@@ -2,7 +2,7 @@ from parkx_kode.model import Payment
 
 
 class ParkingController:
-    def __init__(self, gui, payment, repository,):
+    def __init__(self, gui, payment, repository):
         self.payment = payment
         self.gui = gui
         self.repository = repository

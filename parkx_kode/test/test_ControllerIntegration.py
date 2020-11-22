@@ -129,8 +129,13 @@ class TestControllerIntegration:
         expectedPrice = testingObject.price_pr_hour
         assert calculatedPrice == expectedPrice
 
+    def test_controllerRaisesExceptionIfInputFieldsWhereIntExpectedIncludesLetters(self, controller, p_dictFromUserInputUnhappyPath):
+        with pytest.raises(ValueError):
+            controller.add_parking_place_to_repo(p_dictFromUserInputUnhappyPath)
 
-# TODO: teste en ikke happy path
+        controller.repository.addPlaceholderPlaces()
+        with pytest.raises(ValueError):
+            controller.change_pp(p_dictFromUserInputUnhappyPath, 2)
 
 
 @pytest.fixture
@@ -146,6 +151,18 @@ def p_dictFromUserInput():
     }
     return dict
 
+@pytest.fixture
+def p_dictFromUserInputUnhappyPath():
+    dict = {
+        "name": "abekatt",
+        "address": "olebole veien",
+        "zip_code": "1712",
+        "number_of_places": "1s",
+        "price_pr_hour": "20",
+        "picture": "adresse.com",
+        "details": "Fin utsikt blandt flere ting!"
+    }
+    return dict
 
 @pytest.fixture
 def repository():
