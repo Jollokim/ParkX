@@ -99,15 +99,23 @@ class Gui(BoxLayout):
                 self.controller.change_pp(data_dict, ParkingPlaceID)
             else:
                 self.controller.add_parking_place_to_repo(data_dict)
-
             self.switch_scene(0)
+
+        except UserWarning:
+            self.createPopup(1)
+            self._create_new_PP_scene(ParkingPlaceID)
         except ValueError:
-            self.createPopup()
+            self.createPopup(0)
             self._create_new_PP_scene(ParkingPlaceID)
 
-    def createPopup(self):
+    def createPopup(self, i):
+        errorText = [
+            'Noe har gått feil, sjekk om alle feltene har blitt fylt ut riktig',
+            'Du kan ikke ha tomme felter i skjemaet'
+        ]
+
         box = BoxLayout(orientation='vertical', padding=(10))
-        popupLabel = Label(text='Noe har gått feil, sjekk om alle feltene har blitt fylt ut riktig')
+        popupLabel = Label(text=errorText[i])
         newPopup = Popup(title='Error', size_hint=(None, None), size=(650, 200), auto_dismiss=False)
 
         popupButton = Button(text="Ok, forstått")

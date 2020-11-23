@@ -129,9 +129,21 @@ class TestControllerIntegration:
         expectedPrice = testingObject.price_pr_hour
         assert calculatedPrice == expectedPrice
 
+    def test_controllerRaisesValueExceptionIfInputFieldsWhereIntExpectedIncludesLetters(self, controller, p_dictFromUserInputUnhappyPathLetter):
+        with pytest.raises(ValueError):
+            controller.add_parking_place_to_repo(p_dictFromUserInputUnhappyPathLetter)
 
-# TODO: teste en ikke happy path
+        controller.repository.addPlaceholderPlaces()
+        with pytest.raises(ValueError):
+            controller.change_pp(p_dictFromUserInputUnhappyPathLetter, 2)
 
+    def test_controllerRaisesUserWarningIfInputFieldIsEmpty(self, controller, p_dictFromUserInputUnhappyPathEmpty):
+        with pytest.raises(UserWarning):
+            controller.add_parking_place_to_repo(p_dictFromUserInputUnhappyPathEmpty)
+
+        controller.repository.addPlaceholderPlaces()
+        with pytest.raises(UserWarning):
+            controller.change_pp(p_dictFromUserInputUnhappyPathEmpty, 2)
 
 @pytest.fixture
 def p_dictFromUserInput():
@@ -146,6 +158,31 @@ def p_dictFromUserInput():
     }
     return dict
 
+@pytest.fixture
+def p_dictFromUserInputUnhappyPathLetter():
+    dict = {
+        "name": "abekatt",
+        "address": "olebole veien",
+        "zip_code": "1712",
+        "number_of_places": "1s",
+        "price_pr_hour": "20",
+        "picture": "adresse.com",
+        "details": "Fin utsikt blandt flere ting!"
+    }
+    return dict
+
+@pytest.fixture
+def p_dictFromUserInputUnhappyPathEmpty():
+    dict = {
+        "name": "abekatt",
+        "address": "olebole veien",
+        "zip_code": "1712",
+        "number_of_places": "",
+        "price_pr_hour": "20",
+        "picture": "adresse.com",
+        "details": "Fin utsikt blandt flere ting!"
+    }
+    return dict
 
 @pytest.fixture
 def repository():
@@ -154,4 +191,4 @@ def repository():
 
 @pytest.fixture
 def controller(repository):
-    return ParkingController(None, repository)
+    return ParkingController(None, None, repository)

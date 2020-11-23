@@ -3,12 +3,12 @@ class Payment:
         self.repository = repository
         self.acceptedPaymentDetails = False
 
-    def add_new_payment(self, name, parkingstarted, parkingStopped, price_to_pay):
+    def add_new_payment(self, name, parkingStarted, parkingStopped, price):
         pay_dict = {
             "name": name,
-            "parkingStarted": parkingstarted,
+            "parkingStarted": parkingStarted,
             "parkingStopped": parkingStopped,
-            "price": price_to_pay
+            "price": price
         }
         self.repository.add_payment(pay_dict)
 
