@@ -108,3 +108,4 @@ class Test_parkingplace_class:
         actualPrice = float(fakeParkingPlace.calculatePriceForParkingPeriod("21:00:00"))
 
         assert expectedToPay == actualPrice
+

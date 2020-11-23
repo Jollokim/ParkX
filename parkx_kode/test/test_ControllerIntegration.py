@@ -1,7 +1,10 @@
 import pytest
 from freezegun import freeze_time
+from mock import Mock
 
 from parkx_kode.controller.ParkingController import ParkingController
+from parkx_kode.model import Parkingplace
+from parkx_kode.model.Payment import Payment
 from parkx_kode.repository.ListRepository import ListRepository
 
 
@@ -22,7 +25,8 @@ class TestControllerIntegration:
 
         assert controller.get_all_pp_from_list() == repository.parkingPlaces
 
-    def test_receivesDictionaryFromUserSavesItInRepositoryAndCreatesTheObjectProperly(self, p_dictFromUserInput, controller):
+    def test_receivesDictionaryFromUserSavesItInRepositoryAndCreatesTheObjectProperly(self, p_dictFromUserInput,
+                                                                                      controller):
         lengthBeforeAddCall = len(controller.repository.parkingPlaces)
         controller.add_parking_place_to_repo(p_dictFromUserInput)
 
@@ -82,8 +86,8 @@ class TestControllerIntegration:
     def test_controllerChangesParkingPlaceAttributesProperly(self, controller, p_dictFromUserInput):
         controller.repository.addPlaceholderPlaces()
 
-        #simulates the user sending new schema to modify his parkingplace offer
-        #Here we will change the current object with id = 2 to our fixture dict that simulates user input
+        # simulates the user sending new schema to modify his parkingplace offer
+        # Here we will change the current object with id = 2 to our fixture dict that simulates user input
         controller.change_pp(p_dictFromUserInput, 2)
 
         changedObject = controller.get_pp_from_repo(2)
@@ -93,12 +97,12 @@ class TestControllerIntegration:
             assert changedObjectDict.get(dictKey) == p_dictFromUserInput.get(dictKey)
 
     def test_controllerSendsRequestToChangeParkingPlaceStatusAndSavesStartDateCorrectly(self, controller):
-        #sets the time to 12/12/2020 20 o'clock
+        # sets the time to 12/12/2020 20 o'clock
         freezer = freeze_time('2019-12-12 20:00:00')
         freezer.start()
 
         controller.repository.addPlaceholderPlaces()
-        #argument is parkingplace id
+        # argument is parkingplace id
 
         changedObject = controller.get_pp_from_repo(2)
         beforeUpdateExpectedFalse = True
@@ -129,7 +133,8 @@ class TestControllerIntegration:
         expectedPrice = testingObject.price_pr_hour
         assert calculatedPrice == expectedPrice
 
-    def test_controllerRaisesValueExceptionIfInputFieldsWhereIntExpectedIncludesLetters(self, controller, p_dictFromUserInputUnhappyPathLetter):
+    def test_controllerRaisesValueExceptionIfInputFieldsWhereIntExpectedIncludesLetters(self, controller,
+                                                                                        p_dictFromUserInputUnhappyPathLetter):
         with pytest.raises(ValueError):
             controller.add_parking_place_to_repo(p_dictFromUserInputUnhappyPathLetter)
 
@@ -145,6 +150,88 @@ class TestControllerIntegration:
         with pytest.raises(UserWarning):
             controller.change_pp(p_dictFromUserInputUnhappyPathEmpty, 2)
 
+    def test_can_reset_parking_started_to_None(self, controller):
+        controller.repository.addPlaceholderPlaces()
+
+        controller.repository.parkingPlaces[0].parkingStarted = "12:12:43"
+
+        controller.reset_parking_started(0)
+
+        assert controller.repository.parkingPlaces[0].parkingStarted == None
+
+    def test_can_add_new_payment_to_ListRepository(self, controller, payment_dict):
+        controller.add_new_payment(
+            payment_dict["name"], payment_dict["parkingStarted"], payment_dict["parkingStopped"], payment_dict["price"]
+        )
+
+        assert len(controller.repository.payments) == 1
+
+        assert controller.repository.payments[0]["name"] == payment_dict["name"]
+        assert controller.repository.payments[0]["parkingStarted"] == payment_dict["parkingStarted"]
+        assert controller.repository.payments[0]["parkingStopped"] == payment_dict["parkingStopped"]
+        assert controller.repository.payments[0]["price"] == payment_dict["price"]
+
+    def test_can_get_list_with_all_payments(self, controller, payment_dict):
+        # add some payments to the list
+        for i in range(3):
+            controller.add_new_payment(
+                payment_dict["name"], payment_dict["parkingStarted"], payment_dict["parkingStopped"],
+                payment_dict["price"]
+            )
+
+        list_of_payments = controller.get_all_payments()
+
+        assert isinstance(list_of_payments, list)
+        assert len(list_of_payments) == 3
+
+        assert list_of_payments[0]["name"] == payment_dict["name"]
+        assert list_of_payments[0]["parkingStarted"] == payment_dict["parkingStarted"]
+        assert list_of_payments[0]["parkingStopped"] == payment_dict["parkingStopped"]
+        assert list_of_payments[0]["price"] == payment_dict["price"]
+
+    def test_can_empty_all_payments_from_list_if_acceptedPaymentDetails_is_true(self, controller, payment_dict):
+        # add some payments to the list
+        for i in range(3):
+            controller.add_new_payment(
+                payment_dict["name"], payment_dict["parkingStarted"], payment_dict["parkingStopped"],
+                payment_dict["price"]
+            )
+        controller.payment.acceptedPaymentDetails = True
+
+        controller.pay_all_payments()
+
+        assert len(controller.repository.payments) == 0
+
+    def test_can_not_empty_all_payments_from_list_if_acceptedPaymentDetails_is_false(self, controller, payment_dict):
+        # add some payments to the list
+        for i in range(3):
+            controller.add_new_payment(
+                payment_dict["name"], payment_dict["parkingStarted"], payment_dict["parkingStopped"],
+                payment_dict["price"]
+            )
+        controller.payment.acceptedPaymentDetails = False
+
+        controller.pay_all_payments()
+
+        assert len(controller.repository.payments) == 3
+
+    def test_can_change_accepted_payment_details(self, controller):
+        controller.payment.acceptedPaymentDetails = False
+
+        controller.change_accepted_payment_details(True)
+
+        assert controller.payment.acceptedPaymentDetails == True
+
+        controller.change_accepted_payment_details(False)
+
+        assert controller.payment.acceptedPaymentDetails == False
+
+    def test_can_get_accepted_payment_details_state_from_Payment(self, controller):
+        controller.payment.acceptedPaymentDetails = True
+
+        assert controller.check_accepted_payment_details() == controller.payment.acceptedPaymentDetails
+
+
 @pytest.fixture
 def p_dictFromUserInput():
     dict = {
@@ -157,6 +244,7 @@ def p_dictFromUserInput():
         "details": "Fin utsikt blandt flere ting!"
     }
     return dict
+
 
 @pytest.fixture
 def p_dictFromUserInputUnhappyPathLetter():
@@ -171,6 +259,7 @@ def p_dictFromUserInputUnhappyPathLetter():
     }
     return dict
 
+
 @pytest.fixture
 def p_dictFromUserInputUnhappyPathEmpty():
     dict = {
@@ -184,11 +273,52 @@ def p_dictFromUserInputUnhappyPathEmpty():
     }
     return dict
 
+
+@pytest.fixture
+def payment_dict():
+    payment = {
+        "name": "KarlsByGaten",
+        "parkingStarted": "11:12:13",
+        "parkingStopped": "11:30:57",
+        "price": 30
+    }
+    return payment
+
+
 @pytest.fixture
 def repository():
     return ListRepository()
 
 
 @pytest.fixture
-def controller(repository):
-    return ParkingController(None, None, repository)
+def payment(repository):
+    return Payment(repository)
+
+
+@pytest.fixture
+def controller(payment, repository):
+    return ParkingController(None, payment, repository)
+
+# brukes ikke og kan fjernes
+# @pytest.fixture
+# def mock_ListRepository():
+#     mock = Mock(spec=ListRepository)
+#     mock.parkingPlaces = []
+#     return mock
+#
+#
+# @pytest.fixture
+# def mock_Payment():
+#     return Mock(spec=Payment)
+#
+#
+# @pytest.fixture
+# def mock_Parkingplace():
+#     mock = Mock(spec=Parkingplace)
+#
+#     return mock
+#
+#
+# @pytest.fixture
+# def controller_with_mock(mock_Payment, mock_ListRepository):
+#     return ParkingController(None, mock_Payment, mock_ListRepository)
