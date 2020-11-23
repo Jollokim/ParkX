@@ -150,7 +150,7 @@ class TestControllerIntegration:
         with pytest.raises(UserWarning):
             controller.change_pp(p_dictFromUserInputUnhappyPathEmpty, 2)
 
-    def test_can_reset_parking_started_to_None(self, controller):
+    def test_can_reset_parking_started(self, controller):
         controller.repository.addPlaceholderPlaces()
 
         controller.repository.parkingPlaces[0].parkingStarted = "12:12:43"

@@ -109,3 +109,30 @@ class Test_parkingplace_class:
 
         assert expectedToPay == actualPrice
 
+    def test_can_update_own_attributes(self, fakeParkingPlace):
+        id = 3
+        name = "hollo bollo"
+        address = "hollo veien 3A"
+        zip_code = 1467
+        number_of_places = 12
+        price_per_hour = 20
+        picture = "some beautyfull picture"
+        details = "Nice view and low trafic"
+
+        fakeParkingPlace.updateAttributes(id, name, address, zip_code, number_of_places, price_per_hour, picture, details)
+
+        assert fakeParkingPlace.id == id
+        assert fakeParkingPlace.name == name
+        assert fakeParkingPlace.address == address
+        assert fakeParkingPlace.zip_code == zip_code
+        assert fakeParkingPlace.number_of_places == number_of_places
+        assert fakeParkingPlace.price_pr_hour == price_per_hour
+        assert fakeParkingPlace.picture == picture
+        assert fakeParkingPlace.details == details
+
+    def test_can_reset_parkingStarted_to_None(self, fakeParkingPlace):
+        fakeParkingPlace.parkingStarted = "10:40:29"
+
+        fakeParkingPlace.reset_parkingStarted()
+
+        assert fakeParkingPlace.parkingStarted == None
