@@ -10,6 +10,7 @@ from parkx_kode.repository.ListRepository import ListRepository
 
 class TestControllerIntegration:
 
+    #Implements ParkX.Leie-plassen.01
     def test_returnsListFromRepositoryProperly(self, controller, repository):
         expected = 0
         actual = len(controller.get_all_pp_from_list())
@@ -25,8 +26,10 @@ class TestControllerIntegration:
 
         assert controller.get_all_pp_from_list() == repository.parkingPlaces
 
-    def test_receivesDictionaryFromUserSavesItInRepositoryAndCreatesTheObjectProperly(self, p_dictFromUserInput,
-                                                                                      controller):
+
+    #Implements ParkX.Utleie-plaseen.01
+    def test_receivesDictionaryFromUserSavesItInRepositoryAndCreatesTheObjectProperly(self, p_dictFromUserInput, controller):
+
         lengthBeforeAddCall = len(controller.repository.parkingPlaces)
         controller.add_parking_place_to_repo(p_dictFromUserInput)
 
@@ -48,6 +51,7 @@ class TestControllerIntegration:
 
         assert controller.counter == 5
 
+    #Implements ParkX.Utleie-plassen.02.01
     def test_receivesIdFromUserAndDeletesCorrectParkingPlaceObject(self, controller):
         controller.repository.addPlaceholderPlaces()
         listLength = len(controller.get_all_pp_from_list())
@@ -76,6 +80,7 @@ class TestControllerIntegration:
         listLength = len(controller.get_all_pp_from_list())
         assert listLength == 2
 
+    #Implements ParkX.leie-plassen.07
     def test_controllerGetsSpecificParkingPlaceWithId(self, controller):
         controller.repository.addPlaceholderPlaces()
         id = 2
@@ -83,6 +88,7 @@ class TestControllerIntegration:
 
         assert returnedObjectFromRepo.id == id
 
+    #Implements ParkX.utleie-plassen.03
     def test_controllerChangesParkingPlaceAttributesProperly(self, controller, p_dictFromUserInput):
         controller.repository.addPlaceholderPlaces()
 
@@ -96,6 +102,7 @@ class TestControllerIntegration:
         for dictKey in p_dictFromUserInput.keys():
             assert changedObjectDict.get(dictKey) == p_dictFromUserInput.get(dictKey)
 
+    #Implements ParkX.Leie-plassen.01 + ParkX.Leie-plassen.05
     def test_controllerSendsRequestToChangeParkingPlaceStatusAndSavesStartDateCorrectly(self, controller):
         # sets the time to 12/12/2020 20 o'clock
         freezer = freeze_time('2019-12-12 20:00:00')
@@ -121,6 +128,7 @@ class TestControllerIntegration:
 
         freezer.stop()
 
+    #Implements ParkX.Leie-plassen.05
     def test_controllerReturnsCalculatedPriceForParkingBasedOnTimePassedSinceParkingStartCorrectly(self, controller):
         controller.repository.addPlaceholderPlaces()
         id = 2
