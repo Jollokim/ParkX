@@ -15,6 +15,7 @@ class TestPaymentClass:
         paymentObject.change_accepted_payment_details(False)
         assert paymentObject.acceptedPaymentDetails is False
 
+
     def test_addsNewPaymentProperly(self, paymentObject, payment_dict):
         assert len(paymentObject.repository.payments) == 0
 
