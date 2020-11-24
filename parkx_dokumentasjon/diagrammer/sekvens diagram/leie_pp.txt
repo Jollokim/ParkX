@@ -1,0 +1,26 @@
+@startuml
+title Sekvens diagram: Leie en parkeringsplass
+actor Bruker
+activate gui
+Bruker -> gui: Trykker på Leier knappen
+gui -> gui: self.switch_scene(4)
+
+Bruker -> gui: Trykker på den plassen de vil leie
+gui -> gui: self._create_detailedPP_renter_scene(parkingId)
+gui -> ParkingController: self.controller.get_pp_from_repo(ParkingPlaceID)
+activate ParkingController
+ParkingController -> ListRepository: getPP(id)
+activate ListRepository
+note right: Henter verdiene fra ListRepository
+ListRepository --> ParkingController: returnerer verdiene i parkingPlaces\n fra repository med ID fra Gui'et
+deactivate ListRepository
+
+ParkingController --> gui: returnerer verdiene i parkingPlaces\n fra repository med ID fra Gui'et
+deactivate ParkingController
+Bruker -> gui: Trykker på Bekreft
+gui -> ParkingController: self.controller.change_pp_status(ParkingPlaceID)
+ParkingController -> ListRepository: self.repository.updateParkingPlaceStatus(id)
+note right: Plassen endrer status til opptatt/aktiv
+gui -> gui: self.switch_scenes(4)
+note right: Den valgte plassen\n vises nå som aktivert
+@enduml
