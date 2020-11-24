@@ -2,7 +2,7 @@ from parkx_kode.model import Payment
 
 
 class ParkingController:
-    def __init__(self, gui, payment, repository,):
+    def __init__(self, gui, payment, repository):
         self.payment = payment
         self.gui = gui
         self.repository = repository
@@ -41,6 +41,8 @@ class ParkingController:
 
     def validateUserInput(self, p_dict):
         try:
+            self.validateInputLength(p_dict)
+
             p_dict["id"] = int(p_dict["id"])
             p_dict["name"] = str(p_dict["name"])
             p_dict["address"] = str(p_dict["address"])
@@ -52,8 +54,16 @@ class ParkingController:
             p_dict["picture"] = str(p_dict["picture"])
             p_dict["details"] = str(p_dict["details"])
             return p_dict
+
+        except UserWarning:
+            raise UserWarning
         except ValueError:
             raise ValueError
+
+    def validateInputLength(self, data_dict):
+        for value in data_dict.values():
+            if len(str(value)) <= 0:
+                raise UserWarning
 
     def reset_parking_started(self, parking_id):
         self.repository.getPP(parking_id).reset_parkingStarted()
