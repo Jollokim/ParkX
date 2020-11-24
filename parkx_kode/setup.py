@@ -1,9 +1,9 @@
 from setuptools import setup
 
 setup(
-    name='prosjektnavn',
+    name='ParkX',
     version='0.0.1',
-    packages=['prosjektnavn'],
+    packages=['ParkX'],
     include_package_data=True,
     install_requires=[
         "Kivy",
