@@ -412,7 +412,8 @@ class Gui(BoxLayout):
 
         sucsessfulpopup = Label(text='Alle ubetalte parkeringer er nå betalt')
 
-        unSucsessfulpopup = Label(text='Det gikk ikke å gjennomføre betalingen. \nVelg godkjent betalingsmiddel for å kunne betale')
+        unSucsessfulpopup = Label(
+            text='Det gikk ikke å gjennomføre betalingen. \nVelg godkjent betalingsmiddel for å kunne betale')
 
         valid_payment_information = self.controller.check_accepted_payment_details()
 
@@ -429,14 +430,13 @@ class Gui(BoxLayout):
 
         popupPayedLayout.add_widget(closeButton)
 
-
-
     def _my_profile_scene(self):
         self.orientation = "vertical"
 
         popupChangedLayout = GridLayout(cols=1, rows=2, padding=10)
 
-        popup = Popup(title='Betalingsmiddel endret', content=popupChangedLayout, size_hint=(None, None), size=(400, 300))
+        popup = Popup(title='Betalingsmiddel endret', content=popupChangedLayout, size_hint=(None, None),
+                      size=(400, 300))
 
         changed = Label(text='Betalingsmiddel har blitt endret')
 
@@ -456,31 +456,32 @@ class Gui(BoxLayout):
         grid_scheme = GridLayout(cols=1)
         self.add_widget(grid_scheme)
 
-        opt1_button = Button(text='Aktiver godkjent betalingsmiddel', size=(200, 50), size_hint=(1, 0), pos_hint={"top": 1})
+        opt1_button = Button(text='Aktiver godkjent betalingsmiddel', size=(200, 50), size_hint=(1, 0),
+                             pos_hint={"top": 1})
         opt1_button.bind(on_press=lambda instance: self.controller.change_accepted_payment_details(True))
         opt1_button.bind(on_press=lambda instance: popup.open())
         button_box_top.add_widget(opt1_button)
 
-        opt2_button = Button(text='Aktiver ikke-godkjent betalingsmiddel', size=(200, 50), size_hint=(1, 0), pos_hint={"top": 1})
+        opt2_button = Button(text='Aktiver ikke-godkjent betalingsmiddel', size=(200, 50), size_hint=(1, 0),
+                             pos_hint={"top": 1})
         opt2_button.bind(on_press=lambda instance: self.controller.change_accepted_payment_details(False))
         opt2_button.bind(on_press=lambda instance: popup.open())
         button_box_top.add_widget(opt2_button)
 
         for payment in self.controller.get_all_payments():
 
-                grid = GridLayout(cols=4)
-                grid_scheme.add_widget(grid)
+            grid = GridLayout(cols=4)
+            grid_scheme.add_widget(grid)
 
-                grid_elements = [
-                    Label(text=f"Navn: {payment['name']}"),
-                    Label(text=f"Parkering startet: {payment['parkingStarted']}"),
-                    Label(text=f"Parkering stoppet: {payment['parkingStopped']}"),
-                    Label(text=f"Pris: {payment['price']}")
-                ]
+            grid_elements = [
+                Label(text=f"Navn: {payment['name']}"),
+                Label(text=f"Parkering startet: {payment['parkingStarted']}"),
+                Label(text=f"Parkering stoppet: {payment['parkingStopped']}"),
+                Label(text=f"Pris: {payment['price']}")
+            ]
 
-                for e in grid_elements:
-                    grid.add_widget(e)
-
+            for e in grid_elements:
+                grid.add_widget(e)
 
         button_box = BoxLayout(orientation="horizontal")
         grid_scheme.add_widget(button_box)
@@ -492,4 +493,3 @@ class Gui(BoxLayout):
         pay_button = Button(text='Betal utestående', size=(200, 50), size_hint=(1, 0), pos_hint={"bottom": 1})
         pay_button.bind(on_press=lambda instance: self.pay_unpayed_parkings_handler())
         button_box.add_widget(pay_button)
-
