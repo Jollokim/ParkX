@@ -68,7 +68,7 @@ class ParkingController:
     def reset_parking_started(self, parking_id):
         self.repository.getPP(parking_id).reset_parkingStarted()
 
-    def toString(self):
+    def __str__(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
 
     def add_new_payment(self, name, parkingstarted, parkingStopped, price_to_pay):
