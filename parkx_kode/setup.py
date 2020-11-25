@@ -1,9 +1,9 @@
 from setuptools import setup
 
 setup(
-    name='prosjektnavn',
+    name='ParkX',
     version='0.0.1',
-    packages=['prosjektnavn'],
+    packages=['ParkX'],
     include_package_data=True,
     install_requires=[
         "Kivy",
@@ -12,7 +12,8 @@ setup(
         "kivy-deps.sdl2",
         "pytest",
         "pytest-mock",
-        "mock"
+        "mock",
+        "freezegun"
     ],
     python_requires='>=3.5, <=3.7'
 )

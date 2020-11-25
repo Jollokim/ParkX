@@ -1,11 +1,9 @@
-import datetime
-
-from parkx_kode.model.Parkingplace import Parkingplace
-from parkx_kode.repository.ListRepository import ListRepository
+from parkx_kode.model import Payment
 
 
 class ParkingController:
-    def __init__(self, gui, repository):
+    def __init__(self, gui, payment, repository):
+        self.payment = payment
         self.gui = gui
         self.repository = repository
         self.counter = 4
@@ -17,7 +15,7 @@ class ParkingController:
         p_dict["id"] = self.counter
 
         self.increaseCounter()
-
+        p_dict = self.validateUserInput(p_dict)
         self.repository.addNewParkingPlace(**p_dict)
 
     def remove_parkingplace(self, id):
@@ -29,34 +27,61 @@ class ParkingController:
     def get_all_pp_from_list(self):
         return self.repository.getAllParkingPlaces()
 
-    def change_pp(self, p_dict):
-        self.repository.changePP(**p_dict)
-
+    def change_pp(self, p_dict, id):
+        p_dict["id"] = id
+        p_dict = self.validateUserInput(p_dict)
+        self.repository.changePP(p_dict)
 
     def change_pp_status(self, id):
-        obj = self.repository.getPP(id)
+        self.repository.updateParkingPlaceStatus(id)
 
-        if obj.available:
-            obj.available = False
-            obj.parkingStarted = datetime.datetime.now().strftime("%H:%M:%S")
-        else:
-            obj.available = True
+    def calc_parking_price(self, id, parkingStopped):
+        calculatedPrice = self.repository.calculatePriceForParkingPeriod(id, parkingStopped)
+        return calculatedPrice
 
-    def calc_parking_price(self, parking_id, parkingStopped):
+    def validateUserInput(self, p_dict):
+        try:
+            self.validateInputLength(p_dict)
 
-        parkingPlace = self.repository.getPP(parking_id)
+            p_dict["id"] = int(p_dict["id"])
+            p_dict["name"] = str(p_dict["name"])
+            p_dict["address"] = str(p_dict["address"])
+            p_dict["zip_code"] = str(p_dict["zip_code"])
+            p_dict["number_of_places"] = int(p_dict["number_of_places"])
+            if isinstance(p_dict["price_pr_hour"], str):
+                p_dict["price_pr_hour"] = p_dict["price_pr_hour"].replace(",", ".")
+            p_dict["price_pr_hour"] = float(p_dict["price_pr_hour"])
+            p_dict["picture"] = str(p_dict["picture"])
+            p_dict["details"] = str(p_dict["details"])
+            return p_dict
 
-        FMT = '%H:%M:%S'
-        parkedTimeDelta = datetime.datetime.strptime(parkingStopped, FMT) \
-               - datetime.datetime.strptime(parkingPlace.parkingStarted, FMT)
+        except UserWarning:
+            raise UserWarning
+        except ValueError:
+            raise ValueError
 
-        ParkedTimeSec = parkedTimeDelta.total_seconds()
-        ParkedTimeHour = (ParkedTimeSec/3600)
+    def validateInputLength(self, data_dict):
+        for value in data_dict.values():
+            if len(str(value)) <= 0:
+                raise UserWarning
 
-        totalPrice = ParkedTimeHour * parkingPlace.price_pr_hour
-        totalPriceTwoDec = str("{:.2f}".format(totalPrice))
-        return totalPriceTwoDec
+    def reset_parking_started(self, parking_id):
+        self.repository.getPP(parking_id).reset_parkingStarted()
 
-    def toString(self):
+    def __str__(self):
         return str(f"Gui: {self.gui} Repository: {self.repository}")
 
+    def add_new_payment(self, name, parkingstarted, parkingStopped, price_to_pay):
+        self.payment.add_new_payment(name, parkingstarted, parkingStopped, price_to_pay)
+
+    def get_all_payments(self):
+        return self.repository.get_all_payments()
+
+    def pay_all_payments(self):
+        self.payment.pay_all_payments()
+
+    def change_accepted_payment_details(self, buttonValueBool):
+        self.payment.change_accepted_payment_details(buttonValueBool)
+
+    def check_accepted_payment_details(self):
+        return self.payment.check_accepted_payment_details()

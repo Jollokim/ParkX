@@ -4,6 +4,7 @@ from parkx_kode.model.Parkingplace import Parkingplace
 class ListRepository:
     def __init__(self):
         self.parkingPlaces = []
+        self.payments = []
 
     def getAllParkingPlaces(self):
         return self.parkingPlaces
@@ -24,18 +25,19 @@ class ListRepository:
             if pp.id == id:
                 return pp
 
-    # TODO: needs double start for p_dict
-    def changePP(self, id, name, address, zip_code, number_of_places, price_pr_hour, picture, details, available=True,
-                 parkingStarted=None):
-        pp = self.getPP(id)
+    def changePP(self, p_dict):
+        parkingPlaceId = p_dict["id"]
+        pp = self.getPP(parkingPlaceId)
+        pp.updateAttributes(**p_dict)
 
-        pp.name = name
-        pp.address = address
-        pp.zip_code = zip_code
-        pp.number_of_places = number_of_places
-        pp.price_pr_hour = price_pr_hour
-        pp.picture = picture
-        pp.details = details
+    def updateParkingPlaceStatus(self, id):
+        parkingPlaceObject = self.getPP(id)
+        parkingPlaceObject.updateParkingPlaceStatus()
+
+    def calculatePriceForParkingPeriod(self, id, parkingStopped):
+        parkingPlaceObject = self.getPP(id)
+        calculatedPrice = parkingPlaceObject.calculatePriceForParkingPeriod(parkingStopped)
+        return calculatedPrice
 
     def addPlaceholderPlaces(self):
         pPlace1 = {
@@ -43,34 +45,34 @@ class ListRepository:
             "name": "Hjembua",
             "address": "Hjørneveien 3",
             "zip_code": 1882,
-            "number_of_places": 4,
-            "price_pr_hour": 8234,
+            "number_of_places": 1,
+            "price_pr_hour": float(8234),
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "details": "Ligger i hjørnet",
+            "details": "Hjørneparkering med god plass. Lys i taket.",
             # "available": True
         }
 
         pPlace2 = {
             "id": 1,
-            "name": "Trollhullet",
-            "address": "Trolleren 10",
+            "name": "Parkveien",
+            "address": "Parkveien 73A",
             "zip_code": 7123,
-            "number_of_places": 2,
-            "price_pr_hour": 42,
+            "number_of_places": 1,
+            "price_pr_hour": float(42),
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "details": "Troll kan trolle...",
+            "details": "Har lys på veggen, og 1 stk 230V kontakt på plassen",
             # "available": True
         }
 
         pPlace3 = {
             "id": 2,
-            "name": "Hullet",
-            "address": "Storgata 5",
-            "zip_code": 8329,
-            "number_of_places": 11,
-            "price_pr_hour": 89,
+            "name": "Storgata",
+            "address": "Storgata 565",
+            "zip_code": 1629,
+            "number_of_places": 1,
+            "price_pr_hour": float(89),
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "details": "Ligger under bakken",
+            "details": "Ligger under bakken. Strøm på noen av plassene. Lys på alle plasser. Varmt og tørt.",
             # "available": False
         }
 
@@ -79,3 +81,12 @@ class ListRepository:
         self.addNewParkingPlace(**pPlace2)
 
         self.addNewParkingPlace(**pPlace3)
+
+    def add_payment(self, pay_dict):
+        self.payments.append(pay_dict)
+
+    def remove_all_payments(self):
+        self.payments.clear()
+
+    def get_all_payments(self):
+        return self.payments

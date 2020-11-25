@@ -1,0 +1,27 @@
+@startuml
+start
+if () then (Betale ubetalt parkering)
+    :"Min profil";
+        if (acceptedPaymentdetailes) then (True)
+            :Vis sucsessfulpopup;
+            :Alle uteståedne betalinger blir
+            betalt og fjernet fra listen;
+        end  
+        else (False)
+            :Vis unSucsessfulpopup;
+            end
+        endif   
+
+else (Stanser aktiv parkering)
+    if (acceptedPaymentdetailes) then (True)
+        :Vis: successfulPaymentMSG;
+        :Penger trekkes fra betalingsmiddel
+        registrert i betalingstjeneste;
+        end
+    
+    else (False)
+        :Vis: failedPaymentMSG;
+        :Kjør add_new_payment og ubetalt parkering 
+        legges til i liste i "Min profil" for senere betaling;
+    end
+@enduml

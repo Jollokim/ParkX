@@ -1,0 +1,57 @@
+@startuml
+title Sekvens diagram: Stoppe leie av en parkeringsplass
+actor Bruker
+
+activate gui
+Bruker -> gui: Trykker på Leier
+gui -> gui: self.switch_scenes(4)
+
+Bruker -> gui: Trykker på STOPP på valgte Parkeringsplass
+gui -> gui: change_parking_status(parkingId)
+gui -> ParkingController: self.controller.change_pp_status(parking_id)
+activate ParkingController
+ParkingController -> ListRepository: self.repository.updateParkingPlaceStatus(id)
+activate ListRepository
+note right: Plassen endrer status til ledig/inaktiv
+gui -> gui: self.switch_scenes(4)
+note right: Den valgte plassen\n vises nå som ledig/inaktiv
+gui -> gui: self.popup_ended_parking(parkingId)
+
+gui -> ParkingController: self.controller.get_pp_from_repo(ParkingPlaceID)
+ParkingController -> ListRepository: getPP(id)
+note right: Henter verdiene fra ListRepository
+ListRepository --> ParkingController: returnerer verdiene i parkingPlaces\n fra repository med ID fra Gui'et
+ParkingController --> gui: returnerer verdiene i parkingPlaces\n fra repository med ID fra Gui'et
+
+gui -> ParkingController: self.controller.calc_parking_price(parking_id, parkingStopped)
+ParkingController -> ListRepository: self.repository.calculatePriceForParkingPeriod(id, parkingStopped)
+ListRepository -> ListRepository: self.getPP(id)
+ListRepository -> Parkingplace: parkingPlaceObject.calculatePriceForParkingPeriod(self, parkingStopped)
+activate Parkingplace
+Parkingplace -> ListRepository: returnerer calculatedPrice
+ListRepository -> ParkingController: returnerer calculatedPrice
+ParkingController -> gui: returnerer calculatedPrice
+
+alt Betaling godkjent
+gui -> ParkingController: self.controller.check_accepted_payment_details()
+ParkingController -> Payment: self.payment. check_accepted_payment_details()
+activate Payment
+
+Payment -> ParkingController: True
+ParkingController -> gui: True
+else Betaling ikke godkjent
+Payment -> ParkingController: False
+ParkingController -> gui: False
+gui -> ParkingController: self.controller.add_new_payment(parkingplace.name, parkingplace.parkingstarted, parkingstopped, total_parking_price)
+ParkingController -> Payment: self.payment.add_new_payment(name, parkingstarted, parkingStopped, price_to_pay)
+Payment -> ListRepository: self.repository.add_payment(pay_dict)
+deactivate Payment
+
+end
+Bruker -> gui: Trykker Lukk på popup
+gui -> gui: self.pop_ended_parking_close_button_handler(parking_id, popup)
+gui -> ParkingController: self.controller.reset_parking_started(parking_id)
+ParkingController -> Parkingplace: self.repository.getPP(parking_id).reset_parkingStarted()
+deactivate ParkingController
+deactivate gui
+@enduml
