@@ -48,8 +48,7 @@ class ListRepository:
             "number_of_places": 1,
             "price_pr_hour": float(8234),
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "details": "Hjørneparkering med god plass. Lys i taket.",
-            # "available": True
+            "details": "Hjørneparkering med god plass. Lys i taket."
         }
 
         pPlace2 = {
@@ -60,8 +59,7 @@ class ListRepository:
             "number_of_places": 1,
             "price_pr_hour": float(42),
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "details": "Har lys på veggen, og 1 stk 230V kontakt på plassen",
-            # "available": True
+            "details": "Har lys på veggen, og 1 stk 230V kontakt på plassen"
         }
 
         pPlace3 = {
@@ -72,8 +70,7 @@ class ListRepository:
             "number_of_places": 1,
             "price_pr_hour": float(89),
             "picture": "http://www.visafo.no/upload/services/oppmerking/parkeringsplass-ortustranda_borettslag_4.jpg",
-            "details": "Ligger under bakken. Strøm på noen av plassene. Lys på alle plasser. Varmt og tørt.",
-            # "available": False
+            "details": "Ligger under bakken. Strøm på noen av plassene. Lys på alle plasser. Varmt og tørt."
         }
 
         self.addNewParkingPlace(**pPlace1)

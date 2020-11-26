@@ -15,5 +15,5 @@ setup(
         "mock",
         "freezegun"
     ],
-    python_requires='>=3.5, <=3.7'
+    python_requires='>=3.5, <=3.7.9'
 )
